@@ -1,0 +1,43 @@
+version: 1
+disable_existing_loggers: True
+formatters:
+    color:
+        class: logging.ColorFormatter
+        format: "%(asctime)s - [$COLOR%(levelname)s] : $BOLD$COLOR%(name)s:%(lineno)s:$RESET %(message)s"
+    default:
+        format: "%(asctime)s - %(levelname)s : %(name)s:%(lineno)s : %(message)s"
+
+handlers:
+    console:
+        class: logging.StreamHandler
+        level: CRITICAL
+        formatter: color
+        stream: ext://sys.stdout
+
+    info_file_handler:
+        class: logging.handlers.RotatingFileHandler
+        level: INFO
+        formatter: default
+        filename: logs/info.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+
+    error_file_handler:
+        class: logging.handlers.RotatingFileHandler
+        level: ERROR
+        formatter: default
+        filename: logs/errors.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+
+loggers:
+    root.crython.expression:
+        level: ERROR
+        handlers: [console, error_file_handler]
+
+
+root:
+    level: DEBUG
+    handlers: [console, info_file_handler, error_file_handler]

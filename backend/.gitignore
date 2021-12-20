@@ -1,0 +1,8 @@
+__pycache__/
+venv/
+.idea/
+logs/
+.environment/
+*.db
+*.pdf
+*.pyc
