@@ -1,0 +1,152 @@
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import Grid from '@mui/material/Grid';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { keyboardLayouts, routes } from 'common/constants';
+import KeyboardProvider from 'common/components/Keyboard';
+import Button from 'common/components/Button';
+import { useNotify } from 'common/hooks';
+import { getBeers } from '../ducks/selectors';
+import FormFieldset from './FormFieldset';
+import * as actions from '../ducks';
+import { saveBeers } from '../ducks';
+
+const layouts = {
+  number: keyboardLayouts.numeric,
+  default: undefined,
+};
+
+const maxActiveBeersCount = 4;
+
+const SettingsForm = () => {
+  const notify = useNotify();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const allBeers = useSelector(getBeers);
+  const [layout, setLayout] = useState(undefined);
+  const [inputValues, setValues] = useState({});
+  const [activeInput, setActiveInput] = useState(null);
+  const { watch, setValue, control, handleSubmit } = useForm({
+    defaultValues: allBeers,
+  });
+
+  const formData = watch();
+
+  const isMaxCountReached = useMemo(() => {
+    const data = Object.values(formData).length ? formData : allBeers;
+    const activeBeers = Object.values(data).filter(({ isActive }) => isActive);
+
+    return activeBeers.length === maxActiveBeersCount;
+  }, [formData, allBeers]);
+
+  const getAllBeers = useCallback(() => {
+    dispatch(actions.getBeers());
+  }, [dispatch]);
+
+  const onSubmit = useCallback(
+    (data) => {
+      const neBeers = Object.keys(data).map((id) => ({
+        id,
+        image: null,
+        ...data[id],
+      }));
+
+      dispatch(saveBeers(neBeers)).then(({ error }) => {
+        if (!error) {
+          notify.success('Дані успішно збережено');
+        }
+      });
+    },
+    [dispatch, notify]
+  );
+
+  const updateVisibleInput = useCallback((inputName, e, l) => {
+    if (e.stopPropagation) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    setLayout(l);
+    return setActiveInput(inputName);
+  }, []);
+
+  useEffect(() => getAllBeers(), [getAllBeers]);
+
+  useEffect(() => {
+    const val = inputValues[activeInput];
+
+    if (typeof val === 'undefined') {
+      return;
+    }
+
+    setValue(activeInput, val);
+  }, [activeInput, inputValues, setValue]);
+
+  return (
+    <Grid position="relative" container maxHeight="100%">
+      <Grid
+        item
+        container
+        bottom={0}
+        zIndex={100}
+        position="fixed"
+        justifyContent="center"
+      >
+        <KeyboardProvider
+          values={formData}
+          inputName={activeInput}
+          onChangeAll={setValues}
+          layout={layouts[layout]}
+          handleHideKeyboard={setActiveInput}
+          width={layout === 'number' ? 280 : '100%'}
+        />
+      </Grid>
+
+      <Grid component="form" width="100%" onSubmit={handleSubmit(onSubmit)}>
+        <Grid
+          item
+          container
+          spacing={2}
+          justifyContent="flex-end"
+          pt={2}
+          pr={2}
+        >
+          <Grid item>
+            <Button text="Зберегти" type="submit" />
+          </Grid>
+
+          <Grid item>
+            <Button
+              text="Вийти"
+              color="error"
+              onClick={() => navigate(routes.public.home)}
+            />
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          overflow="auto"
+          justifyContent="center"
+          minHeight={activeInput ? 'calc(100vh + 120px)' : '100%'}
+        >
+          <Grid p={2} spacing={2} container wrap="nowrap" direction="column">
+            {Object.keys(allBeers || {}).map((key) => (
+              <FormFieldset
+                {...allBeers[key]}
+                key={key}
+                control={control}
+                onFocus={updateVisibleInput}
+                disableActivation={isMaxCountReached}
+              />
+            ))}
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+};
+
+export default SettingsForm;
