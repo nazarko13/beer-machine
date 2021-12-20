@@ -17,12 +17,15 @@ class BeerView(MethodView):
         return jsonify(beers)
 
     def put(self):
+        print(request.json)
         beers_to_update = BeerOutput.Schema(many=True).load(request.json)
         for beer in beers_to_update:
             Beer.update(
                 {Beer.name: beer.name,
                  Beer.price: beer.price,
-                 Beer.pulse_count: beer.pulse_count}
+                 Beer.pulse_count: beer.pulse_count,
+                 Beer.is_active: beer.is_active,
+                 }
             ).where(Beer.id == beer.id).execute()
         return jsonify({'description': 'OK'})
 

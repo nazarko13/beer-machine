@@ -1,3 +1,5 @@
+from typing import Optional
+
 import marshmallow_dataclass
 
 from schemas.camel_case import CamelCaseSchema
@@ -8,6 +10,6 @@ class BeerOutput:
     id: int
     name: str
     price: float
-    image: str
+    image: Optional[str]
     pulse_count: int
     is_active: bool
