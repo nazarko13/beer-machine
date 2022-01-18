@@ -2,12 +2,14 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { keyboardLayouts, routes } from 'common/constants';
 import KeyboardProvider from 'common/components/Keyboard';
 import Button from 'common/components/Button';
 import { useNotify } from 'common/hooks';
+import { fieldLabels, fieldSizes } from '../constants';
 import { getBeers } from '../ducks/selectors';
 import FormFieldset from './FormFieldset';
 import * as actions from '../ducks';
@@ -20,7 +22,7 @@ const layouts = {
 
 const maxActiveBeersCount = 4;
 
-const SettingsForm = () => {
+const SettingsForm = ({ fieldSet }) => {
   const notify = useNotify();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -126,6 +128,14 @@ const SettingsForm = () => {
           </Grid>
         </Grid>
 
+        <Grid item xs container spacing={2} px={3} pt={1} width="100%">
+          {fieldSet.map(fieldName => (
+            <Grid item xs={fieldSizes[fieldName]}>
+              <Typography>{fieldLabels[fieldName]}</Typography>
+            </Grid>
+          ))}
+        </Grid>
+
         <Grid
           container
           overflow="auto"
@@ -138,6 +148,7 @@ const SettingsForm = () => {
                 {...allBeers[key]}
                 key={key}
                 control={control}
+                fieldSet={fieldSet}
                 onFocus={updateVisibleInput}
                 disableActivation={isMaxCountReached}
               />

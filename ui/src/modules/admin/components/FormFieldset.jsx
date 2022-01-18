@@ -3,14 +3,17 @@ import Grid from '@mui/material/Grid';
 import { Controller } from 'react-hook-form';
 
 import { useNotify } from 'common/hooks';
-import { CheckBoxField, InputField } from 'common/components';
+import { CheckBoxField, InputField, SelectField } from 'common/components';
+import { beerTypeOptions, fields, fieldSizes } from '../constants';
 
 const FormFieldset = ({
   id,
   name,
+  type,
   price,
   isActive,
   control,
+  fieldSet,
   pulseCount,
   disableActivation,
   onFocus,
@@ -31,74 +34,100 @@ const FormFieldset = ({
   return (
     <Grid item container direction="column">
       <Grid item xs container spacing={2} p={1} pt={1}>
-        <Grid item xs={2}>
-          <Controller
-            control={control}
-            name={`${id}.isActive`}
-            defaultValue={isActive}
-            render={({ field }) => (
-              <CheckBoxField
-                {...field}
-                size="large"
-                label={name}
-                onChange={onChangeActive(field)}
-              />
-            )}
-          />
-        </Grid>
+        {fieldSet.includes(fields.isActive) && (
+          <Grid item xs={fieldSizes[fields.isActive]}>
+            <Controller
+              control={control}
+              name={`${id}.isActive`}
+              defaultValue={isActive}
+              render={({ field }) => (
+                <CheckBoxField
+                  {...field}
+                  size="large"
+                  label={name}
+                  onChange={onChangeActive(field)}
+                />
+              )}
+            />
+          </Grid>
+        )}
 
-        <Grid item xs={4}>
+        {fieldSet.includes(fields.name) && (
+          <Grid item xs={fieldSizes[fields.name]}>
           <Controller
-            control={control}
-            name={`${id}.name`}
-            defaultValue={name}
-            render={({ field }) => (
-              <InputField
-                {...field}
-                fullWidth
-                size="large"
-                label="Ім'я"
-                onFocus={(e) => onFocus(field.name, e)}
-              />
-            )}
-          />
-        </Grid>
+              control={control}
+              name={`${id}.name`}
+              defaultValue={name}
+              render={({ field }) => (
+                <InputField
+                  {...field}
+                  fullWidth
+                  size="large"
+                  onFocus={(e) => onFocus(field.name, e)}
+                />
+              )}
+            />
+          </Grid>
+        )}
 
-        <Grid item xs={2}>
+        {fieldSet.includes(fields.price) && (
+          <Grid item xs={fieldSizes[fields.price]}>
           <Controller
-            control={control}
-            name={`${id}.price`}
-            defaultValue={price}
-            render={({ field }) => (
-              <InputField
-                fullWidth
-                type="number"
-                size="large"
-                {...field}
-                label="Ціна"
-                onFocus={(e) => onFocus(field.name, e, 'number')}
-              />
-            )}
-          />
-        </Grid>
+              control={control}
+              name={`${id}.price`}
+              defaultValue={price}
+              render={({ field }) => (
+                <InputField
+                  fullWidth
+                  type="number"
+                  size="large"
+                  {...field}
+                  onFocus={(e) => onFocus(field.name, e, 'number')}
+                />
+              )}
+            />
+          </Grid>
+        )}
 
-        <Grid item xs={2}>
+        {fieldSet.includes(fields.type) && (
+          <Grid item xs={fieldSizes[fields.type]}>
           <Controller
-            control={control}
-            name={`${id}.pulseCount`}
-            defaultValue={pulseCount}
-            render={({ field }) => (
-              <InputField
-                {...field}
-                fullWidth
-                type="number"
-                size="large"
-                label="Кількість імпульсів"
-                onFocus={(e) => onFocus(field.name, e, 'number')}
-              />
-            )}
-          />
-        </Grid>
+              control={control}
+              name={`${id}.type`}
+              defaultValue={type}
+              render={({ field }) => (
+                <SelectField
+                  fullWidth
+                  type="number"
+                  size="small"
+                  variant="filled"
+                  {...field}
+                  options={beerTypeOptions}
+                />
+              )}
+            />
+          </Grid>
+        )}
+
+
+        {fieldSet.includes(fields.pulseCount) && (
+          <Grid item xs={fieldSizes[fields.pulseCount]}>
+          <Controller
+              control={control}
+              name={`${id}.pulseCount`}
+              defaultValue={pulseCount}
+              render={({ field }) => (
+                <InputField
+                  {...field}
+                  fullWidth
+                  type="number"
+                  size="large"
+                  onFocus={(e) => onFocus(field.name, e, 'number')}
+                />
+              )}
+            />
+          </Grid>
+        )}
       </Grid>
     </Grid>
   );

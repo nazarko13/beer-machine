@@ -20,3 +20,14 @@ export const adminTabs = [
     name: tabNames[tabKeys.systemInfo],
   },
 ];
+
+export const superAdminTabs = [
+  {
+    value: tabKeys.settingsForm,
+    name: tabNames[tabKeys.settingsForm],
+  },
+  {
+    value: tabKeys.systemInfo,
+    name: tabNames[tabKeys.systemInfo],
+  },
+];

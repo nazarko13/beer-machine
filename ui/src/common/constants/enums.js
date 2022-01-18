@@ -52,3 +52,13 @@ export const notificationTypes = createEnum({
   info: null,
   warning: null,
 });
+
+export const beerTypes = createEnum({
+  light: null,
+  dark: null,
+});
+
+export const beerLabels = createEnum({
+  [beerTypes.light]: 'Світле',
+  [beerTypes.dark]: 'Темне',
+})

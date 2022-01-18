@@ -1,33 +1,17 @@
-import React, { useState } from 'react';
-import Grid from '@mui/material/Grid';
+import React from 'react';
 
-import { Tabs } from 'common/components';
-import { adminTabs, tabKeys } from './constants';
-import SettingsForm from './components/SettingsForm';
+import AdminFlow from './AdminFlow';
+import SuperAdminFlow from './SuperAdminFlow';
+import { superAdminFieldSet, adminFieldSet } from './constants';
 
 const Admin = () => {
-  const [activeTab, setActiveTab] = useState(tabKeys.settingsForm);
+  const isSuperUser = false;
 
-  return (
-    <Grid container wrap="nowrap" minHeight="100%" direction="column">
-      <Grid item container position="fixed" zIndex={10}>
-        <Tabs
-          tabs={adminTabs}
-          activeTab={activeTab}
-          handleChangeTab={setActiveTab}
-        />
-      </Grid>
+  if (isSuperUser) {
+    return <SuperAdminFlow fieldSet={superAdminFieldSet} />
+  }
 
-      <Grid xs item container mt={6} flex={1} bgcolor="#ffffff90">
-        {
-          {
-            [tabKeys.settingsForm]: <SettingsForm />,
-            [tabKeys.systemInfo]: null,
-          }[activeTab]
-        }
-      </Grid>
-    </Grid>
-  );
+  return <AdminFlow fieldSet={adminFieldSet} />
 };
 
 export default Admin;
