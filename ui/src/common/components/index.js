@@ -5,4 +5,5 @@ export { default as Keyboard } from './Keyboard';
 export { default as InputField } from './InputField';
 export { default as SelectField } from './SelectField';
 export { default as MessageModal } from './MessageModal';
+export { default as PourProgress } from './PourProgress';
 export { default as CheckBoxField } from './CheckBoxField';
