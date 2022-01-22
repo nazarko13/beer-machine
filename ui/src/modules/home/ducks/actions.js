@@ -21,3 +21,8 @@ export const adminLogin = (params) => ({
   type: actionTypes.adminLogin,
   request: api.adminLogin(params),
 });
+
+export const getPourStatus = () => ({
+  type: actionTypes.pourStatus,
+  request: api.getPourStatus(),
+});

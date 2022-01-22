@@ -38,7 +38,7 @@ const Beers = () => {
         <>
           <Grid item py={2}>
             <Typography variant="h1" fontWeight={100}>
-              Сьогодні в наливі
+              ВСТАВТЕ ПЛЯШКУ І ОБЕРІТЬ ПИВО
             </Typography>
           </Grid>
 

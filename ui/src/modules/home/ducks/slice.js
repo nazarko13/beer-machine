@@ -8,10 +8,12 @@ import * as actionTypes from './actionTypes';
 const initialState = {
   data: {
     beers: [],
+    progress: 0,
     healthState: null,
   },
   error: null,
   loading: false,
+  isSuperUser: false,
   pourLoading: false,
 };
 
@@ -39,13 +41,25 @@ const stockSlice = createSlice({
       state.loading = false;
     },
 
+    [success(actionTypes.pourStatus)]: (state, action) => {
+      const { percent, finished } = action.response.data
+      state.data.progress = percent;
+
+      if (finished) {
+        state.pourLoading = false;
+        state.data.progress = 0;
+      }
+    },
+
+    [success(actionTypes.adminLogin)]: (state, action) => {
+      const { isSuperuser } = action.response.data
+      state.isSuperUser = isSuperuser;
+    },
+
     [error(actionTypes.getBeers)]: errorSetter,
 
     [actionTypes.pourBeer]: (state) => {
       state.pourLoading = true;
-    },
-    [success(actionTypes.pourBeer)]: (state) => {
-      state.pourLoading = false;
     },
     [error(actionTypes.pourBeer)]: (state) => {
       state.pourLoading = false;

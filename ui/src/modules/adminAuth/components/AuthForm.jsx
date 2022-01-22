@@ -51,6 +51,7 @@ const AuthForm = ({ onSubmit, onClose }) => {
             <InputField
               {...field}
               classes={{}}
+              fullWidth
               placeholder="Логін"
               error={fieldState.error}
               onFocus={(e) => updateVisibleInput(field.name, e)}
@@ -67,6 +68,7 @@ const AuthForm = ({ onSubmit, onClose }) => {
           render={({ field, fieldState }) => (
             <InputField
               {...field}
+              fullWidth
               size="large"
               type="password"
               placeholder="Пароль"

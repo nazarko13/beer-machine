@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 const getAdminState = (store) => store.admin;
+const getHomeState = (store) => store.home;
 
 export const getData = createSelector(getAdminState, (state) => state.data);
 
@@ -11,6 +12,8 @@ export const getBeers = createSelector(getData, (data) => {
 });
 
 export const getDetails = createSelector(getData, (data) => data.details);
+
+export const getIsSuperUser = createSelector(getHomeState, state => state.isSuperUser)
 
 export const getLoading = createSelector(
   getAdminState,

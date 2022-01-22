@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   }
 });
 
-const PourProgress = ({ size = 400, progress = 10, color, fillColor }) => {
+const PourProgress = ({ size = 400, progress = 0, color, fillColor }) => {
   const height = Math.max(progress - 5, 0);
   const classes = useStyles({ height });
   const { palette } = useTheme();
@@ -46,8 +46,8 @@ const PourProgress = ({ size = 400, progress = 10, color, fillColor }) => {
         />
       </svg>
 
-      {progress && (
-        <Grid position="absolute" top="55%" left="33%" zIndex={10}>
+      {!!progress && (
+        <Grid position="absolute" top="55%" left="47%" zIndex={10}>
           <Typography>{progress}%</Typography>
         </Grid>
       )}

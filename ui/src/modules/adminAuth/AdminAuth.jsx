@@ -19,19 +19,20 @@ const AdminAuth = ({ onClose = null }) => {
 
   const onError = (error) =>
     notify.error(error.response?.data?.description || error.message);
-  const onSuccess = () => {
+
+  const onSuccess = (data) => {
     dispatch(closeModal());
-    navigate(routes.private.admin);
+    navigate(routes.private.admin, data);
   };
 
   const handleAuth = (data) => {
-    dispatch(adminLogin(data)).then(({ error }) => {
+    dispatch(adminLogin(data)).then(({ error, data }) => {
       if (error) {
         onError(error);
         return;
       }
 
-      onSuccess();
+      onSuccess(data);
     });
   };
 

@@ -51,17 +51,20 @@ const SettingsForm = ({ fieldSet }) => {
     (data) => {
       const neBeers = Object.keys(data).map((id) => ({
         id,
-        image: null,
+        pulseCount: allBeers[id].pulseCount,
         ...data[id],
       }));
 
       dispatch(saveBeers(neBeers)).then(({ error }) => {
-        if (!error) {
-          notify.success('Дані успішно збережено');
+        if (error) {
+          notify.error('Помилка збереження');
+          return;
         }
+
+        notify.success('Дані успішно збережено');
       });
     },
-    [dispatch, notify]
+    [dispatch, allBeers, notify]
   );
 
   const updateVisibleInput = useCallback((inputName, e, l) => {
@@ -140,7 +143,7 @@ const SettingsForm = ({ fieldSet }) => {
           container
           overflow="auto"
           justifyContent="center"
-          minHeight={activeInput ? 'calc(100vh + 120px)' : '100%'}
+          minHeight={activeInput ? 'calc(100% + 150px)' : '100%'}
         >
           <Grid p={2} spacing={2} container wrap="nowrap" direction="column">
             {Object.keys(allBeers || {}).map((key) => (

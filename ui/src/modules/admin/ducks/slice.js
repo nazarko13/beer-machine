@@ -41,8 +41,7 @@ const adminSlice = createSlice({
     },
 
     [error(actionTypes.getBeers)]: (state) => {
-      // errorSetter
-      state.data.beers = allBeers;
+      state.data.beers = [];
       state.loading = false;
     },
 

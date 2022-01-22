@@ -1,4 +1,4 @@
-import { beers, beerNames, beerImages } from './enums';
+import { beers, beerNames, beerTypes } from './enums';
 
 export const allBeers = [
   {
@@ -6,7 +6,7 @@ export const allBeers = [
     pulseCount: 1550,
     id: beers.pilsner,
     name: beerNames[beers.pilsner],
-    image: beerImages[beers.pilsner],
+    type: beerTypes.light,
     isActive: true,
   },
   {
@@ -14,7 +14,7 @@ export const allBeers = [
     pulseCount: 1545,
     id: beers.lager,
     name: beerNames[beers.lager],
-    image: beerImages[beers.lager],
+    type: beerTypes.light,
     isActive: false,
   },
   {
@@ -22,7 +22,7 @@ export const allBeers = [
     pulseCount: 1550,
     id: beers.wien,
     name: beerNames[beers.wien],
-    image: beerImages[beers.wien],
+    type: beerTypes.light,
     isActive: false,
   },
   {
@@ -30,7 +30,7 @@ export const allBeers = [
     pulseCount: 1555,
     id: beers.black,
     name: beerNames[beers.black],
-    image: beerImages[beers.black],
+    type: beerTypes.dark,
     isActive: true,
   },
   {
@@ -38,7 +38,7 @@ export const allBeers = [
     pulseCount: 1555,
     id: beers.goldenAle,
     name: beerNames[beers.goldenAle],
-    image: beerImages[beers.goldenAle],
+    type: beerTypes.light,
     isActive: false,
   },
   {
@@ -46,7 +46,7 @@ export const allBeers = [
     pulseCount: 1550,
     id: beers.ipa,
     name: beerNames[beers.ipa],
-    image: beerImages[beers.ipa],
+    type: beerTypes.light,
     isActive: true,
   },
 ];

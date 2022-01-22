@@ -7,6 +7,7 @@ export default {
   getActiveBeers: (params = {}) =>
     requests.getDataAction(apiUrls.activeBeer, params),
   pourBeer: (data = {}) => requests.postDataAction(apiUrls.pour, data),
+  getPourStatus: () => requests.getDataAction(apiUrls.pourStatus),
   adminLogin: (params = {}) => requests.getDataAction(apiUrls.admin, params),
   getDetails: (params = {}) => requests.getDataAction(apiUrls.details, params),
   saveBeers: (params = {}) => requests.putDataAction(apiUrls.beer, params),

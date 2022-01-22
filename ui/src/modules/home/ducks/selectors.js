@@ -18,6 +18,8 @@ export const getPourLoading = createSelector(
 
 export const getError = createSelector(getHomeState, (state) => state.error);
 
+export const getProgress = createSelector(getHomeData, (data) => data.progress);
+
 export const getHealthState = createSelector(getHomeData, (data) => {
   const health = data.healthState;
 
