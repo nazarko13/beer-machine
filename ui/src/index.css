@@ -11,7 +11,9 @@ body {
 #root {
   height: 100%;
   background-size: contain;
-  background-image: url("./assets/images/bg-landscape.png");
+  background-position: right;
+  background-repeat: no-repeat;
+  background-image: url("./assets/images/bg-greyscale.png");
 }
 
 code {
