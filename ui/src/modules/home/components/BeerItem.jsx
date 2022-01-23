@@ -41,7 +41,7 @@ const BeerItem = ({ name, price, type, handlePour }) => {
         alt={name}
         width="100%"
         component="img"
-        maxHeight={200}
+        maxHeight={300}
         src={images[type] || lightBeer}
         style={{ objectFit: 'contain' }}
       />

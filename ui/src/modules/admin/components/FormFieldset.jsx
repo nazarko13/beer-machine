@@ -24,7 +24,7 @@ const FormFieldset = ({
     ({ onChange }) =>
     (e, v) => {
       if (v && disableActivation) {
-        notify.warning('Видосягли максимальної кількості в 4 пива.');
+        notify.warning('Ви досягли максимальної кількості в 2 пива.');
         return;
       }
 

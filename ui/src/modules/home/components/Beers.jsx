@@ -46,8 +46,10 @@ const Beers = () => {
             item
             container
             pt={3}
-            width="50%"
+            width="80%"
+            height="95%"
             spacing={1}
+            alignItems="center"
             justifyContent="space-between"
           >
             {data.map((item) => (
