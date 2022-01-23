@@ -21,7 +21,7 @@ class BeerView(MethodView):
         try:
             beers_to_update = BeerOutput.Schema(many=True).load(request.json)
         except ValidationError:
-            return jsonify({"description":"validation"}), 400
+            return jsonify({"description": "Validation error"}), 400
         for beer in beers_to_update:
             Beer.update(
                 {Beer.name: beer.name,

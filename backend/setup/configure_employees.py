@@ -1,24 +1,25 @@
 import peewee
 
-from models import Employees
-from utils import read_settings
+from models.models import Employees
 
 
-def set_admin_password(shop_name):
-    pas = "".join(filter(lambda x: x.isdigit(), input("Enter {} admin: ".format(shop_name))))
+def create_employee(name="Admin", is_superuser=False):
+    login = "".join(input(f"Enter login for {'Super' if is_superuser else ''}Admin: "))
+    password = "".join(filter(lambda x: x.isdigit(), input(f"Enter password for login '{login}': ")))
     try:
-        Employees.create(password=pas, name=shop_name+' Admin', role='superadmin')
+        Employees.create(password=password, login=login, name="Admin", is_superuser=is_superuser)
     except peewee.IntegrityError:
-        print("[ERROR]\tAdministrator with this password is already registered")
-        set_admin_password(shop_name)
+        print("[ERROR]\tUser with this login already exists.")
+        create_employee(name, is_superuser)
 
 
 def main():
     employees = Employees.select().where(True)
-    if employees and input('Administrators configuration is already save. Do you want to resetup administartors (y/N)? ') != 'y':
-        return employees
+    if employees and input('Admins configuration already saved. Do you want to setup admins again (y/N)? ') != 'y':
+        return
 
     Employees.delete().execute()
-
-    set_admin_password("Cerera")
-    set_admin_password(read_settings()['COMMON']['shop_name'])
+    # Creating admin user
+    create_employee()
+    # Creating superuser
+    create_employee(name="SuperUser", is_superuser=True)

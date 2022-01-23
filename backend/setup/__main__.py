@@ -1,22 +1,10 @@
-from setup import configure_board, configure_employees, configure_terminal, configure_system
-from models import create_database, init_database
+from models.models import init_database, create_database
+from setup import configure_employees, configure_beers
 
 separator = '*' * 100
 
 init_database()
 create_database()
-
-print(separator)
-
-print('TERMINAL SETUP STARTED')
-configure_terminal.main()
-print('TERMINAL SETUP COMPLETED')
-
-print(separator)
-
-print('BOARD SETUP STARTED')
-configure_board.main()
-print('BOARD SETUP COMPLETED')
 
 print(separator)
 
@@ -26,8 +14,8 @@ print('ADMINISTRATORS SETUP COMPLETED')
 
 print(separator)
 
-print('SYSTEM SETUP STARTED')
-configure_system.main()
-print('SYSTEM SETUP COMPLETED')
+print('BEERS SETUP STARTED')
+configure_beers.main()
+print('BEERS SETUP COMPLETED')
 
 print(separator)

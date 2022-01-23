@@ -3,7 +3,6 @@ from enum import Enum
 from logging import getLogger
 
 from peewee import SqliteDatabase, PrimaryKeyField, CharField, IntegerField, FloatField, BooleanField, Model
-from playhouse.shortcuts import model_to_dict
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(CURRENT_DIR, 'default.db')
@@ -21,7 +20,7 @@ class Employees(Base):
     id = PrimaryKeyField()
     name = CharField(max_length=100, null=True, default="Service user")
     password = CharField(max_length=100, null=False, default='0')
-    login = CharField(null=False)
+    login = CharField(null=False, unique=True)
     is_superuser = BooleanField(null=False, default=False)
 
     @staticmethod
@@ -38,7 +37,7 @@ class Beer(Base):
     id = PrimaryKeyField()
     name = CharField(max_length=100, null=False)
     price = FloatField(null=False, default=0)
-    type = CharField(max_length=255,choices=BeerType, null=True)
+    type = CharField(max_length=255, choices=BeerType, null=True)
     pulse_count = IntegerField(null=False, default=1000)
     is_active = BooleanField(null=False, default=False)
 
