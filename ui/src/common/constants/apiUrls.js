@@ -1,4 +1,4 @@
-export default {
+const apiUrls = {
   admin: '/admin',
   beer: '/beer',
   health: '/health',
@@ -7,3 +7,5 @@ export default {
   activeBeer: '/beer/active',
   details: '/health/details',
 };
+
+export default apiUrls;

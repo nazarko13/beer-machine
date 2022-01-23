@@ -4,10 +4,12 @@ import adminAuthModule from './adminAuth';
 import notificationModule from './notification';
 import modalHandlerModule from './modalHandler';
 
-export default {
+const modules = {
   homeModule,
   adminModule,
   adminAuthModule,
   notificationModule,
   modalHandlerModule,
 };
+
+export default modules;

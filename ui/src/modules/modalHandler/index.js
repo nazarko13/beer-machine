@@ -1,7 +1,9 @@
 import ModalHandler from './ModalHandler';
 import reducer from './ducks';
 
-export default {
+const modalHandlerModule = {
   reducer,
   component: ModalHandler,
 };
+
+export default modalHandlerModule;

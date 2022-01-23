@@ -1,4 +1,6 @@
 import Admin from './Admin';
 import reducer from './ducks/slice';
 
-export default { component: Admin, reducer };
+const adminModule = { component: Admin, reducer };
+
+export default adminModule;

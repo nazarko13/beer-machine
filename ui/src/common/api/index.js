@@ -1,7 +1,7 @@
 import { apiUrls } from 'common/constants';
 import { requests } from 'common/services';
 
-export default {
+const api = {
   checkHealth: () => requests.getDataAction(apiUrls.health),
   getBeers: (params = {}) => requests.getDataAction(apiUrls.beer, params),
   getActiveBeers: (params = {}) =>
@@ -12,3 +12,5 @@ export default {
   getDetails: (params = {}) => requests.getDataAction(apiUrls.details, params),
   saveBeers: (params = {}) => requests.putDataAction(apiUrls.beer, params),
 };
+
+export default api;

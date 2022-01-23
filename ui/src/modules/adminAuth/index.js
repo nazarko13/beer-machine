@@ -1,5 +1,7 @@
 import AdminAuth from './AdminAuth';
 
-export default {
+const adminAuthModule = {
   component: AdminAuth,
 };
+
+export default adminAuthModule;

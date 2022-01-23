@@ -2,4 +2,6 @@ import Home from './Home';
 
 import reducer from './ducks';
 
-export default { reducer, component: Home };
+const homeModule = { reducer, component: Home };
+
+export default homeModule;

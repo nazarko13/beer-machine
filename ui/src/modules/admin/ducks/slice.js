@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { success, error } from '@redux-requests/core';
 
-import { allBeers } from 'common/constants';
 import { preActionStateSetter, errorSetter } from 'common/utils';
 
 import * as actionTypes from './actionTypes';

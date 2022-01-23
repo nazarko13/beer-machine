@@ -1,4 +1,4 @@
-export default {
+const routes = {
   public: {
     home: '/',
   },
@@ -7,3 +7,5 @@ export default {
     admin: '/admin',
   },
 };
+
+export default routes;

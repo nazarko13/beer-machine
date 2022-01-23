@@ -2,4 +2,6 @@ import Notification from './Notification';
 
 import reducer from './ducks';
 
-export default { component: Notification, reducer };
+const notificationModule = { component: Notification, reducer };
+
+export default notificationModule;

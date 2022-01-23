@@ -32,7 +32,7 @@ const createProxy =
         })
     : (x) => x;
 
-export default (states, prefix = '') => {
+const createEnum = (states, prefix = '') => {
   const prefixPart = prefix ? `${prefix}.` : '';
 
   return createProxy(
@@ -47,3 +47,5 @@ export default (states, prefix = '') => {
       )
   );
 };
+
+export default createEnum;

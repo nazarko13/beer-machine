@@ -1,4 +1,4 @@
-export default {
+const typography = {
   allVariants: {
     fontFamily: 'Roboto',
   },
@@ -64,3 +64,5 @@ export default {
   },
   overline: {},
 };
+
+export default typography;
