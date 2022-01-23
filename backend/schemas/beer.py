@@ -10,6 +10,15 @@ class BeerOutput:
     id: int
     name: str
     price: float
-    image: Optional[str]
-    pulse_count: int
+    type: Optional[str]
+    pulse_count: Optional[int]
     is_active: bool
+
+
+@marshmallow_dataclass.dataclass(base_schema=CamelCaseSchema)
+class EmployeesSchema:
+    id: int
+    name: str
+    password: str
+    login: str
+    is_superuser: bool
