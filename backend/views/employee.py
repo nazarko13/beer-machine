@@ -2,6 +2,7 @@ from flask import jsonify, request
 from flask.views import MethodView
 
 from models.models import Employees
+from schemas.beer import EmployeesSchema
 
 
 class EmployeeView(MethodView):
@@ -9,7 +10,7 @@ class EmployeeView(MethodView):
         password = request.args.get("password")
         login = request.args.get("login")
         if password and login:
-            employee = list(Employees.get_by_login_and_password(login, password))
+            employee = EmployeesSchema.Schema(many=True).dump(Employees.get_by_login_and_password(login, password))
             if employee:
                 # logger.info("Admin with code {} logged in".format(auth_code))
                 return jsonify(employee[0])

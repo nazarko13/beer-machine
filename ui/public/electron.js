@@ -3,16 +3,16 @@ const path = require('path');
 const isDev = require('electron-is-dev');
 const { app, session, BrowserWindow } = require('electron');
 
-const reactDevToolsPath = path.join(
-  os.homedir(),
-  '/Library/Application Support/Google/Chrome/Default/Extensions/lmhkpmbekcpmknklioeibfkpmmfibljd/2.17.2_6'
-);
+// const reactDevToolsPath = path.join(
+//   os.homedir(),
+//   '/Library/Application Support/Google/Chrome/Default/Extensions/lmhkpmbekcpmknklioeibfkpmmfibljd/2.17.2_6'
+// );
 
 async function createWindow() {
   const win = new BrowserWindow({
     width: 1024,
     height: 768,
-    // kiosk: true,
+    kiosk: true,
     webPreferences: {
       nodeIntegration: true,
       // experimentalFeatures: true,
@@ -26,7 +26,7 @@ async function createWindow() {
   );
 
   if (isDev) {
-    await session.defaultSession.loadExtension(reactDevToolsPath);
+    // await session.defaultSession.loadExtension(reactDevToolsPath);
     win.webContents.openDevTools({ mode: 'detach' });
   }
 
