@@ -21,6 +21,9 @@ const adminSlice = createSlice({
     clearError(state) {
       state.error = null;
     },
+    clearState(state) {
+      state = initialState;
+    },
   },
   extraReducers: {
     [actionTypes.saveBeers]: preActionStateSetter,
@@ -51,8 +54,28 @@ const adminSlice = createSlice({
       state.loading = false;
     },
 
+    [actionTypes.saveBeers]: (state) => {
+      state.loading = true;
+    },
+
+    [success(actionTypes.saveBeers)]: (state, action) => {
+      const { request } = action.meta?.requestAction || {};
+
+      if (request?.data?.length) {
+        state.data.beers = request.data;
+      }
+
+      state.loading = false;
+    },
+
+    [error(actionTypes.saveBeers)]: (state) => {
+      state.loading = false;
+    },
+
     [error(actionTypes.getSystemInfo)]: errorSetter,
   },
 });
+
+export const { clearState } = adminSlice.actions;
 
 export default adminSlice.reducer;

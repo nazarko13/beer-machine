@@ -12,7 +12,6 @@ import { useNotify } from 'common/hooks';
 import { fieldLabels, fieldSizes } from '../constants';
 import { getBeers } from '../ducks/selectors';
 import FormFieldset from './FormFieldset';
-import * as actions from '../ducks';
 import { saveBeers } from '../ducks';
 
 const layouts = {
@@ -42,10 +41,6 @@ const SettingsForm = ({ fieldSet }) => {
 
     return activeBeers.length === maxActiveBeersCount;
   }, [formData, allBeers]);
-
-  const getAllBeers = useCallback(() => {
-    dispatch(actions.getBeers());
-  }, [dispatch]);
 
   const onSubmit = useCallback(
     (data) => {
@@ -77,7 +72,6 @@ const SettingsForm = ({ fieldSet }) => {
     return setActiveInput(inputName);
   }, []);
 
-  useEffect(() => getAllBeers(), [getAllBeers]);
 
   useEffect(() => {
     const val = inputValues[activeInput];

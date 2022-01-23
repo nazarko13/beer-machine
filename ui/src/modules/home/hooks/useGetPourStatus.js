@@ -8,31 +8,28 @@ const useGetPourStatus = () => {
   const pourLoading = useSelector(getPourLoading);
   const [, setCurrentInterval] = useState(null);
 
+  const clearCurrentInterval = useCallback(() => setCurrentInterval(i => {
+    clearInterval(i);
+    return null;
+  }), [])
+
   const getStatus = useCallback(() => {
     if (!pourLoading) {
-      setCurrentInterval(i => {
-        clearInterval(i);
-        return null;
-      });
+      clearCurrentInterval();
 
       return;
     }
 
     const int = setInterval(() => {
       dispatch(getPourStatus()).then((data) => {
-        console.log(data);
         if (data.finished) {
-          setCurrentInterval(i => {
-            console.log(i);
-            clearInterval(i);
-            return null;
-          })
+          clearCurrentInterval();
         }
       });
     }, 2000);
 
     setCurrentInterval(int);
-  }, [pourLoading, dispatch]);
+  }, [pourLoading, dispatch, clearCurrentInterval]);
 
   useEffect(() => {
     getStatus();
