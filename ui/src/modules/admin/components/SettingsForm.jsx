@@ -20,7 +20,7 @@ const layouts = {
   default: undefined,
 };
 
-const maxActiveBeersCount = 4;
+const maxActiveBeersCount = 2;
 
 const SettingsForm = ({ fieldSet }) => {
   const notify = useNotify();
