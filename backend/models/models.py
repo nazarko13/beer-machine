@@ -4,6 +4,8 @@ from logging import getLogger
 
 from peewee import SqliteDatabase, PrimaryKeyField, CharField, IntegerField, FloatField, BooleanField, Model
 
+from settings import ACTIVE_BEERS_QTY
+
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(CURRENT_DIR, 'default.db')
 DB = SqliteDatabase(None)
@@ -29,7 +31,7 @@ class Employees(Base):
 
 
 class BeerType(Enum):
-    WHITE = "light",
+    LIGHT = "light",
     DARK = "dark"
 
 
@@ -40,10 +42,13 @@ class Beer(Base):
     type = CharField(max_length=255, choices=BeerType, null=True)
     pulse_count = IntegerField(null=False, default=1000)
     is_active = BooleanField(null=False, default=False)
+    barcode = CharField(max_length=13, null=False, default="123")
+    description = CharField(max_length=500, null=True)
+    keg = CharField(max_length=20, null=True)
 
     @staticmethod
     def get_active():
-        return Beer.select().where(Beer.is_active == True)
+        return Beer.select().where(Beer.is_active == True).limit(ACTIVE_BEERS_QTY)
 
     @staticmethod
     def get_all():

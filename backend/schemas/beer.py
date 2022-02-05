@@ -13,3 +13,6 @@ class BeerOutput:
     type: Optional[str]
     pulse_count: Optional[int]
     is_active: bool
+    barcode: str
+    description: Optional[str]
+    keg: Optional[str]
