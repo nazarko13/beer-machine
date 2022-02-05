@@ -36,6 +36,7 @@ export const adminFieldSet = [
   fields.name,
   fields.price,
   fields.type,
+  fields.keg,
 ];
 export const superAdminFieldSet = Object.values(fields);
 
