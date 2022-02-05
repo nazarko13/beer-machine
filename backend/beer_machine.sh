@@ -30,6 +30,6 @@ echo "     stop                     Stop project."
 echo "     info                     Information about version and contributors."
 ;;
 *)
-  echo 'Wrong argument. Possible values: "start", "setup", "install". Have a nice day'
+  echo 'Wrong argument. Possible values: "start", "setup", "install". Have a nice day!'
   exit 1
 esac

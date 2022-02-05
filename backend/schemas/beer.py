@@ -13,12 +13,6 @@ class BeerOutput:
     type: Optional[str]
     pulse_count: Optional[int]
     is_active: bool
-
-
-@marshmallow_dataclass.dataclass(base_schema=CamelCaseSchema)
-class EmployeesSchema:
-    id: int
-    name: str
-    password: str
-    login: str
-    is_superuser: bool
+    barcode: str
+    description: Optional[str]
+    keg: Optional[str]

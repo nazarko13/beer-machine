@@ -3,7 +3,8 @@ from enum import Enum
 from logging import getLogger
 
 from peewee import SqliteDatabase, PrimaryKeyField, CharField, IntegerField, FloatField, BooleanField, Model
-from playhouse.shortcuts import model_to_dict
+
+from settings import ACTIVE_BEERS_QTY
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(CURRENT_DIR, 'default.db')
@@ -21,7 +22,7 @@ class Employees(Base):
     id = PrimaryKeyField()
     name = CharField(max_length=100, null=True, default="Service user")
     password = CharField(max_length=100, null=False, default='0')
-    login = CharField(null=False)
+    login = CharField(null=False, unique=True)
     is_superuser = BooleanField(null=False, default=False)
 
     @staticmethod
@@ -30,7 +31,7 @@ class Employees(Base):
 
 
 class BeerType(Enum):
-    WHITE = "light",
+    LIGHT = "light",
     DARK = "dark"
 
 
@@ -38,13 +39,16 @@ class Beer(Base):
     id = PrimaryKeyField()
     name = CharField(max_length=100, null=False)
     price = FloatField(null=False, default=0)
-    type = CharField(max_length=255,choices=BeerType, null=True)
+    type = CharField(max_length=255, choices=BeerType, null=True)
     pulse_count = IntegerField(null=False, default=1000)
     is_active = BooleanField(null=False, default=False)
+    barcode = CharField(max_length=13, null=False, default="123")
+    description = CharField(max_length=500, null=True)
+    keg = CharField(max_length=20, null=True)
 
     @staticmethod
     def get_active():
-        return Beer.select().where(Beer.is_active == True)
+        return Beer.select().where(Beer.is_active == True).limit(ACTIVE_BEERS_QTY)
 
     @staticmethod
     def get_all():
