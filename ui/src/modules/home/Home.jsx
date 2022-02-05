@@ -5,10 +5,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { healthStates } from 'common/constants';
 import { Loader } from 'common/components';
 
-import { getHealthState, getLoading, getPourLoading, getProgress } from './ducks/selectors';
-import { useCheckHealthState, useGetPourStatus } from './hooks';
+import {
+  getHealthState,
+  getLoading,
+  getPourLoading,
+  getProgress,
+} from './ducks/selectors';
 import { AdminAccessControls } from './components';
 import PourLoader from './components/PourLoader';
+import { useCheckHealthState } from './hooks';
 import Beers from './components/Beers';
 import { checkHealth } from './ducks';
 
@@ -33,8 +38,6 @@ const Home = () => {
   }, [checkHealthState]);
 
   useCheckHealthState();
-
-  useGetPourStatus();
 
   return (
     <Grid container height="100%">

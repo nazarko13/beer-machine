@@ -6,6 +6,7 @@ const apiUrls = {
   pourStatus: '/beer/pour/status',
   activeBeer: '/beer/active',
   details: '/health/details',
+  cleaning: '/cleaning',
 };
 
 export default apiUrls;

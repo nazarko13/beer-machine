@@ -19,13 +19,13 @@ const PourLoader = ({ progress }) => (
     justifyContent="center"
     style={{ backdropFilter: 'blur(3 px)' }}
   >
-      <Grid
-        item
-        src={logo}
-        width="250px"
-        component="img"
-        style={{ objectFit: 'contain' }}
-      />
+    <Grid
+      item
+      src={logo}
+      width="250px"
+      component="img"
+      style={{ objectFit: 'contain' }}
+    />
 
     <Grid
       item

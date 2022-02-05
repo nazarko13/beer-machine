@@ -72,7 +72,6 @@ const SettingsForm = ({ fieldSet }) => {
     return setActiveInput(inputName);
   }, []);
 
-
   useEffect(() => {
     const val = inputValues[activeInput];
 
@@ -126,8 +125,8 @@ const SettingsForm = ({ fieldSet }) => {
         </Grid>
 
         <Grid item xs container spacing={2} px={3} pt={1} width="100%">
-          {fieldSet.map(fieldName => (
-            <Grid item xs={fieldSizes[fieldName]}>
+          {fieldSet.map((fieldName) => (
+            <Grid key={fieldName} item xs={fieldSizes[fieldName]}>
               <Typography>{fieldLabels[fieldName]}</Typography>
             </Grid>
           ))}

@@ -26,11 +26,7 @@ const useGetPourStatus = () => {
     }
 
     const int = setInterval(() => {
-      dispatch(getPourStatus()).then((data) => {
-        if (data.finished) {
-          clearCurrentInterval();
-        }
-      });
+      dispatch(getPourStatus());
     }, 2000);
 
     setCurrentInterval(int);
@@ -39,6 +35,8 @@ const useGetPourStatus = () => {
   useEffect(() => {
     getStatus();
   }, [getStatus]);
+
+  return [getStatus, clearCurrentInterval];
 };
 
 export default useGetPourStatus;

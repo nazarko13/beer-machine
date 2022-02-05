@@ -11,6 +11,7 @@ const api = {
   adminLogin: (params = {}) => requests.getDataAction(apiUrls.admin, params),
   getDetails: (params = {}) => requests.getDataAction(apiUrls.details, params),
   saveBeers: (params = {}) => requests.putDataAction(apiUrls.beer, params),
+  startWashing: () => requests.postDataAction(apiUrls.cleaning),
 };
 
 export default api;

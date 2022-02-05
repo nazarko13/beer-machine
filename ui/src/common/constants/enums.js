@@ -61,4 +61,4 @@ export const beerTypes = createEnum({
 export const beerLabels = createEnum({
   [beerTypes.light]: 'Світле',
   [beerTypes.dark]: 'Темне',
-})
+});

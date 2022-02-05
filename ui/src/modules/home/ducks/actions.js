@@ -26,3 +26,8 @@ export const getPourStatus = () => ({
   type: actionTypes.pourStatus,
   request: api.getPourStatus(),
 });
+
+export const startWashing = () => ({
+  type: actionTypes.startWashing,
+  request: api.startWashing(),
+});

@@ -23,7 +23,11 @@ const InputField = forwardRef(
           placeholder={placeholder || label}
           {...props}
         >
-          {options.map(({ name, value }) => <MenuItem key={value} value={value}>{name}</MenuItem>)}
+          {options.map(({ name, value: optVal }) => (
+            <MenuItem key={value} value={optVal}>
+              {name}
+            </MenuItem>
+          ))}
         </Select>
       </Grid>
     </FormControl>

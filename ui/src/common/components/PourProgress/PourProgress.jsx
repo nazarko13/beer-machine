@@ -9,7 +9,7 @@ const viewBoxParams = { w: 463.729, h: 463.729 };
 const useStyles = makeStyles({
   maskRect: {
     height: ({ height }) => `${height}%`,
-  }
+  },
 });
 
 const PourProgress = ({ size = 400, progress = 0, color, fillColor }) => {
@@ -27,7 +27,7 @@ const PourProgress = ({ size = 400, progress = 0, color, fillColor }) => {
               x={-viewBoxParams.w}
               y={-viewBoxParams.h}
               width={viewBoxParams.w}
-              transform={`rotate(-180)`}
+              transform="rotate(-180)"
               className={classes.maskRect}
               fill={fillColor || palette.primary.light}
             />
@@ -52,7 +52,7 @@ const PourProgress = ({ size = 400, progress = 0, color, fillColor }) => {
         </Grid>
       )}
     </Grid>
-  )
+  );
 };
 
 export default PourProgress;

@@ -1,15 +1,70 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
 
-import BeerItem from './BeerItem';
-import { getActiveBeers, pourBeer } from '../ducks';
+import { createEnum } from 'common/utils';
+import { modalNames } from 'common/constants';
+import { getActiveBeers, pourBeer, startWashing } from '../ducks';
+import { openModal } from '../../modalHandler/ducks';
 import { getActiveBeersData } from '../ducks/selectors';
+import GetBottlePopup from './GetBottlePopup';
+import WashingLoader from './WashingLoader';
+import { useGetPourStatus } from '../hooks';
+import BeerItem from './BeerItem';
+
+const modalTypes = createEnum({
+  getBottle: null,
+  washingLoader: null,
+  error: null,
+});
+
+const requestWashingCount = 1;
 
 const Beers = () => {
   const dispatch = useDispatch();
+  const [modal, setModal] = useState(null);
+  const [, setWashingRequestNum] = useState(0);
   const data = useSelector(getActiveBeersData);
+
+  const [runGetStatus, stopGetStatus] = useGetPourStatus();
+
+  const openGetBottleModal = useCallback(
+    () => setModal(modalTypes.getBottle),
+    []
+  );
+
+  const openErrorModal = useCallback(() => {
+    setModal(null);
+    dispatch(
+      openModal({
+        name: modalNames.message,
+        message: 'Сталася помилка',
+      })
+    );
+  }, [dispatch]);
+
+  const handleWashing = useCallback(() => {
+    setModal(modalTypes.washingLoader);
+    dispatch(startWashing()).then(({ error }) => {
+      if (error) {
+        setWashingRequestNum((num) => {
+          if (num === requestWashingCount) {
+            openErrorModal();
+            return 0;
+          }
+
+          openGetBottleModal();
+          return num + 1;
+        });
+
+        return;
+      }
+
+      setModal(null);
+      setWashingRequestNum(0);
+    });
+  }, [dispatch, openErrorModal, openGetBottleModal]);
 
   const getActiveBears = useCallback(() => {
     dispatch(getActiveBeers());
@@ -17,9 +72,18 @@ const Beers = () => {
 
   const handlePourBeer = useCallback(
     (beer) => {
-      dispatch(pourBeer({ beerId: beer.id }));
+      runGetStatus();
+
+      dispatch(pourBeer({ beerId: beer.id })).then(({ error }) => {
+        stopGetStatus();
+        openGetBottleModal();
+
+        if (error) {
+          openErrorModal();
+        }
+      });
     },
-    [dispatch]
+    [runGetStatus, dispatch, stopGetStatus, openGetBottleModal, openErrorModal]
   );
 
   useEffect(() => {
@@ -68,6 +132,13 @@ const Beers = () => {
           </Typography>
         </Grid>
       )}
+
+      <GetBottlePopup
+        open={modal === modalTypes.getBottle}
+        onClose={handleWashing}
+      />
+
+      <WashingLoader open={modal === modalTypes.washingLoader} />
     </Grid>
   );
 };

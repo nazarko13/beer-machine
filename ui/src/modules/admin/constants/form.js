@@ -25,7 +25,12 @@ export const fieldSizes = createEnum({
   [fields.pulseCount]: 2,
 });
 
-export const adminFieldSet = [fields.isActive, fields.name, fields.price, fields.type];
+export const adminFieldSet = [
+  fields.isActive,
+  fields.name,
+  fields.price,
+  fields.type,
+];
 export const superAdminFieldSet = Object.values(fields);
 
 export const beerTypeOptions = [
@@ -40,5 +45,5 @@ export const beerTypeOptions = [
   {
     name: beerLabels.dark,
     value: beerTypes.dark,
-  }
+  },
 ];

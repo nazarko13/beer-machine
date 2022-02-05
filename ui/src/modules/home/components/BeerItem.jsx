@@ -22,7 +22,6 @@ const images = {
   [beerTypes.dark]: darkBeer,
 };
 
-
 const BeerItem = ({ name, price, type, handlePour }) => {
   const classes = useStyles();
 

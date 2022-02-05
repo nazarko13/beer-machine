@@ -25,8 +25,8 @@ const AdminAuth = ({ onClose = null }) => {
     navigate(routes.private.admin, data);
   };
 
-  const handleAuth = (data) => {
-    dispatch(adminLogin(data)).then(({ error, data }) => {
+  const handleAuth = (params) => {
+    dispatch(adminLogin(params)).then(({ error, data }) => {
       if (error) {
         onError(error);
         return;

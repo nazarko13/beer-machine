@@ -54,7 +54,7 @@ const FormFieldset = ({
 
         {fieldSet.includes(fields.name) && (
           <Grid item xs={fieldSizes[fields.name]}>
-          <Controller
+            <Controller
               control={control}
               name={`${id}.name`}
               defaultValue={name}
@@ -72,7 +72,7 @@ const FormFieldset = ({
 
         {fieldSet.includes(fields.price) && (
           <Grid item xs={fieldSizes[fields.price]}>
-          <Controller
+            <Controller
               control={control}
               name={`${id}.price`}
               defaultValue={price}
@@ -91,7 +91,7 @@ const FormFieldset = ({
 
         {fieldSet.includes(fields.type) && (
           <Grid item xs={fieldSizes[fields.type]}>
-          <Controller
+            <Controller
               control={control}
               name={`${id}.type`}
               defaultValue={type}
@@ -109,10 +109,9 @@ const FormFieldset = ({
           </Grid>
         )}
 
-
         {fieldSet.includes(fields.pulseCount) && (
           <Grid item xs={fieldSizes[fields.pulseCount]}>
-          <Controller
+            <Controller
               control={control}
               name={`${id}.pulseCount`}
               defaultValue={pulseCount}

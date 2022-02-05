@@ -42,7 +42,7 @@ const stockSlice = createSlice({
     },
 
     [success(actionTypes.pourStatus)]: (state, action) => {
-      const { percent, finished } = action.response.data
+      const { percent, finished } = action.response.data;
       state.data.progress = percent;
 
       if (finished) {
@@ -52,7 +52,7 @@ const stockSlice = createSlice({
     },
 
     [success(actionTypes.adminLogin)]: (state, action) => {
-      const { isSuperuser } = action.response.data
+      const { isSuperuser } = action.response.data;
       state.isSuperUser = isSuperuser;
     },
 
@@ -61,6 +61,11 @@ const stockSlice = createSlice({
     [actionTypes.pourBeer]: (state) => {
       state.pourLoading = true;
     },
+
+    [success(actionTypes.pourBeer)]: (state) => {
+      state.pourLoading = false;
+    },
+
     [error(actionTypes.pourBeer)]: (state) => {
       state.pourLoading = false;
     },

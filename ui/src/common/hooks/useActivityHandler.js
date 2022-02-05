@@ -18,7 +18,11 @@ const EVENTS = [
 // seconds count * milliseconds
 const INACTIVITY_HANDLER_DELAY = 30 * 1000;
 
-const useActivityHandler = (ref, inactivityHandler) => {
+const useActivityHandler = (
+  ref,
+  inactivityHandler = () => null,
+  delay = INACTIVITY_HANDLER_DELAY
+) => {
   const elementRef = useRef(null);
   const previousTimerId = useRef(null);
 
@@ -29,8 +33,8 @@ const useActivityHandler = (ref, inactivityHandler) => {
 
     previousTimerId.current = setTimeout(() => {
       inactivityHandler();
-    }, INACTIVITY_HANDLER_DELAY);
-  }, [inactivityHandler]);
+    }, delay);
+  }, [delay, inactivityHandler]);
 
   const debouncedEventHandler = debounce(eventHandler, 300);
 

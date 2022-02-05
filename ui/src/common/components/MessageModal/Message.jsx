@@ -11,7 +11,7 @@ const Message = ({ message, onClose, title }) => {
   return (
     <Grid bgcolor="background.primary">
       <DialogTitle>
-        <Typography variant="h4">
+        <Typography variant="h4" component="span">
           {title || 'ВИБАЧТЕ, СТАЛАСЯ ПОМИЛКА!'}
         </Typography>
       </DialogTitle>

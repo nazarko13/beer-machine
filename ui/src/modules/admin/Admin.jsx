@@ -18,10 +18,10 @@ const Admin = () => {
   useEffect(() => getAllBeers(), [getAllBeers]);
 
   if (isSuperUser) {
-    return <SuperAdminFlow fieldSet={superAdminFieldSet} />
+    return <SuperAdminFlow fieldSet={superAdminFieldSet} />;
   }
 
-  return <AdminFlow fieldSet={adminFieldSet} />
+  return <AdminFlow fieldSet={adminFieldSet} />;
 };
 
 export default Admin;
