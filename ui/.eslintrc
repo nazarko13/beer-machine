@@ -1,0 +1,56 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "airbnb",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
+    }
+  },
+  "plugins": ["react", "prettier", "jsx"],
+  "rules": {
+    "no-console": [1, { "allow": ["warn", "error"] }],
+    "import/no-unresolved": "off",
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "func-names": "off",
+    "no-unused-vars": "warn",
+    "react/jsx-props-no-spreading": "off",
+    "react/display-name": "off",
+    "prettier/prettier": ["error", { "singleQuote": true }],
+    "react/jsx-fragments": "off",
+    "react/prop-types": ["warn", { "skipUndeclared": true }],
+    "consistent-return": "warn",
+    "import/prefer-default-export": "off",
+    "react/require-default-props": "off",
+    "react/jsx-curly-newline": "off",
+    "react/jsx-wrap-multilines": [
+      "error",
+      {
+        "prop": "ignore"
+      }
+    ],
+    "react/jsx-one-expression-per-line": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "prefer-promise-reject-errors": "off",
+    "no-param-reassign": "off"
+  }
+}

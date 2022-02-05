@@ -1,6 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { getPourLoading } from '../ducks/selectors';
 import { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getPourLoading } from '../ducks/selectors';
 import { getPourStatus } from '../ducks';
 
 const useGetPourStatus = () => {
@@ -8,10 +9,14 @@ const useGetPourStatus = () => {
   const pourLoading = useSelector(getPourLoading);
   const [, setCurrentInterval] = useState(null);
 
-  const clearCurrentInterval = useCallback(() => setCurrentInterval(i => {
-    clearInterval(i);
-    return null;
-  }), [])
+  const clearCurrentInterval = useCallback(
+    () =>
+      setCurrentInterval((i) => {
+        clearInterval(i);
+        return null;
+      }),
+    []
+  );
 
   const getStatus = useCallback(() => {
     if (!pourLoading) {
@@ -33,7 +38,7 @@ const useGetPourStatus = () => {
 
   useEffect(() => {
     getStatus();
-  }, [getStatus])
+  }, [getStatus]);
 };
 
 export default useGetPourStatus;
