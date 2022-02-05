@@ -7,6 +7,8 @@ export const fields = createEnum({
   price: null,
   type: null,
   pulseCount: null,
+  barcode: null,
+  keg: null,
 });
 
 export const fieldLabels = createEnum({
@@ -15,14 +17,18 @@ export const fieldLabels = createEnum({
   [fields.price]: 'Ціна',
   [fields.type]: 'Тип',
   [fields.pulseCount]: 'Кількість імпудьсів',
+  [fields.barcode]: 'Баркод',
+  [fields.keg]: 'Кега',
 });
 
 export const fieldSizes = createEnum({
   [fields.isActive]: 2,
-  [fields.name]: 4,
-  [fields.price]: 2,
+  [fields.name]: 3,
+  [fields.price]: 1,
   [fields.type]: 2,
-  [fields.pulseCount]: 2,
+  [fields.pulseCount]: 1,
+  [fields.barcode]: 1,
+  [fields.keg]: 2,
 });
 
 export const adminFieldSet = [
@@ -45,5 +51,20 @@ export const beerTypeOptions = [
   {
     name: beerLabels.dark,
     value: beerTypes.dark,
+  },
+];
+
+export const kagOptions = [
+  {
+    name: 'Не вибрано',
+    value: '',
+  },
+  {
+    name: 'Кега 1',
+    value: 'BEER_KEG_1',
+  },
+  {
+    name: 'Кега 2',
+    value: 'BEER_KEG_2',
   },
 ];

@@ -4,7 +4,7 @@ import { Controller } from 'react-hook-form';
 
 import { useNotify } from 'common/hooks';
 import { CheckBoxField, InputField, SelectField } from 'common/components';
-import { beerTypeOptions, fields, fieldSizes } from '../constants';
+import { beerTypeOptions, fields, fieldSizes, kagOptions } from '../constants';
 
 const FormFieldset = ({
   id,
@@ -122,6 +122,45 @@ const FormFieldset = ({
                   type="number"
                   size="large"
                   onFocus={(e) => onFocus(field.name, e, 'number')}
+                />
+              )}
+            />
+          </Grid>
+        )}
+
+        {fieldSet.includes(fields.barcode) && (
+          <Grid item xs={fieldSizes[fields.barcode]}>
+            <Controller
+              control={control}
+              name={`${id}.barcode`}
+              defaultValue={pulseCount}
+              render={({ field }) => (
+                <InputField
+                  {...field}
+                  fullWidth
+                  type="number"
+                  size="large"
+                  onFocus={(e) => onFocus(field.name, e, 'number')}
+                />
+              )}
+            />
+          </Grid>
+        )}
+
+        {fieldSet.includes(fields.keg) && (
+          <Grid item xs={fieldSizes[fields.keg]}>
+            <Controller
+              control={control}
+              name={`${id}.keg`}
+              defaultValue={pulseCount}
+              render={({ field }) => (
+                <SelectField
+                  fullWidth
+                  type="number"
+                  size="small"
+                  variant="filled"
+                  {...field}
+                  options={kagOptions}
                 />
               )}
             />
