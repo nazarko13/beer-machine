@@ -98,7 +98,7 @@ const SettingsForm = ({ fieldSet }) => {
           onChangeAll={setValues}
           layout={layouts[layout]}
           handleHideKeyboard={setActiveInput}
-          width={layout === 'number' ? 280 : '100%'}
+          width={layout === 'number' ? 300 : '100%'}
         />
       </Grid>
 
@@ -106,10 +106,10 @@ const SettingsForm = ({ fieldSet }) => {
         <Grid
           item
           container
-          spacing={2}
-          justifyContent="flex-end"
           pt={2}
           pr={2}
+          spacing={2}
+          justifyContent="flex-end"
         >
           <Grid item>
             <Button text="Зберегти" type="submit" />
@@ -136,7 +136,7 @@ const SettingsForm = ({ fieldSet }) => {
           container
           overflow="auto"
           justifyContent="center"
-          minHeight={activeInput ? 'calc(100% + 150px)' : '100%'}
+          minHeight={activeInput ? 'calc(100% + 215px)' : '100%'}
         >
           <Grid p={2} spacing={2} container wrap="nowrap" direction="column">
             {Object.keys(allBeers || {}).map((key) => (

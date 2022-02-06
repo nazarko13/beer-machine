@@ -9,15 +9,17 @@ import Button from '../Button';
 
 const Message = ({ message, onClose, title }) => {
   return (
-    <Grid bgcolor="background.primary">
+    <Grid bgcolor="background.primary" p={2}>
       <DialogTitle>
-        <Typography variant="h4" component="span">
+        <Typography variant="h2" component="span">
           {title || 'ВИБАЧТЕ, СТАЛАСЯ ПОМИЛКА!'}
         </Typography>
       </DialogTitle>
 
       <DialogContent>
-        <Typography variant="body1">{message}</Typography>
+        <Typography variant="h3" style={{ fontWeight: 100 }}>
+          {message}
+        </Typography>
       </DialogContent>
 
       {onClose && (

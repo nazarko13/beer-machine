@@ -15,6 +15,11 @@ const useStyles = makeStyles({
   showKeyboard: {
     display: 'block',
   },
+  base: {
+    '& .hg-rows .hg-row .hg-button': {
+      height: 50,
+    },
+  },
 });
 
 const KeyboardProvider = ({
@@ -69,8 +74,9 @@ const KeyboardProvider = ({
     <Grid
       container
       px={2}
-      bottom={10}
+      bottom={25}
       zIndex={10}
+      height={270}
       width={width}
       ref={container}
       position="absolute"
@@ -81,6 +87,7 @@ const KeyboardProvider = ({
         theme={theme}
         layout={layout}
         inputName={inputName}
+        baseClass={styles.base}
         onKeyPress={onKeyPress}
         layoutName={layoutName}
         keyboardRef={setKeyboard}

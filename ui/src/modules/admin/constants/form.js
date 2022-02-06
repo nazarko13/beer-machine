@@ -22,8 +22,8 @@ export const fieldLabels = createEnum({
 });
 
 export const fieldSizes = createEnum({
-  [fields.isActive]: 1,
-  [fields.name]: 3,
+  [fields.isActive]: 2,
+  [fields.name]: 2,
   [fields.price]: 1,
   [fields.type]: 2,
   [fields.pulseCount]: 1,
