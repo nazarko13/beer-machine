@@ -25,8 +25,8 @@ const AdminAuth = ({ onClose = null }) => {
     navigate(routes.private.admin, data);
   };
 
-  const handleAuth = (params) => {
-    dispatch(adminLogin(params)).then(({ error, data }) => {
+  const handleAuth = ({ l, p }) => {
+    dispatch(adminLogin({ login: l, password: p })).then(({ error, data }) => {
       if (error) {
         onError(error);
         return;
@@ -39,8 +39,15 @@ const AdminAuth = ({ onClose = null }) => {
   useActivityHandler(authContainer, onClose);
 
   return (
-    <Paper component={Grid} p={1} px={2} ref={setAuthContainer}>
-      <Typography p={2} px={3} variant="h3">
+    <Paper
+      component={Grid}
+      p={1}
+      px={2}
+      ref={setAuthContainer}
+      // todo: fix position
+      style={{ marginTop: '-100px' }}
+    >
+      <Typography p={2} px={3} pl={1} variant="h3">
         Вхід Адміністратора
       </Typography>
 

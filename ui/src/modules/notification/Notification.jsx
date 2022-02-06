@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import Typography from '@mui/material/Typography';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getNotification } from './ducks/selectors';
@@ -45,7 +46,7 @@ const Notification = ({ type, autoHideDuration, ...props }) => {
       {...props}
     >
       <Alert onClose={handleRequestClose} severity={notification?.type || type}>
-        {notification?.message}
+        <Typography variant="h3">{notification?.message}</Typography>
       </Alert>
     </Snackbar>
   );

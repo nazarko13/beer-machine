@@ -45,7 +45,7 @@ const AuthForm = ({ onSubmit, onClose }) => {
     >
       <Grid item container>
         <Controller
-          name="login"
+          name="l"
           control={control}
           rules={{ required: 'Required' }}
           render={({ field, fieldState }) => (
@@ -64,7 +64,7 @@ const AuthForm = ({ onSubmit, onClose }) => {
 
       <Grid item container>
         <Controller
-          name="password"
+          name="p"
           control={control}
           rules={{ required: 'Required' }}
           render={({ field, fieldState }) => (

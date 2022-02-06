@@ -22,7 +22,7 @@ const InputField = forwardRef(
           placeholder={placeholder || label}
           {...props}
           inputProps={{
-            autocomplete: 'new-password',
+            autoComplete: 'new-password',
             form: {
               autocomplete: 'off',
             },
