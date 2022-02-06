@@ -46,7 +46,7 @@ const AdminAccessControls = () => {
     const showAccessModal = isEqual(controls, controlsOrderToAccess);
 
     if (showAccessModal) {
-      dispatch(openModal({ name: modalNames.adminAuth }));
+      dispatch(openModal({ name: modalNames.adminAuth, xs: 4 }));
       setControls([]);
     }
   }, [dispatch, controls]);

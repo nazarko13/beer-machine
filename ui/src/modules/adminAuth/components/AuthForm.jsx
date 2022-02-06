@@ -40,6 +40,7 @@ const AuthForm = ({ onSubmit, onClose }) => {
       component="form"
       direction="column"
       alignItems="center"
+      autocomplete="off"
       onSubmit={handleSubmit(onSubmit)}
     >
       <Grid item container>
@@ -52,6 +53,7 @@ const AuthForm = ({ onSubmit, onClose }) => {
               {...field}
               classes={{}}
               fullWidth
+              size="medium"
               placeholder="Логін"
               error={fieldState.error}
               onFocus={(e) => updateVisibleInput(field.name, e)}
@@ -69,7 +71,7 @@ const AuthForm = ({ onSubmit, onClose }) => {
             <InputField
               {...field}
               fullWidth
-              size="large"
+              size="medium"
               type="password"
               placeholder="Пароль"
               error={fieldState.error}

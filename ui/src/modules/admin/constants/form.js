@@ -16,13 +16,13 @@ export const fieldLabels = createEnum({
   [fields.name]: "Ім'я",
   [fields.price]: 'Ціна',
   [fields.type]: 'Тип',
-  [fields.pulseCount]: 'Кількість імпудьсів',
+  [fields.pulseCount]: 'Кількість імпульсів',
   [fields.barcode]: 'Баркод',
   [fields.keg]: 'Кега',
 });
 
 export const fieldSizes = createEnum({
-  [fields.isActive]: 2,
+  [fields.isActive]: 1,
   [fields.name]: 3,
   [fields.price]: 1,
   [fields.type]: 2,
