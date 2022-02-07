@@ -51,7 +51,8 @@
     "dev": "concurrently -k \"yarn start\" \"yarn:electron\"",
     "electron": "wait-on tcp:3000 && electron .",
     "build:testing": "e init --root=~/electron --bootstrap testing",
-    "build:release": "e init --root=~/electron --bootstrap release"
+    "build:release": "e init --root=~/electron --bootstrap release",
+    "build-prod": "GENERATE_SOURCEMAP=false react-scripts build"
   },
   "eslintConfig": {
     "extends": [
