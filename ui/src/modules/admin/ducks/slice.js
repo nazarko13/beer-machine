@@ -73,6 +73,24 @@ const adminSlice = createSlice({
     },
 
     [error(actionTypes.getSystemInfo)]: errorSetter,
+
+    // system info
+    [actionTypes.getSystemInfo]: preActionStateSetter,
+    [success(actionTypes.getSystemInfo)]: (state, action) => {
+      state.loading = false;
+      state.data.details = action.response.data;
+    },
+    [error(actionTypes.getSystemInfo)]: (state) => {
+      state.loading = false;
+    },
+
+    [actionTypes.setSystemInfo]: preActionStateSetter,
+    [success(actionTypes.setSystemInfo)]: (state) => {
+      state.loading = false;
+    },
+    [error(actionTypes.setSystemInfo)]: (state) => {
+      state.loading = false;
+    },
   },
 });
 

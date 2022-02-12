@@ -9,9 +9,10 @@ const api = {
   pourBeer: (data = {}) => requests.postDataAction(apiUrls.pour, data),
   getPourStatus: () => requests.getDataAction(apiUrls.pourStatus),
   adminLogin: (params = {}) => requests.getDataAction(apiUrls.admin, params),
-  getDetails: (params = {}) => requests.getDataAction(apiUrls.details, params),
   saveBeers: (params = {}) => requests.putDataAction(apiUrls.beer, params),
   startWashing: () => requests.postDataAction(apiUrls.cleaning),
+  getSystemSetting: () => requests.postDataAction(apiUrls.systemStatus),
+  setSystemSetting: (params) => requests.postDataAction(apiUrls.system, params),
 };
 
 export default api;

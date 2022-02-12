@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import { systemInfoModelLabels, systemInfoModel } from '../constants';
+
 const getAdminState = (store) => store.admin;
 const getHomeState = (store) => store.home;
 
@@ -24,3 +26,11 @@ export const getLoading = createSelector(
 );
 
 export const getErrors = createSelector(getAdminState, (state) => state.errors);
+
+export const getSystemInfoData = createSelector(getDetails, (info) =>
+  Object.keys(systemInfoModel).map((val) => ({
+    id: val,
+    value: info?.[val] || 'невідомо',
+    label: systemInfoModelLabels[val],
+  }))
+);

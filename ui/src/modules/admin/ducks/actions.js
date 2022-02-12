@@ -7,12 +7,17 @@ export const getBeers = (params) => ({
   request: api.getBeers(params),
 });
 
-export const getDetails = () => ({
-  type: actionTypes.getSystemInfo,
-  request: api.getDetails(),
-});
-
 export const saveBeers = (params) => ({
   type: actionTypes.saveBeers,
   request: api.saveBeers(params),
+});
+
+export const getSystemInfo = () => ({
+  type: actionTypes.getSystemInfo,
+  request: api.getSystemSetting(),
+});
+
+export const setSystemInfo = () => ({
+  type: actionTypes.setSystemInfo,
+  request: api.setSystemSetting(),
 });

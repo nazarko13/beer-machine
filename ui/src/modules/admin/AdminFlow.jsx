@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import { Tabs } from 'common/components';
 import { adminTabs, tabKeys } from './constants';
 import SettingsForm from './components/SettingsForm';
+import SystemInfo from './components/SystemInfo';
 
 const Admin = ({ fieldSet }) => {
   const [activeTab, setActiveTab] = useState(tabKeys.settingsForm);
@@ -22,7 +23,7 @@ const Admin = ({ fieldSet }) => {
         {
           {
             [tabKeys.settingsForm]: <SettingsForm fieldSet={fieldSet} />,
-            [tabKeys.systemInfo]: null,
+            [tabKeys.systemInfo]: <SystemInfo />,
           }[activeTab]
         }
       </Grid>

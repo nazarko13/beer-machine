@@ -7,6 +7,8 @@ const apiUrls = {
   activeBeer: '/beer/active',
   details: '/health/details',
   cleaning: '/cleaning',
+  system: '/system',
+  systemStatus: '/system/status',
 };
 
 export default apiUrls;
