@@ -9,6 +9,7 @@ export const fields = createEnum({
   pulseCount: null,
   barcode: null,
   keg: null,
+  quantity: null,
 });
 
 export const fieldLabels = createEnum({
@@ -19,6 +20,7 @@ export const fieldLabels = createEnum({
   [fields.pulseCount]: 'Кількість імпульсів',
   [fields.barcode]: 'Баркод',
   [fields.keg]: 'Кега',
+  [fields.quantity]: 'Кількість',
 });
 
 export const fieldSizes = createEnum({
@@ -28,7 +30,8 @@ export const fieldSizes = createEnum({
   [fields.type]: 2,
   [fields.pulseCount]: 1,
   [fields.barcode]: 1,
-  [fields.keg]: 2,
+  [fields.keg]: 1,
+  [fields.quantity]: 1,
 });
 
 export const adminFieldSet = [
@@ -37,6 +40,7 @@ export const adminFieldSet = [
   fields.price,
   fields.type,
   fields.keg,
+  fields.quantity,
 ];
 export const superAdminFieldSet = Object.values(fields);
 

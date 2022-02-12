@@ -14,6 +14,7 @@ const FormFieldset = ({
   isActive,
   control,
   fieldSet,
+  quantity,
   pulseCount,
   disableActivation,
   onFocus,
@@ -153,6 +154,26 @@ const FormFieldset = ({
               control={control}
               name={`${id}.keg`}
               defaultValue={pulseCount}
+              render={({ field }) => (
+                <SelectField
+                  fullWidth
+                  type="number"
+                  size="small"
+                  variant="filled"
+                  {...field}
+                  options={kagOptions}
+                />
+              )}
+            />
+          </Grid>
+        )}
+
+        {fieldSet.includes(fields.quantity) && (
+          <Grid item xs={fieldSizes[fields.quantity]}>
+            <Controller
+              control={control}
+              name={`${id}.quantity`}
+              defaultValue={quantity}
               render={({ field }) => (
                 <SelectField
                   fullWidth
