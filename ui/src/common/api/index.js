@@ -11,7 +11,7 @@ const api = {
   adminLogin: (params = {}) => requests.getDataAction(apiUrls.admin, params),
   saveBeers: (params = {}) => requests.putDataAction(apiUrls.beer, params),
   startWashing: () => requests.postDataAction(apiUrls.cleaning),
-  getSystemSetting: () => requests.postDataAction(apiUrls.systemStatus),
+  getSystemSetting: () => requests.getDataAction(apiUrls.systemStatus),
   setSystemSetting: (params) => requests.postDataAction(apiUrls.system, params),
 };
 

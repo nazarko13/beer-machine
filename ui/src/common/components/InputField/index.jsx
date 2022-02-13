@@ -17,14 +17,14 @@ const InputField = forwardRef(
         <Input
           ref={ref}
           size={size}
-          value={value || ''}
+          value={value}
           error={!!error?.message}
           placeholder={placeholder || label}
           {...props}
           inputProps={{
             autoComplete: 'new-password',
             form: {
-              autocomplete: 'off',
+              autoComplete: 'off',
             },
           }}
         />

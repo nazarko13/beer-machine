@@ -34,7 +34,7 @@ const Loader = ({ text, withoutLogo }) => (
       container
       py={2}
       width="60%"
-      variant="h3"
+      variant="h2"
       color="white"
       direction="column"
       textAlign="center"

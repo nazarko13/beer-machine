@@ -1,12 +1,12 @@
 import React from 'react';
-import Dialog from '@mui/material/Dialog';
+import Modal from '@mui/material/Modal';
 
 import Loader from 'common/components/Loader';
 
 const WashingLoader = ({ open }) => (
-  <Dialog open={open}>
-    <Loader withoutLogo text="Зачекайте, будь ласка! Налив промивається." />
-  </Dialog>
+  <Modal open={open}>
+    <Loader text="Зачекайте, будь ласка! Налив промивається." />
+  </Modal>
 );
 
 export default WashingLoader;

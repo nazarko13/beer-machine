@@ -27,10 +27,19 @@ export const getLoading = createSelector(
 
 export const getErrors = createSelector(getAdminState, (state) => state.errors);
 
+const getDoorSensorValue = (v) => (v ? 'Активний' : 'Неактивний');
+
 export const getSystemInfoData = createSelector(getDetails, (info) =>
-  Object.keys(systemInfoModel).map((val) => ({
-    id: val,
-    value: info?.[val] || 'невідомо',
-    label: systemInfoModelLabels[val],
-  }))
+  Object.keys(systemInfoModel).map((val) => {
+    const value = info?.[val];
+
+    return {
+      id: val,
+      value:
+        typeof value === 'boolean'
+          ? getDoorSensorValue(value)
+          : value || 'невідомо',
+      label: systemInfoModelLabels[val],
+    };
+  })
 );

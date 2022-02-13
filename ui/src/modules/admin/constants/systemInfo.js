@@ -21,8 +21,8 @@ export const systemActionsLabels = createEnum({
   [systemActions.closeDoor]: 'Закрити шторку',
   [systemActions.pressureValveOpen]: 'Відкрити клапан прижиму',
   [systemActions.pressureValveClose]: 'Закрити клапан прижиму',
-  [systemActions.waterOpen]: 'Відкрити клапан водиOPEN',
-  [systemActions.waterClose]: 'Закрити клапан водиCLOSE',
+  [systemActions.waterOpen]: 'Відкрити клапан води',
+  [systemActions.waterClose]: 'Закрити клапан води',
   [systemActions.intakeAirOpen]: 'Відкрити клапан стравки',
   [systemActions.intakeAirClose]: 'Закрити клапан стравки',
   [systemActions.beer1Open]: 'Відкрити 1й клапан пива',
@@ -55,7 +55,7 @@ export const systemInfoModel = createEnum({
   beerCounter3: null,
   beerCounter4: null,
   doorSensor: null,
-  pressurelnSystem: null,
+  pressureInSystem: null,
   tempInSystem: null,
   voltage: null,
 });
@@ -68,7 +68,7 @@ export const systemInfoModelLabels = createEnum({
   [systemInfoModel.beerCounter3]: 'Кількість пива 3',
   [systemInfoModel.beerCounter4]: 'Кількість пива 4',
   [systemInfoModel.doorSensor]: 'Датчик шторки',
-  [systemInfoModel.pressurelnSystem]: 'Тиск системи',
+  [systemInfoModel.pressureInSystem]: 'Тиск системи',
   [systemInfoModel.tempInSystem]: 'Температура системи',
   [systemInfoModel.voltage]: 'Напруга (V)',
 });

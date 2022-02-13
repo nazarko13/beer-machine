@@ -17,7 +17,7 @@ export const getSystemInfo = () => ({
   request: api.getSystemSetting(),
 });
 
-export const setSystemInfo = () => ({
+export const setSystemInfo = (params) => ({
   type: actionTypes.setSystemInfo,
-  request: api.setSystemSetting(),
+  request: api.setSystemSetting(params),
 });

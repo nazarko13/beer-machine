@@ -4,6 +4,18 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 const CheckBoxField = forwardRef(
   ({ label, error, placeholder, ...props }, ref) => {
+    if (!label) {
+      return (
+        <Checkbox
+          ref={ref}
+          {...props}
+          name="antoine"
+          checked={props.value}
+          onChange={props.onChange}
+        />
+      );
+    }
+
     return (
       <FormControlLabel
         label={label}

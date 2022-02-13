@@ -8,13 +8,15 @@ import { beerTypeOptions, fields, fieldSizes, kagOptions } from '../constants';
 
 const FormFieldset = ({
   id,
+  keg,
   name,
   type,
   price,
+  barcode,
   isActive,
   control,
   fieldSet,
-  quantity,
+  quantity = 0,
   pulseCount,
   disableActivation,
   onFocus,
@@ -45,7 +47,6 @@ const FormFieldset = ({
                 <CheckBoxField
                   {...field}
                   size="large"
-                  label={name}
                   onChange={onChangeActive(field)}
                 />
               )}
@@ -134,7 +135,7 @@ const FormFieldset = ({
             <Controller
               control={control}
               name={`${id}.barcode`}
-              defaultValue={pulseCount}
+              defaultValue={barcode}
               render={({ field }) => (
                 <InputField
                   {...field}
@@ -153,7 +154,7 @@ const FormFieldset = ({
             <Controller
               control={control}
               name={`${id}.keg`}
-              defaultValue={pulseCount}
+              defaultValue={keg}
               render={({ field }) => (
                 <SelectField
                   fullWidth
@@ -175,12 +176,11 @@ const FormFieldset = ({
               name={`${id}.quantity`}
               defaultValue={quantity}
               render={({ field }) => (
-                <SelectField
+                <InputField
                   fullWidth
                   type="number"
-                  size="small"
-                  variant="filled"
                   {...field}
+                  size="large"
                   options={kagOptions}
                 />
               )}

@@ -24,13 +24,13 @@ export const fieldLabels = createEnum({
 });
 
 export const fieldSizes = createEnum({
-  [fields.isActive]: 2,
+  [fields.isActive]: 1,
   [fields.name]: 2,
   [fields.price]: 1,
   [fields.type]: 2,
   [fields.pulseCount]: 1,
-  [fields.barcode]: 1,
-  [fields.keg]: 1,
+  [fields.barcode]: 2,
+  [fields.keg]: 2,
   [fields.quantity]: 1,
 });
 

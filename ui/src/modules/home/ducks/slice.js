@@ -64,10 +64,12 @@ const stockSlice = createSlice({
 
     [success(actionTypes.pourBeer)]: (state) => {
       state.pourLoading = false;
+      state.data.progress = 0;
     },
 
     [error(actionTypes.pourBeer)]: (state) => {
       state.pourLoading = false;
+      state.data.progress = 0;
     },
   },
 });

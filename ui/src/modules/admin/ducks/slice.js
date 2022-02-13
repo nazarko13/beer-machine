@@ -22,7 +22,7 @@ const adminSlice = createSlice({
       state.error = null;
     },
     clearState(state) {
-      state = initialState;
+      state.data = initialState.data;
     },
   },
   extraReducers: {

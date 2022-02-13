@@ -11,6 +11,7 @@ import Button from 'common/components/Button';
 import { useNotify } from 'common/hooks';
 import { fieldLabels, fieldSizes } from '../constants';
 import { getBeers } from '../ducks/selectors';
+import { clearState } from '../ducks/slice';
 import FormFieldset from './FormFieldset';
 import { saveBeers } from '../ducks';
 
@@ -44,11 +45,13 @@ const SettingsForm = ({ fieldSet }) => {
 
   const onSubmit = useCallback(
     (data) => {
-      const neBeers = Object.keys(data).map((id) => ({
-        id,
-        pulseCount: allBeers[id].pulseCount,
-        ...data[id],
-      }));
+      const neBeers = Object.keys(data).map((id) => {
+        const oldBeer = allBeers[id];
+        return {
+          ...oldBeer,
+          ...data[id],
+        };
+      });
 
       dispatch(saveBeers(neBeers)).then(({ error }) => {
         if (error) {
@@ -81,6 +84,8 @@ const SettingsForm = ({ fieldSet }) => {
 
     setValue(activeInput, val);
   }, [activeInput, inputValues, setValue]);
+
+  useEffect(() => () => dispatch(clearState()), [dispatch]);
 
   return (
     <Grid position="relative" container maxHeight="100%">

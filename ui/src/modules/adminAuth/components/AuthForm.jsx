@@ -40,7 +40,7 @@ const AuthForm = ({ onSubmit, onClose }) => {
       component="form"
       direction="column"
       alignItems="center"
-      autocomplete="off"
+      autoComplete="off"
       onSubmit={handleSubmit(onSubmit)}
     >
       <Grid item container>

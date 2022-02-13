@@ -71,16 +71,18 @@ const Beers = () => {
   }, [dispatch]);
 
   const handlePourBeer = useCallback(
-    (beer) => {
+    ({ id, pulseCount, keg }) => {
       runGetStatus();
 
-      dispatch(pourBeer({ beerId: beer.id })).then(({ error }) => {
+      dispatch(pourBeer({ id, pulseCount, keg })).then(({ error }) => {
         stopGetStatus();
-        openGetBottleModal();
 
         if (error) {
           openErrorModal();
+          return;
         }
+
+        openGetBottleModal();
       });
     },
     [runGetStatus, dispatch, stopGetStatus, openGetBottleModal, openErrorModal]
