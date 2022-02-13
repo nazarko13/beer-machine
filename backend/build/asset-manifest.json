@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.e4aa80dd.css",
-    "main.js": "/static/js/main.65d92264.js",
+    "main.js": "/static/js/main.43ac6cee.js",
     "static/media/dark.png": "/static/media/dark.7b64f3eb309a4019b96f.png",
     "static/media/light.png": "/static/media/light.c2b86b964fc5bde2f32d.png",
     "static/media/pilsner.png": "/static/media/pilsner.4f9e889a933b5da1d87e.png",
@@ -16,6 +16,6 @@
   },
   "entrypoints": [
     "static/css/main.e4aa80dd.css",
-    "static/js/main.65d92264.js"
+    "static/js/main.43ac6cee.js"
   ]
 }
