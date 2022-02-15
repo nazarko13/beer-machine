@@ -5,6 +5,7 @@ import AdminFlow from './AdminFlow';
 import SuperAdminFlow from './SuperAdminFlow';
 import { getIsSuperUser } from './ducks/selectors';
 import { superAdminFieldSet, adminFieldSet } from './constants';
+import { clearState } from './ducks/slice';
 import * as actions from './ducks';
 
 const Admin = () => {
@@ -16,6 +17,8 @@ const Admin = () => {
   }, [dispatch]);
 
   useEffect(() => getAllBeers(), [getAllBeers]);
+
+  useEffect(() => () => dispatch(clearState()), [dispatch]);
 
   if (isSuperUser) {
     return <SuperAdminFlow fieldSet={superAdminFieldSet} />;

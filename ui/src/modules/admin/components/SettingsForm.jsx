@@ -11,7 +11,6 @@ import Button from 'common/components/Button';
 import { useNotify } from 'common/hooks';
 import { fieldLabels, fieldSizes } from '../constants';
 import { getBeers } from '../ducks/selectors';
-import { clearState } from '../ducks/slice';
 import FormFieldset from './FormFieldset';
 import { saveBeers } from '../ducks';
 
@@ -84,8 +83,6 @@ const SettingsForm = ({ fieldSet }) => {
 
     setValue(activeInput, val);
   }, [activeInput, inputValues, setValue]);
-
-  useEffect(() => () => dispatch(clearState()), [dispatch]);
 
   return (
     <Grid position="relative" container maxHeight="100%">
