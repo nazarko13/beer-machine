@@ -63,7 +63,7 @@ class BoardInteractionInterface:
             _bytes = ser.readline()
             ser.close()
             _str = str(_bytes, 'utf')
-            return [x.strip() for x in _str.split(',')[:-1]]  # [:-1] Because there are trailing  comma # TODO
+            return [x.strip() for x in _str.split(',')]
 
         @classmethod
         def get_system_status(cls):
@@ -78,7 +78,6 @@ class BoardInteractionInterface:
              'Count_4': '0.'
              }
             """
-            # TODO ANDRII remove additional dots.
             ser = cls.__connect_serial()
             ser.write(bytes("*get_system_status~", 'ASCII'))
             _bytes = ser.readline()
@@ -108,8 +107,7 @@ class BoardInteractionInterface:
             _bytes = ser.readline()
             ser.close()
             _str = str(_bytes, 'utf').strip()
-            # TODO ANDRII remove additional dots.
-            res = _str.strip() == "actuators is set."
+            res = _str.strip() == "actuators is set"
             logger.info(f"BEER BOARD. INITIAL ACTUATOR. Result: {res}. Resp from board: '{_str}'")
             return res
 
@@ -128,8 +126,7 @@ class BoardInteractionInterface:
             _bytes = ser.readline()
             ser.close()
             _str = str(_bytes, 'utf').strip()
-            # TODO ANDRII remove additional dots.
-            if not _str.strip() == "actuators is set.":
+            if not _str.strip() == "actuators is set":
                 raise BoardError(action="Set actuator", message=f"Could not set actuator{actuator} to state{state}")
             return True
 
@@ -145,8 +142,7 @@ class BoardInteractionInterface:
             _bytes = ser.readline()
             ser.close()
             _str = str(_bytes, 'utf').strip()
-            # TODO ANDRII remove additional dots.
-            res = _str == "counters_reset."
+            res = _str == "counters_reset"
             logger.info(f"BEER BOARD. RESET COUNTERS. Finished with status: {res}. Resp from board: '{_str}'")
             return res
 
