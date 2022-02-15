@@ -2,7 +2,7 @@ import os
 from enum import Enum
 from logging import getLogger
 
-from peewee import SqliteDatabase, PrimaryKeyField, CharField, IntegerField, FloatField, BooleanField, Model
+from peewee import SqliteDatabase, PrimaryKeyField, CharField, IntegerField, FloatField, BooleanField, Model, DateField
 
 from settings import ACTIVE_BEERS_QTY
 
@@ -45,10 +45,13 @@ class Beer(Base):
     barcode = CharField(max_length=13, null=False, default="123")
     description = CharField(max_length=500, null=True)
     keg = CharField(max_length=20, null=True)
+    quantity = IntegerField(null=False, default=0)
+    filling_date = DateField(null=True)
+    expiration_date = DateField(null=True)
 
     @staticmethod
     def get_active():
-        return Beer.select().where(Beer.is_active == True).limit(ACTIVE_BEERS_QTY)
+        return Beer.select().where(Beer.is_active == True, Beer.quantity > 1).limit(ACTIVE_BEERS_QTY)
 
     @staticmethod
     def get_all():

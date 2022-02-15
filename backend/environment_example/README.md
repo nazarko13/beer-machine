@@ -1,15 +1,15 @@
 To configure the software correctly, follow the steps below.
-1. Stop application ALS.
-2. Create folder .environment in ALS root folder.
+1. Stop application beer-machine.
+2. Create folder .environment in beer-machine/backend folder.
 3. Copy settings.ini from environment_example into .environment.
 4. Change settings according to the hardware. For example, if you want to change boards follow this:
     BEFORE
         [CONTROL_BOARD]
-        boards = 109, 22
+        port = dev/tty0
 
     AFTER
         [CONTROL_BOARD]
-        boards = 13, 45
+        port = COM17
 
-5. Start application ALS.
+5. Start application beer-machine.
 6. Have a nice day.

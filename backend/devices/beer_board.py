@@ -2,12 +2,13 @@ import time
 from logging import getLogger
 from threading import Lock
 
+logger = getLogger(__name__)
 import serial
 
 from devices.constants import Constants, Actuators, Sensors, CONTROL_BOARD_PORT, BEER_COUNTER_MAP
 
-logger = getLogger(__name__)
 
+command_str = [0 for _ in range(0, 16)]
 
 
 class BoardError(Exception):
@@ -350,7 +351,20 @@ class BoardInteractionInterface:
             return cls.Board.set_actuator(beer_actuator, False)
 
     @classmethod
+    def intake_air_start(cls):
+        with cls.lock:
+            logger.info(f"BEER_BOARD. INTAKE AIR START. Air actuator is True.")
+            return cls.Board.set_actuator(Actuators.INTAKE_AIR, True)
+
+    @classmethod
+    def intake_air_stop(cls):
+        with cls.lock:
+            logger.info(f"BEER_BOARD. INTAKE AIR STOP. Air actuator is False.")
+            return cls.Board.set_actuator(Actuators.INTAKE_AIR, False)
+
+    @classmethod
     def intake_air(cls, beer_impulses, count_sensor: Sensors):
+        # TODO refactor this part
         """
         :param beer_impulses:
         :param count_sensor:
@@ -406,9 +420,6 @@ class BoardInteractionInterface:
 
 
 def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
-    # TODO Nazar handle it initial system state
-    global command_str
-    command_str = [0 for _ in range(0, 16)]
     beer_actuator = Actuators[beer_keg]
     beer_counter = BEER_COUNTER_MAP.get(beer_actuator)
     try:
@@ -443,8 +454,6 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
 
 
 def system_cleaning_flow():
-    global command_str
-    command_str = [0 for _ in range(0, 16)]
     try:
         BoardInteractionInterface.set_initial_actuators_state()
         BoardInteractionInterface.close_door()
@@ -456,7 +465,7 @@ def system_cleaning_flow():
         time.sleep(Constants.AIR_CLEANING_TIMEOUT)
         BoardInteractionInterface.air_pressure_stop()
         BoardInteractionInterface.open_door()
-
+        return True
     except BoardError as e:
         logger.error(f"BEER BOARD. SYSTEM CLEANING FLOW. {e}")
     finally:
@@ -464,16 +473,6 @@ def system_cleaning_flow():
     return False
 
 
-# BoardInteractionInterface.close_door(),
-# BoardInteractionInterface.pressure_valve(True),
-# BoardInteractionInterface.take_air_pressure_into_system(),
-# BoardInteractionInterface.reset_counters()
-# BoardInteractionInterface.beer_pour(beer_actuator, True)
-# BoardInteractionInterface.intake_air(impulses, beer_counter)
-# BoardInteractionInterface.beer_pour(Actuators.BEER_KEG_1, False)
-# BoardInteractionInterface.pressure_valve(False)
-# BoardInteractionInterface.open_door()
-
-
 if __name__ == "__main__":
-    pour_beer_flow("BEER_KEG_1")
+    system_cleaning_flow()
+    # pour_beer_flow("BEER_KEG_1")
