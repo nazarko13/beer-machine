@@ -8,6 +8,5 @@ logger = getLogger(__name__)
 
 class HealthView(MethodView):
     def get(self):
+        # TODO sync about logic for health
         return jsonify({'description': 'OK'})
-
-        # return jsonify({"description": "Something goes wrong"}), 400

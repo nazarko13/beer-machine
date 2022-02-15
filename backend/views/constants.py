@@ -1,0 +1,18 @@
+from enum import Enum
+
+
+class SystemActions(Enum):
+    DEFAULT_STATE = 1
+    CLOSE_DOOR = 2
+    OPEN_DOOR = 3
+    PRESSURE_VALVE_OPEN = 4
+    PRESSURE_VALVE_CLOSE = 5
+    WATER_OPEN = 6
+    WATER_CLOSE = 7
+    INTAKE_AIR_OPEN = 8
+    INTAKE_AIR_CLOSE = 9
+    BEER_1_OPEN = 10
+    BEER_1_CLOSE = 11
+    BEER_2_OPEN = 12
+    BEER_2_CLOSE = 13
+    RESET_COUNTERS = 14

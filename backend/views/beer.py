@@ -1,12 +1,10 @@
-import time
-
 from flask import jsonify, request
 from flask.views import MethodView
 from marshmallow import ValidationError
 
 from devices.beer_board import pour_beer_flow, system_cleaning_flow
 from models.models import Beer
-from schemas.beer import BeerOutput
+from schemas.beer import BeerOutput, BeerPourInput
 
 
 class BeerView(MethodView):
@@ -32,6 +30,7 @@ class BeerView(MethodView):
                  Beer.barcode: beer.barcode,
                  Beer.description: beer.description,
                  Beer.keg: beer.keg,
+                 Beer.quantity: beer.quantity
                  }
             ).where(Beer.id == beer.id).execute()
         return jsonify({'description': 'OK'})
@@ -55,28 +54,26 @@ def callback_function(process_percent: int, message: str = "", finished: bool = 
     RESP["finished"] = finished
 
 
+class BeerPourStatus(MethodView):
+    def get(self):
+        return jsonify(RESP)
+
+
 class BeerPourView(MethodView):
     def post(self):
-        req = request.json
-        keg = req.get("keg")
-        impulses = req.get("pulseCount")
-        if not keg:
-            return jsonify({'description': 'beerId is required'}), 400
-        if pour_beer_flow(keg, impulses, callback_function):
+        try:
+            beer_to_pour = BeerPourInput.Schema().load(request.json)
+        except ValidationError as e:
+            return jsonify({"description": str(e), "error": "Validation error"}), 400
+        if pour_beer_flow(beer_to_pour.keg, beer_to_pour.pulse_count, callback_function):
+            Beer.update(quantity=Beer.quantity - 1).where(Beer.id == beer_to_pour.id).execute()
             return jsonify({"description": "OK"})
         else:
             return jsonify({"description": "Something went wrong"}), 400
 
 
-class BeerPourStatus(MethodView):
-    def get(self):
-        # TODO ask TARAS if sleep is needed
-        time.sleep(1)
-        return jsonify(RESP)
-
-
 class BeerSystemCleaning(MethodView):
-    def get(self):
+    def post(self):
         if system_cleaning_flow():
             return jsonify({"description": "OK"})
         else:
