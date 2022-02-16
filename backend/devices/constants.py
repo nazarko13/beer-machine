@@ -7,8 +7,8 @@ class Constants:
     # PRESSURE
     GAS_BAG_PRESSURE_MIN = 0  # тиск в газовому балоні мінімальне значення
     GAS_BAG_PRESSURE_MAX = 1000  # тиск в газовому балоні максимальне значення
-    SYSTEM_PRESSURE_MIN = 0  # тиск в системі мінімальне значення
-    SYSTEM_PRESSURE_MAX = 1000  # тиск в системі максимальне значення
+    SYSTEM_PRESSURE_MIN = 2200  # тиск в системі мінімальне значення
+    SYSTEM_PRESSURE_MAX = 2900  # тиск в системі максимальне значення
     AIR_PRESSURE_CHECK_AMOUNT = 5  # к-ть спроб щоб наповнити систему необхідним тиском
     AIR_PRESSURE_CHECK_TIMEOUT = 1  # час в секундах перед перевіркою тиску повітря в системі
     INTAKE_ALL_AIR_TIMEOUT = 5  # час в секундах для стравлення повітрян з системи
@@ -22,8 +22,11 @@ class Constants:
     DOOR_OPEN_TIMEOUT = 2  # час в секундах повного відкриття шторки в секундах
     # OTHER
     BEER_POUR_FAIL_TIMEOUT = 60  # час в секундах для повного наливання пива, якщо більше то зупинити налив
-    WATER_CLEANING_TIMEOUT = 1  # час в секундах для промивки системи водою
-    AIR_CLEANING_TIMEOUT = 1  # час в секундах для продування системи повітрям
+    WATER_CLEANING_TIMEOUT = 0.02  # час в секундах для промивки системи водою
+    AIR_CLEANING_TIMEOUT = 0.02  # час в секундах для продування системи повітрям
+
+    BLINK_INTAKE_AIR_TIMEOUT = 20  # час в   мілісекундах між відкриттям і закриттям клапана стравки
+    BEER_POUR_ITERATION_TIMEOUT = 1  # час в   секундах для наливання пива в межах одного проходу циклу
 
 
 class Actuators(Enum):
