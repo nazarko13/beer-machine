@@ -57,9 +57,9 @@ const SystemInfo = () => {
       </Grid>
 
       <Grid container direction="row" wrap="nowrap" spacing={3}>
-        <Grid item xs={7} direction="row" container spacing={1}>
+        <Grid item xs={6} direction="row" container spacing={2}>
           {mainButtons.map((action) => (
-            <Grid item key={action} xs={4}>
+            <Grid item key={action} xs={6}>
               <Button
                 fullWidth
                 disabled={loading}
@@ -71,13 +71,13 @@ const SystemInfo = () => {
           ))}
         </Grid>
 
-        <Grid item xs={5} container direction="column" spacing={2}>
+        <Grid item xs={6} container direction="column" spacing={2}>
           <Grid item xs container direction="column" spacing={1}>
             <Card
-              component={Grid}
               container
-              spacing={1}
               p={3}
+              spacing={1}
+              component={Grid}
               direction="column"
             >
               {systemInfoData.map((data) => (

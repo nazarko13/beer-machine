@@ -14,6 +14,8 @@ export const systemActions = createEnum({
   beer2Open: 'BEER_2_OPEN',
   beer2Close: 'BEER_2_CLOSE',
   resetCounters: 'RESET_COUNTERS',
+  airOpen: 'AIR_OPEN',
+  airClose: 'AIR_CLOSE',
 });
 
 export const systemActionsLabels = createEnum({
@@ -30,6 +32,10 @@ export const systemActionsLabels = createEnum({
   [systemActions.beer2Open]: 'Відкрити 2й клапан пива',
   [systemActions.beer2Close]: 'Закрити 2й клапан пива',
   [systemActions.resetCounters]: 'Скинути витратоміри',
+  [systemActions.resetCounters]: 'Скинути витратоміри',
+  [systemActions.resetCounters]: 'Скинути витратоміри',
+  [systemActions.airOpen]: 'Відкрити клапан повітря',
+  [systemActions.airClose]: 'Закрити клапан повітря',
 });
 
 export const mainButtons = [
@@ -45,6 +51,8 @@ export const mainButtons = [
   systemActions.beer1Close,
   systemActions.beer2Open,
   systemActions.beer2Close,
+  systemActions.airOpen,
+  systemActions.airClose,
 ];
 
 export const systemInfoModel = createEnum({
