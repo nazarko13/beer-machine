@@ -83,7 +83,7 @@ class Printer(metaclass=Singleton):
     @staticmethod
     def print(pdf_path):
         try:
-            subprocess.run(["lp", "-d", PRINTER_NAME, "-o", "orientation-requested=4", pdf_path])
+            subprocess.run(["lp", "-d", PRINTER_NAME, pdf_path])
             logger.info("Receipt has been printed")
         except:
             logger.error("Receipt has not been printed")
