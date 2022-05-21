@@ -443,7 +443,7 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
 
             time.sleep(0.5)
         BoardInteractionInterface.intake_air_start()
-        time.sleep(3)
+        time.sleep(0.5)
         callback_function(80, "Beer pour stop")
         BoardInteractionInterface.pressure_valve_stop()
         callback_function(90, "Pressure valve stop")
