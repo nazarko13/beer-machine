@@ -111,6 +111,8 @@ class BoardInteractionInterface:
             _str = str(_bytes, 'utf').strip()
             res = _str.strip() == "actuators is set"
             logger.info(f"BEER BOARD. INITIAL ACTUATOR. Result: {res}. Resp from board: '{_str}'")
+            for i in range(0, len(command_str)):
+                command_str[i] = 0
             return res
 
         @classmethod
