@@ -340,13 +340,13 @@ class BoardInteractionInterface:
             if is_pressure_ok:
                 cls.air_pressure_stop()
                 return True
-        else:
-            logger.error(f"BEER_BOARD. AIR PRESSURE INTO SYSTEM. Could not fill the system with needed air pressure.")
-            cls.air_pressure_stop()
-            raise BoardError(
-                action="Take air pressure into system",
-                message="Could not fill the system with needed air pressure."
-            )
+
+        logger.error(f"BEER_BOARD. AIR PRESSURE INTO SYSTEM. Could not fill the system with needed air pressure.")
+        cls.air_pressure_stop()
+        raise BoardError(
+            action="Take air pressure into system",
+            message="Could not fill the system with needed air pressure."
+        )
 
     @classmethod
     def beer_pour_start(cls, beer_actuator: Actuators):
