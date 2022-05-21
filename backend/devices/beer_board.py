@@ -253,6 +253,7 @@ class BoardInteractionInterface:
 
     @classmethod
     def blinking_actuator(cls, actuator: Actuators, blink_time: int):
+        cls.__is_pressure_in_system_ok()
         with cls.lock:
             logger.info(f"BEER_BOARD. BLINKING ACTUATOR. Actuator: {actuator}, time:{blink_time}.")
             return cls.Board.blinking_actuator(actuator, blink_time)
@@ -442,7 +443,6 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
                                                         Constants.INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT)
 
             time.sleep(0.5)
-            BoardInteractionInterface.get_system_status()
 
         callback_function(80, "Beer pour stop")
         BoardInteractionInterface.pressure_valve_stop()
