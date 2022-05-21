@@ -199,7 +199,7 @@ class BoardInteractionInterface:
             temp_in_system = float(cls.Board.get_system_status()[Sensors.SYSTEM_TEMP.value])
             logger.info(f"BEER_BOARD. TEMPERATURE IN SYSTEM. "
                         f"Range: {Constants.SYSTEM_TEMP_MIN}-{Constants.SYSTEM_TEMP_MAX}. "
-                        f"Current pressure: {temp_in_system}.")
+                        f"Current temperature: {temp_in_system}.")
             return Constants.SYSTEM_TEMP_MIN <= temp_in_system <= Constants.SYSTEM_TEMP_MAX
 
     @classmethod
@@ -212,7 +212,7 @@ class BoardInteractionInterface:
             temp_in_cooler = float(cls.Board.get_system_status()[Sensors.COOLER_TEMP.value])
             logger.info(f"BEER_BOARD. TEMPERATURE IN COOLER. "
                         f"Range: {Constants.COOLER_TEMP_MIN}-{Constants.COOLER_TEMP_MAX}. "
-                        f"Current pressure: {temp_in_cooler}.")
+                        f"Current temperature: {temp_in_cooler}.")
             return Constants.COOLER_TEMP_MIN <= temp_in_cooler <= Constants.COOLER_TEMP_MAX
 
     @classmethod
