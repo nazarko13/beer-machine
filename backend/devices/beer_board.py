@@ -459,6 +459,7 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
             time.sleep(10)
             logger.info("FINALLY")
             BoardInteractionInterface.set_initial_actuators_state()
+            time.sleep(10)
             time.sleep(Constants.AFTER_EXCEPTION)
             BoardInteractionInterface.open_door()
         except BoardError as e:
