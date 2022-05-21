@@ -438,16 +438,17 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
         callback_function(70, "Intake air")
         BoardInteractionInterface.beer_pour_stop(beer_actuator)
         for _ in range(Constants.INTAKE_AIR_AFTER_POUR_AMOUNT):
-
             BoardInteractionInterface.blinking_actuator(Actuators.INTAKE_AIR,
                                                         Constants.INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT)
 
             time.sleep(0.5)
-
+        BoardInteractionInterface.intake_air_start()
+        time.sleep(1)
         callback_function(80, "Beer pour stop")
         BoardInteractionInterface.pressure_valve_stop()
         callback_function(90, "Pressure valve stop")
         BoardInteractionInterface.open_door()
+        BoardInteractionInterface.intake_air_stop()
         callback_function(100, "Open door", True)
         logger.info(f"BEER BOARD. POUR BEER FLOW. Pour beer FINISHED(keg: {beer_keg}, impulses: {impulses}.")
         return True
