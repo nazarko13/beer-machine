@@ -451,7 +451,6 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
             BoardInteractionInterface.set_initial_actuators_state()
             time.sleep(Constants.AFTER_EXCEPTION)
             BoardInteractionInterface.open_door()
-            return True
         except BoardError as e:
             logger.error("BEER BOARD. POUR BEER FLOW. Error in finally.")
             logger.error(f"BEER BOARD. POUR BEER FLOW. {e}")
@@ -475,7 +474,6 @@ def system_cleaning_flow():
             BoardInteractionInterface.set_initial_actuators_state()
             time.sleep(Constants.AFTER_EXCEPTION)
             BoardInteractionInterface.open_door()
-            return True
         except BoardError as e:
             logger.error("BEER BOARD. SYSTEM CLEANING FLOW. Error in finally.")
             logger.error(f"BEER BOARD. SYSTEM CLEANING FLOW. {e}")
