@@ -470,7 +470,7 @@ def system_cleaning_flow():
         BoardInteractionInterface.close_door()
         BoardInteractionInterface.pressure_valve_start()
         BoardInteractionInterface.blinking_actuator(Actuators.WATER, Constants.BLINK_WATER_CLEANING_TIMEOUT)
-        BoardInteractionInterface.blinking_actuator(Actuators.AIR_PRESSURE, Constants.BLINK_WATER_CLEANING_TIMEOUT)
+        BoardInteractionInterface.blinking_actuator(Actuators.AIR_PRESSURE, Constants.BLINK_AIR_CLEANING_TIMEOUT)
         BoardInteractionInterface.pressure_valve_stop()
         BoardInteractionInterface.open_door()
         return True
