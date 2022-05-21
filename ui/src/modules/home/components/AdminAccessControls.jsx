@@ -18,8 +18,8 @@ const AdminAccessControl = ({ controlIndex, addControlIndex }) => {
   return (
     <Grid
       {...position}
-      width={70}
-      height={50}
+      width={150}
+      height={150}
       zIndex={1301}
       position="absolute"
       onClick={() => addControlIndex(controlIndex)}

@@ -83,9 +83,17 @@ const Beers = () => {
         }
 
         openGetBottleModal();
+        getActiveBears();
       });
     },
-    [runGetStatus, dispatch, stopGetStatus, openGetBottleModal, openErrorModal]
+    [
+      runGetStatus,
+      dispatch,
+      stopGetStatus,
+      openGetBottleModal,
+      openErrorModal,
+      getActiveBears,
+    ]
   );
 
   useEffect(() => {

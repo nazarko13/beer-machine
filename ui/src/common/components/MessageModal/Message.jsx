@@ -9,7 +9,13 @@ import Button from '../Button';
 
 const Message = ({ message, onClose, title }) => {
   return (
-    <Grid bgcolor="background.primary" p={2}>
+    <Grid
+      container
+      p={2}
+      direction="column"
+      justifyContent="space-between"
+      bgcolor="background.primary"
+    >
       <DialogTitle>
         <Typography variant="h2" component="span">
           {title || 'ВИБАЧТЕ, СТАЛАСЯ ПОМИЛКА!'}
