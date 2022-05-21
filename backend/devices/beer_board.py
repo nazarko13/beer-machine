@@ -447,6 +447,7 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
         BoardInteractionInterface.open_door()
         callback_function(100, "Open door", True)
         logger.info(f"BEER BOARD. POUR BEER FLOW. Pour beer FINISHED(keg: {beer_keg}, impulses: {impulses}.")
+        return True
     except BoardError as e:
         logger.error(f"BEER BOARD. POUR BEER FLOW. {e}")
     finally:
