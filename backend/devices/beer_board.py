@@ -485,7 +485,7 @@ def system_cleaning_flow():
 
 
 if __name__ == "__main__":
-    # print(BoardInteractionInterface.set_initial_actuators_state())
+    print(BoardInteractionInterface.set_initial_actuators_state())
     # BoardInteractionInterface.pressure_valve_start()
     # print(BoardInteractionInterface.air_pressure_stop())
     # print(BoardInteractionInterface.blinking_actuator(Actuators.INTAKE_AIR, 20))
@@ -493,4 +493,4 @@ if __name__ == "__main__":
     # print(BoardInteractionInterface.blinking_actuator(Actuators.BEER_KEG_3, 20))
     # pour_beer_flow("BEER_KEG_2", 2250)
     # system_cleaning_flow()
-    BoardInteractionInterface.beer_pour_stop(Actuators.BEER_KEG_2)
+    # BoardInteractionInterface.beer_pour_stop(Actuators.BEER_KEG_2)
