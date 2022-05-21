@@ -121,8 +121,6 @@ class BoardInteractionInterface:
             command_str[-actuator.value] = int(state)
             str_bytes = ''.join([str(elem) for elem in command_str])
             logger.info(f"BEER.BOARD. SET ACTUATOR. STATE {str_bytes}")
-            # print("STR BYTES", str_bytes)
-            # print("COMMAND", f"*set_actuators:[{hex(int(str_bytes, 2))[2:]}]~", 'ASCII')
             a = hex(int(str_bytes, 2))[2:].rjust(4, "0")
             ser.write(bytes(f"*set_actuators:[{a}]~", 'ASCII'))
             _bytes = ser.readline()
@@ -176,9 +174,6 @@ class BoardInteractionInterface:
             logger.info(f"BEER_BOARD. PRESSURE IN SYSTEM. "
                         f"Range: {Constants.SYSTEM_PRESSURE_MIN}-{Constants.SYSTEM_PRESSURE_MAX}. "
                         f"Current pressure: {pressure_in_system}.")
-            print(f"BEER_BOARD. PRESSURE IN SYSTEM. "
-                  f"Range: {Constants.SYSTEM_PRESSURE_MIN}-{Constants.SYSTEM_PRESSURE_MAX}. "
-                  f"Current pressure: {pressure_in_system}.")
             return Constants.SYSTEM_PRESSURE_MIN <= pressure_in_system <= Constants.SYSTEM_PRESSURE_MAX
 
     @classmethod
@@ -195,7 +190,7 @@ class BoardInteractionInterface:
             return Constants.GAS_BAG_PRESSURE_MIN <= pressure_in_gas_bag <= Constants.GAS_BAG_PRESSURE_MAX
 
     @classmethod
-    def __is_temp_in_system_ok(cls):
+    def is_temp_in_system_ok(cls):
         """
         Check if temp in system is in predefined range inclusive.
         :return: bool
@@ -208,7 +203,7 @@ class BoardInteractionInterface:
             return Constants.SYSTEM_TEMP_MIN <= temp_in_system <= Constants.SYSTEM_TEMP_MAX
 
     @classmethod
-    def __is_temp_in_cooler_ok(cls):
+    def is_temp_in_cooler_ok(cls):
         """
         Check if temp in cooler is in predefined range inclusive.
         :return: bool
@@ -302,6 +297,7 @@ class BoardInteractionInterface:
         :return: bool
         """
         with cls.lock:
+            # TODO add check here. Error = please put bottle.
             logger.info(f"BEER_BOARD. PRESSURE VALVE START. Valve pressure actuator is True.")
             return cls.Board.set_actuator(Actuators.PRESSURE_VALVE, True)
 
@@ -386,7 +382,6 @@ class BoardInteractionInterface:
 
     @classmethod
     def intake_air(cls, beer_impulses, count_sensor: Sensors):
-        # TODO refactor this part
         """
         :param beer_impulses:
         :param count_sensor:
@@ -398,7 +393,6 @@ class BoardInteractionInterface:
             sensor_impulses = 0
             logger.info(f"BEER_BOARD. INTAKE AIR. Start intake air.Impulses to intake {beer_impulses}.")
             while beer_impulses > sensor_impulses:
-                print("IN WHILE")
                 print("BLINK", cls.Board.blinking_actuator(Actuators.INTAKE_AIR, Constants.BLINK_INTAKE_AIR_TIMEOUT))
                 if time.time() > timeout:
                     logger.error(f"BEER_BOARD. INTAKE AIR. Could not start beer pour or timeout exceed.")
@@ -407,30 +401,6 @@ class BoardInteractionInterface:
                     sensor_impulses = int(cls.Board.read_counters()[count_sensor.value])
                     print("SENSOR IMPULSES", sensor_impulses)
                     time.sleep(0.25)
-                # impulses_left = beer_impulses - sensor_impulses
-                # if impulses_left < 100:
-                #     logger.info(
-                #         f"BEER_BOARD. INTAKE AIR. "
-                #         f"Beer impulses LESS than 100 (Counter: {sensor_impulses}, impulses left: {impulses_left}.)"
-                #     )
-                # else:
-                #     logger.info(
-                #         f"BEER_BOARD. INTAKE AIR. "
-                #         f"Beer impulses MORE than 100 (Counter: {sensor_impulses}, impulses left: {impulses_left})."
-                #     )
-
-                # sensor_impulses = int(cls.Board.read_counters()[count_sensor.value])
-                # for i in range(0, 10):
-                #     print("SENSOR IMPULSES", sensor_impulses)
-                #     time.sleep(0.1)
-                #     sensor_impulses = int(cls.Board.read_counters()[count_sensor.value])
-
-                # r = cls.Board.set_actuator(Actuators.INTAKE_AIR, False)
-
-                # if not r:
-                #     logger.info(f"BEER_BOARD. INTAKE AIR. Could not stop beer pour.")
-                #     raise BoardError(action="Intake air", message="Could not stop beer pour.")
-
         return True
 
     @classmethod
@@ -465,23 +435,26 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
         BoardInteractionInterface.intake_air(impulses, beer_counter)
         callback_function(70, "Intake air")
         BoardInteractionInterface.beer_pour_stop(beer_actuator)
-
-        BoardInteractionInterface.intake_air_start()
-        time.sleep(1)
+        for _ in range(Constants.INTAKE_AIR_AFTER_POUR_AMOUNT):
+            BoardInteractionInterface.blinking_actuator(Actuators.INTAKE_AIR,
+                                                        Constants.INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT)
         callback_function(80, "Beer pour stop")
         BoardInteractionInterface.pressure_valve_stop()
-
-        BoardInteractionInterface.intake_air_stop()
-
         callback_function(90, "Pressure valve stop")
         BoardInteractionInterface.open_door()
         callback_function(100, "Open door", True)
         logger.info(f"BEER BOARD. POUR BEER FLOW. Pour beer FINISHED(keg: {beer_keg}, impulses: {impulses}.")
-        return True
     except BoardError as e:
         logger.error(f"BEER BOARD. POUR BEER FLOW. {e}")
     finally:
-        BoardInteractionInterface.set_initial_actuators_state()
+        try:
+            BoardInteractionInterface.set_initial_actuators_state()
+            time.sleep(Constants.AFTER_EXCEPTION)
+            BoardInteractionInterface.open_door()
+            return True
+        except BoardError as e:
+            logger.error("BEER BOARD. POUR BEER FLOW. Error in finally.")
+            logger.error(f"BEER BOARD. POUR BEER FLOW. {e}")
     return False
 
 
@@ -490,20 +463,22 @@ def system_cleaning_flow():
         BoardInteractionInterface.set_initial_actuators_state()
         BoardInteractionInterface.close_door()
         BoardInteractionInterface.pressure_valve_start()
-        BoardInteractionInterface.water_start()
-        # TODO check pressure sensor(гіркон)
-        time.sleep(Constants.WATER_CLEANING_TIMEOUT)
-        BoardInteractionInterface.water_stop()
-        BoardInteractionInterface.air_pressure_start()
-        time.sleep(Constants.AIR_CLEANING_TIMEOUT)
-        BoardInteractionInterface.air_pressure_stop()
+        BoardInteractionInterface.blinking_actuator(Actuators.WATER, Constants.BLINK_WATER_CLEANING_TIMEOUT)
+        BoardInteractionInterface.blinking_actuator(Actuators.AIR_PRESSURE, Constants.BLINK_WATER_CLEANING_TIMEOUT)
         BoardInteractionInterface.pressure_valve_stop()
         BoardInteractionInterface.open_door()
         return True
     except BoardError as e:
         logger.error(f"BEER BOARD. SYSTEM CLEANING FLOW. {e}")
     finally:
-        BoardInteractionInterface.set_initial_actuators_state()
+        try:
+            BoardInteractionInterface.set_initial_actuators_state()
+            time.sleep(Constants.AFTER_EXCEPTION)
+            BoardInteractionInterface.open_door()
+            return True
+        except BoardError as e:
+            logger.error("BEER BOARD. SYSTEM CLEANING FLOW. Error in finally.")
+            logger.error(f"BEER BOARD. SYSTEM CLEANING FLOW. {e}")
     return False
 
 

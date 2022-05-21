@@ -1,13 +1,13 @@
 from enum import Enum
 
-CONTROL_BOARD_PORT = "/dev/tty.usbserial-1410"
+CONTROL_BOARD_PORT = "/dev/ttyUSB0"
 
 
 class Constants:
     # PRESSURE
     GAS_BAG_PRESSURE_MIN = 0  # тиск в газовому балоні мінімальне значення
     GAS_BAG_PRESSURE_MAX = 1000  # тиск в газовому балоні максимальне значення
-    SYSTEM_PRESSURE_MIN = 2400  # тиск в системі мінімальне значення
+    SYSTEM_PRESSURE_MIN = 2410  # тиск в системі мінімальне значення
     SYSTEM_PRESSURE_MAX = 2900  # тиск в системі максимальне значення
     AIR_PRESSURE_CHECK_AMOUNT = 10  # к-ть спроб щоб наповнити систему необхідним тиском
     AIR_PRESSURE_CHECK_TIMEOUT = 1  # час в секундах перед перевіркою тиску повітря в системі
@@ -20,13 +20,19 @@ class Constants:
     # DOOR
     DOOR_CLOSE_TIMEOUT = 1  # час в секундах повного закривання шторки в секундах
     DOOR_OPEN_TIMEOUT = 2  # час в секундах повного відкриття шторки в секундах
+    # CLEANING промивка системи
+    BLINK_WATER_CLEANING_TIMEOUT = 100  # час в мілісекундах для промивки системи водою (blinking on board)
+    BLINK_AIR_CLEANING_TIMEOUT = 100  # час в мілісекундах для продування системи повітрям (blinking on board)
+    # INTAKE AIR AFTER POUR стравка повітря після наливання пива
+    INTAKE_AIR_AFTER_POUR_AMOUNT = 3  # к-ть стравок повітря після наливання пива
+    INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT = 100  # час в мілісекундах стравки повітря після наливання пива
     # OTHER
-    BEER_POUR_FAIL_TIMEOUT = 60  # час в секундах для повного наливання пива, якщо більше то зупинити налив
-    WATER_CLEANING_TIMEOUT = 0.02  # час в секундах для промивки системи водою
-    AIR_CLEANING_TIMEOUT = 0.02  # час в секундах для продування системи повітрям
+    BEER_POUR_FAIL_TIMEOUT = 90  # час в секундах для повного наливання пива, якщо більше то зупинити налив
+    BLINK_INTAKE_AIR_TIMEOUT = 100  # час в мілісекундах між відкриттям і закриттям клапана стравки (blinking on board)
+    BEER_POUR_ITERATION_TIMEOUT = 0.5  # час в секундах для наливання пива в межах одного проходу циклу
 
-    BLINK_INTAKE_AIR_TIMEOUT = 100  # час в   мілісекундах між відкриттям і закриттям клапана стравки
-    BEER_POUR_ITERATION_TIMEOUT = 1  # час в   секундах для наливання пива в межах одного проходу циклу
+    # EXCEPTION
+    AFTER_EXCEPTION = 1  # час в секундах для виконнаня команди після отримання помилки
 
 
 class Actuators(Enum):
@@ -47,7 +53,7 @@ class Sensors(Enum):
     SYSTEM_PRESSURE = "Press_2"  # датчик тиску в системі
     COOLER_TEMP = "Temp_1"  # датчик температури в холодильнику
     SYSTEM_TEMP = "Temp_2"  # датчик температури в системі
-    DOOR = "DoorSensor"  # датчик температури в системі
+    DOOR = "DoorSensor"  # датчик дверки
     BEER_COUNTER_1 = "Count_1"  # датчик к-ті пива
     BEER_COUNTER_2 = "Count_2"  # датчик к-ті пива
     BEER_COUNTER_3 = "Count_3"  # датчик к-ті пива

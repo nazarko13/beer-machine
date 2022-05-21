@@ -21,8 +21,8 @@ export const systemActions = createEnum({
 export const systemActionsLabels = createEnum({
   [systemActions.openDoor]: 'Відкрити шторку',
   [systemActions.closeDoor]: 'Закрити шторку',
-  [systemActions.pressureValveOpen]: 'Відкрити клапан прижиму',
-  [systemActions.pressureValveClose]: 'Закрити клапан прижиму',
+  [systemActions.pressureValveOpen]: 'Притиснути пляшку',
+  [systemActions.pressureValveClose]: 'Відтиснути пляшку',
   [systemActions.waterOpen]: 'Відкрити клапан води',
   [systemActions.waterClose]: 'Закрити клапан води',
   [systemActions.intakeAirOpen]: 'Відкрити клапан стравки',

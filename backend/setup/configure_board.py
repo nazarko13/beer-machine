@@ -11,7 +11,6 @@ PORT_BOARDS = [int(i) for i in settings['CONTROL_BOARD']['boards'].split(',')]
 
 
 def _open_close_all(boards):
-    # TODO change timeouts into real values.
     for board in boards.keys():
         BoardInteractionInterface.open_all(board)
         time.sleep(0.5)
