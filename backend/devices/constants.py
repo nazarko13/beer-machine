@@ -22,14 +22,14 @@ class Constants:
     DOOR_OPEN_TIMEOUT = 2  # час в секундах повного відкриття шторки в секундах
     # CLEANING промивка системи
     BLINK_WATER_CLEANING_TIMEOUT = 1000  # час в мілісекундах для промивки системи водою (blinking on board)
-    BLINK_AIR_CLEANING_TIMEOUT = 100  # час в мілісекундах для продування системи повітрям (blinking on board)
+    BLINK_AIR_CLEANING_TIMEOUT = 200  # час в мілісекундах для продування системи повітрям (blinking on board)
     # INTAKE AIR AFTER POUR стравка повітря після наливання пива
     INTAKE_AIR_AFTER_POUR_AMOUNT = 3  # к-ть стравок повітря після наливання пива
     INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT = 100  # час в мілісекундах стравки повітря після наливання пива
     # OTHER
     BEER_POUR_FAIL_TIMEOUT = 90  # час в секундах для повного наливання пива, якщо більше то зупинити налив
     BLINK_INTAKE_AIR_TIMEOUT = 100  # час в мілісекундах між відкриттям і закриттям клапана стравки (blinking on board)
-    BEER_POUR_ITERATION_TIMEOUT = 0.5  # час в секундах для наливання пива в межах одного проходу циклу
+    BEER_POUR_ITERATION_TIMEOUT = 0.3  # час в секундах для наливання пива в межах одного проходу циклу
 
     # EXCEPTION
     AFTER_EXCEPTION = 1  # час в секундах для виконнаня команди після отримання помилки
