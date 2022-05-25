@@ -27,7 +27,7 @@ export const getPourStatus = () => ({
   request: api.getPourStatus(),
 });
 
-export const startWashing = () => ({
+export const startWashing = (payload) => ({
   type: actionTypes.startWashing,
-  request: api.startWashing(),
+  request: api.startWashing(payload),
 });

@@ -19,12 +19,12 @@ const modalTypes = createEnum({
   error: null,
 });
 
-const requestWashingCount = 1;
+const requestWashingCount = 2;
 
 const Beers = () => {
   const dispatch = useDispatch();
   const [modal, setModal] = useState(null);
-  const [, setWashingRequestNum] = useState(0);
+  const [count, setWashingRequestNum] = useState(0);
   const data = useSelector(getActiveBeersData);
 
   const [runGetStatus, stopGetStatus] = useGetPourStatus();
@@ -46,25 +46,27 @@ const Beers = () => {
 
   const handleWashing = useCallback(() => {
     setModal(modalTypes.washingLoader);
-    dispatch(startWashing()).then(({ error }) => {
-      if (error) {
-        setWashingRequestNum((num) => {
-          if (num === requestWashingCount) {
-            openErrorModal();
-            return 0;
-          }
+    dispatch(startWashing({ force: count === requestWashingCount })).then(
+      ({ error }) => {
+        if (error) {
+          setWashingRequestNum((num) => {
+            if (num === requestWashingCount) {
+              openErrorModal();
+              return 0;
+            }
 
-          openGetBottleModal();
-          return num + 1;
-        });
+            openGetBottleModal();
+            return num + 1;
+          });
 
-        return;
+          return;
+        }
+
+        setModal(null);
+        setWashingRequestNum(0);
       }
-
-      setModal(null);
-      setWashingRequestNum(0);
-    });
-  }, [dispatch, openErrorModal, openGetBottleModal]);
+    );
+  }, [dispatch, openErrorModal, openGetBottleModal, count]);
 
   const getActiveBears = useCallback(() => {
     dispatch(getActiveBeers());
