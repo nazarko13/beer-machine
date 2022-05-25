@@ -268,19 +268,20 @@ class BoardInteractionInterface:
                 raise BoardError(action="Open door", message="Could not start door open process.")
 
     @classmethod
-    def pressure_valve_start(cls):
+    def pressure_valve_start(cls, bottle_pressed=True):
         """
         Set PRESSURE_VALVE on board to True.
         :return: bool
         """
         with cls.lock:
             logger.info(f"BEER_BOARD. PRESSURE VALVE START. Valve pressure actuator is True.")
-            if cls.Board.set_actuator(Actuators.PRESSURE_VALVE, True):
-                time.sleep(3)
-                valve_pressed_bottle = float(cls.Board.get_system_status()[Sensors.VALVE_SENSOR.value])
-                logger.info(f"BEER_BOARD. PRESSURE VALVE START Current valve pressed bottle: {valve_pressed_bottle}.")
-                if not valve_pressed_bottle:
-                    raise BoardError(action="pressure valve start", message="Bottle was not pressed by valve")
+            return cls.Board.set_actuator(Actuators.PRESSURE_VALVE, True)
+
+    @classmethod
+    def is_valve_fully_open(cls):
+        valve_pressed_bottle = float(cls.Board.get_system_status()[Sensors.VALVE_SENSOR.value])
+        logger.info(f"BEER_BOARD. PRESSURE VALVE START Current valve pressed bottle: {valve_pressed_bottle}.")
+        return valve_pressed_bottle
 
     @classmethod
     def pressure_valve_stop(cls):
@@ -405,6 +406,12 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
         BoardInteractionInterface.close_door(),
         callback_function(20, "Door close.")
         BoardInteractionInterface.pressure_valve_start(),
+        time.sleep(3)
+        if not BoardInteractionInterface.is_valve_fully_open():
+            raise BoardError(
+                action="Main flow",
+                message="Bottle was not pressed."
+            )
         callback_function(30, "Pressure valve start.")
         BoardInteractionInterface.take_air_pressure_into_system(),
         callback_function(40, "Take air pressure into_system")
