@@ -274,9 +274,13 @@ class BoardInteractionInterface:
         :return: bool
         """
         with cls.lock:
-            # TODO add check here. Error = please put bottle.
             logger.info(f"BEER_BOARD. PRESSURE VALVE START. Valve pressure actuator is True.")
-            return cls.Board.set_actuator(Actuators.PRESSURE_VALVE, True)
+            if cls.Board.set_actuator(Actuators.PRESSURE_VALVE, True):
+                time.sleep(3)
+                valve_pressed_bottle = float(cls.Board.get_system_status()[Sensors.VALVE_SENSOR.value])
+                logger.info(f"BEER_BOARD. PRESSURE VALVE START Current valve pressed bottle: {valve_pressed_bottle}.")
+                if not valve_pressed_bottle:
+                    raise BoardError(action="pressure valve start", message="Bottle was not pressed by valve")
 
     @classmethod
     def pressure_valve_stop(cls):
