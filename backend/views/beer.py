@@ -74,7 +74,9 @@ class BeerPourView(MethodView):
 
 class BeerSystemCleaning(MethodView):
     def post(self):
-        if system_cleaning_flow():
+        resp = request.json
+        force = resp.get("force")
+        if system_cleaning_flow(force):
             return jsonify({"description": "OK"})
         else:
             return jsonify({"description": "Something went wrong"}), 400
