@@ -74,9 +74,8 @@ class BoardInteractionInterface:
             Press_2:17, Count_1:0, Count_2:0, Count_3:0, Count_4:0.
             :return Convert this format to dict:
             {
-             'V': '23.921', 'A': '0.079', 'DoorSensor': '1', 'Actuators_state': '[0000]', 'Temp_1': '17.1',
-             'Temp_2': '17.1', 'Press_1': '0', 'Press_2': '17', 'Count_1': '0', 'Count_2': '0', 'Count_3': '0',
-             'Count_4': '0.'
+             V:23.321, A:0.045, ValveSensor:1, DoorSensor:0, Actuators_state:[0000], Temp:-60.0, `Press`:0,
+             Count_1:0, Count_2:0, Count_3:0, Count_4:0.
              }
             """
             ser = cls.__connect_serial()
@@ -177,32 +176,6 @@ class BoardInteractionInterface:
                         f"Range: {Constants.SYSTEM_PRESSURE_MIN}-{Constants.SYSTEM_PRESSURE_MAX}. "
                         f"Current pressure: {pressure_in_system}.")
             return Constants.SYSTEM_PRESSURE_MIN <= pressure_in_system <= Constants.SYSTEM_PRESSURE_MAX
-
-    @classmethod
-    def __is_pressure_in_gas_bag_ok(cls):
-        """
-        Check if pressure in gas bag is in predefined range inclusive.
-        :return: bool
-        """
-        with cls.lock:
-            pressure_in_gas_bag = float(cls.Board.get_system_status()[Sensors.GAS_BAG_PRESSURE.value])
-            logger.info(f"BEER_BOARD. PRESSURE IN GAS BAG. "
-                        f"Range: {Constants.GAS_BAG_PRESSURE_MIN}-{Constants.GAS_BAG_PRESSURE_MAX}. "
-                        f"Current pressure: {pressure_in_gas_bag}.")
-            return Constants.GAS_BAG_PRESSURE_MIN <= pressure_in_gas_bag <= Constants.GAS_BAG_PRESSURE_MAX
-
-    @classmethod
-    def is_temp_in_system_ok(cls):
-        """
-        Check if temp in system is in predefined range inclusive.
-        :return: bool
-        """
-        with cls.lock:
-            temp_in_system = float(cls.Board.get_system_status()[Sensors.SYSTEM_TEMP.value])
-            logger.info(f"BEER_BOARD. TEMPERATURE IN SYSTEM. "
-                        f"Range: {Constants.SYSTEM_TEMP_MIN}-{Constants.SYSTEM_TEMP_MAX}. "
-                        f"Current temperature: {temp_in_system}.")
-            return Constants.SYSTEM_TEMP_MIN <= temp_in_system <= Constants.SYSTEM_TEMP_MAX
 
     @classmethod
     def is_temp_in_cooler_ok(cls):

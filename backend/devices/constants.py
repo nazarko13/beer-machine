@@ -5,8 +5,6 @@ CONTROL_BOARD_PORT = "/dev/ttyUSB0"
 
 class Constants:
     # PRESSURE
-    GAS_BAG_PRESSURE_MIN = 0  # тиск в газовому балоні мінімальне значення
-    GAS_BAG_PRESSURE_MAX = 1000  # тиск в газовому балоні максимальне значення
     SYSTEM_PRESSURE_MIN = 2410  # тиск в системі мінімальне значення
     SYSTEM_PRESSURE_MAX = 2900  # тиск в системі максимальне значення
     AIR_PRESSURE_CHECK_AMOUNT = 10  # к-ть спроб щоб наповнити систему необхідним тиском
@@ -15,8 +13,6 @@ class Constants:
     # TEMPERATURE
     COOLER_TEMP_MIN = 0  # температура в холодильнику мінімальне значення
     COOLER_TEMP_MAX = 25  # температура в холодильнику максимальне значення
-    SYSTEM_TEMP_MIN = 0  # температура в системі мінімальне значення
-    SYSTEM_TEMP_MAX = 25  # температура в системі мінімальне значення
     # DOOR
     DOOR_CLOSE_TIMEOUT = 1  # час в секундах повного закривання шторки в секундах
     DOOR_OPEN_TIMEOUT = 2  # час в секундах повного відкриття шторки в секундах
@@ -49,10 +45,9 @@ class Actuators(Enum):
 
 
 class Sensors(Enum):
-    GAS_BAG_PRESSURE = "Press_1"  # датчик тиску в балоні
-    SYSTEM_PRESSURE = "Press_2"  # датчик тиску в системі
-    COOLER_TEMP = "Temp_1"  # датчик температури в холодильнику
-    SYSTEM_TEMP = "Temp_2"  # датчик температури в системі
+    SYSTEM_PRESSURE = "Press"  # датчик тиску в системі
+    COOLER_TEMP = "Temp1"  # датчик температури в холодильнику
+    VALVE_SENSOR = "ValveSensor"  # датчик кінцевика
     DOOR = "DoorSensor"  # датчик дверки
     BEER_COUNTER_1 = "Count_1"  # датчик к-ті пива
     BEER_COUNTER_2 = "Count_2"  # датчик к-ті пива
