@@ -74,8 +74,8 @@ class BoardInteractionInterface:
             Press_2:17, Count_1:0, Count_2:0, Count_3:0, Count_4:0.
             :return Convert this format to dict:
             {
-             V:23.321, A:0.045, ValveSensor:1, DoorSensor:0, Actuators_state:[0000], Temp:-60.0, `Press`:0,
-             Count_1:0, Count_2:0, Count_3:0, Count_4:0.
+                V:23.321, A:0.046, ValveSensor:0, DoorSensor:0, Actuators_state:[0000], Temp:-60.0, Press:0, Count_1:0,
+                Count_2:0, Count_3:0, Count_4:0.
              }
             """
             ser = cls.__connect_serial()

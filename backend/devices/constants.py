@@ -46,7 +46,7 @@ class Actuators(Enum):
 
 class Sensors(Enum):
     SYSTEM_PRESSURE = "Press"  # датчик тиску в системі
-    COOLER_TEMP = "Temp1"  # датчик температури в холодильнику
+    COOLER_TEMP = "Temp"  # датчик температури в холодильнику
     VALVE_SENSOR = "ValveSensor"  # датчик кінцевика
     DOOR = "DoorSensor"  # датчик дверки
     BEER_COUNTER_1 = "Count_1"  # датчик к-ті пива
