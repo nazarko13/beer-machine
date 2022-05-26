@@ -379,10 +379,9 @@ class BoardInteractionInterface:
                 if time.time() > timeout:
                     logger.error(f"BEER_BOARD. INTAKE AIR. Could not start beer pour or timeout exceed.")
                     raise BoardError(action="Intake air", message="Could not start beer pour or timeout exceed.")
-                for i in range(0, 2):
-                    sensor_impulses = int(cls.Board.read_counters()[count_sensor.value])
-                    print("SENSOR IMPULSES", sensor_impulses)
-                    time.sleep(0.25)
+                sensor_impulses = int(cls.Board.read_counters()[count_sensor.value])
+                print("SENSOR IMPULSES", sensor_impulses)
+                time.sleep(0.25)
         return True
 
     @classmethod
