@@ -24,7 +24,7 @@ const ModalHandler = () => {
   return (
     <Modal hideBackdrop open={open} component={Grid} bgcolor="#00000060">
       <Grid container justifyContent="center" alignItems="center" height="100%">
-        <Grid item xs={modalProps?.xs || 6}>
+        <Grid item xs={modalProps?.xs || 8}>
           {
             {
               [modalNames.adminAuth]: (

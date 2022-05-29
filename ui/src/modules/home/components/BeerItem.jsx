@@ -8,14 +8,20 @@ import { beerTypes } from 'common/constants/enums';
 import darkBeer from 'assets/images/dark.png';
 import lightBeer from 'assets/images/light.png';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(({ spacing }) => ({
   root: {
+    width: '90%',
     fontSize: '1.1rem',
     borderRadius: 10,
     backgroundColor: '#8bbc2a',
     height: ({ height }) => height || 60,
+    padding: spacing(0, 0.5),
+
+    '&:hover': {
+      backgroundColor: '#8bbc2a',
+    },
   },
-});
+}));
 
 const images = {
   [beerTypes.light]: lightBeer,
@@ -34,9 +40,11 @@ const BeerItem = ({ name, price, type, handlePour }) => {
       direction="column"
       onClick={handlePour}
       justifyContent="center"
+      boxShadow="0 0 15px 0.1px #8bbc2a"
     >
       <Grid
         item
+        container
         alt={name}
         width="100%"
         component="img"
@@ -45,7 +53,7 @@ const BeerItem = ({ name, price, type, handlePour }) => {
         style={{ objectFit: 'contain' }}
       />
 
-      <Grid item>
+      <Grid item container alignItems="center" justifyContent="center">
         <Button
           fullWidth
           size="large"

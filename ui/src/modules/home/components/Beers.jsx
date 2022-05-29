@@ -102,6 +102,22 @@ const Beers = () => {
     getActiveBears();
   }, [getActiveBears]);
 
+  if (!data.length) {
+    return (
+      <Grid container justifyContent="center" alignItems="center">
+        <Typography
+          item
+          variant="h1"
+          fontWeight={300}
+          component={Grid}
+          fontSize="3rem"
+        >
+          Вибачте, доступних пив не знайдено
+        </Typography>
+      </Grid>
+    );
+  }
+
   return (
     <Grid
       container
@@ -110,10 +126,10 @@ const Beers = () => {
       direction="column"
       alignItems="center"
     >
-      {data.length ? (
+      {!!data.length && (
         <>
           <Grid item py={2}>
-            <Typography variant="h1" fontWeight={100}>
+            <Typography fontWeight={100} fontSize="3rem" pt={2}>
               ВСТАВТЕ ПЛЯШКУ І ОБЕРІТЬ ПИВО
             </Typography>
           </Grid>
@@ -124,7 +140,7 @@ const Beers = () => {
             pt={3}
             width="80%"
             height="95%"
-            spacing={1}
+            spacing={2}
             alignItems="center"
             justifyContent="space-between"
           >
@@ -137,12 +153,6 @@ const Beers = () => {
             ))}
           </Grid>
         </>
-      ) : (
-        <Grid item py={8}>
-          <Typography variant="h1" fontWeight={100}>
-            Вибачте, доступних пив не знайдено
-          </Typography>
-        </Grid>
       )}
 
       <GetBottlePopup

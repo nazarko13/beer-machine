@@ -40,7 +40,7 @@ const GetBottlePopup = ({ open, onClose = () => null }) => {
 
         <DialogContent>
           <Typography
-            variant="h3"
+            variant="h2"
             style={{ fontWeight: 100, textAlign: 'center' }}
           >
             Будь ласка, заберіть пляшку з наливу.
