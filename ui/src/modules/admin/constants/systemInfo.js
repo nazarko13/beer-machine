@@ -80,3 +80,10 @@ export const systemInfoModelLabels = createEnum({
   [systemInfoModel.tempInSystem]: 'Температура системи',
   [systemInfoModel.voltage]: 'Напруга (V)',
 });
+
+export const cleaningTestActions = [
+  systemActions.openDoor,
+  systemActions.closeDoor,
+  systemActions.pressureValveOpen,
+  systemActions.pressureValveClose,
+];

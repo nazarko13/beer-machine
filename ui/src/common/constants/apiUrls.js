@@ -9,6 +9,7 @@ const apiUrls = {
   cleaning: '/cleaning',
   system: '/system',
   systemStatus: '/system/status',
+  sanitization: '/sanitization',
 };
 
 export default apiUrls;

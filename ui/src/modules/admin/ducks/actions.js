@@ -21,3 +21,8 @@ export const setSystemInfo = (params) => ({
   type: actionTypes.setSystemInfo,
   request: api.setSystemSetting(params),
 });
+
+export const sendSanitizeAction = (params) => ({
+  type: actionTypes.setSystemInfo,
+  request: api.sendSanitizeAction(params),
+});

@@ -13,6 +13,8 @@ const api = {
   startWashing: (data) => requests.postDataAction(apiUrls.cleaning, data),
   getSystemSetting: () => requests.getDataAction(apiUrls.systemStatus),
   setSystemSetting: (params) => requests.postDataAction(apiUrls.system, params),
+  sendSanitizeAction: (params) =>
+    requests.postDataAction(apiUrls.sanitization, params),
 };
 
 export default api;

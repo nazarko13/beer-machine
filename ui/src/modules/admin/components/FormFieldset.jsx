@@ -81,7 +81,6 @@ const FormFieldset = ({
               render={({ field }) => (
                 <InputField
                   fullWidth
-                  type="number"
                   size="large"
                   {...field}
                   onFocus={(e) => onFocus(field.name, e, 'number')}
@@ -121,7 +120,6 @@ const FormFieldset = ({
                 <InputField
                   {...field}
                   fullWidth
-                  type="number"
                   size="large"
                   onFocus={(e) => onFocus(field.name, e, 'number')}
                 />
@@ -140,7 +138,6 @@ const FormFieldset = ({
                 <InputField
                   {...field}
                   fullWidth
-                  type="number"
                   size="large"
                   onFocus={(e) => onFocus(field.name, e, 'number')}
                 />
@@ -158,7 +155,6 @@ const FormFieldset = ({
               render={({ field }) => (
                 <SelectField
                   fullWidth
-                  type="number"
                   size="small"
                   variant="filled"
                   {...field}
@@ -178,10 +174,10 @@ const FormFieldset = ({
               render={({ field }) => (
                 <InputField
                   fullWidth
-                  type="number"
                   {...field}
                   size="large"
                   options={kagOptions}
+                  onFocus={(e) => onFocus(field.name, e, 'number')}
                 />
               )}
             />

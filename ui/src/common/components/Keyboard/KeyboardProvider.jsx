@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   },
   base: {
     '& .hg-rows .hg-row .hg-button': {
-      height: 50,
+      height: 60,
     },
   },
 });
@@ -28,11 +28,12 @@ const KeyboardProvider = ({
   values,
   inputName,
   onChangeAll,
+  layoutType = 'default',
   handleHideKeyboard,
 }) => {
   const styles = useStyles();
   const [keyboard, setKeyboard] = useState(null);
-  const [layoutName, setLayoutName] = useState('default');
+  const [layoutName, setLayoutName] = useState(layoutType);
 
   const keyboardVisible = useMemo(() => !!inputName, [inputName]);
 
@@ -59,7 +60,7 @@ const KeyboardProvider = ({
   };
 
   const valueListener = useCallback(() => {
-    if (!keyboard || !values) {
+    if (!keyboard || !values || !inputName) {
       return;
     }
 
@@ -74,7 +75,7 @@ const KeyboardProvider = ({
     <Grid
       container
       px={2}
-      bottom={25}
+      bottom={65}
       zIndex={10}
       height={270}
       width={width}

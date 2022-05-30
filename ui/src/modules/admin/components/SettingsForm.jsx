@@ -9,7 +9,7 @@ import { keyboardLayouts, routes } from 'common/constants';
 import KeyboardProvider from 'common/components/Keyboard';
 import Button from 'common/components/Button';
 import { useNotify } from 'common/hooks';
-import { fieldLabels, fieldSizes } from '../constants';
+import { fieldLabels, fields, fieldSizes } from '../constants';
 import { getBeers } from '../ducks/selectors';
 import FormFieldset from './FormFieldset';
 import { saveBeers } from '../ducks';
@@ -20,6 +20,17 @@ const layouts = {
 };
 
 const maxActiveBeersCount = 2;
+
+const floatFields = [fields.price, fields.quantity, fields.pulseCount];
+
+const parseBeerModel = (beer) =>
+  Object.keys(beer).reduce(
+    (acc, key) => ({
+      ...acc,
+      [key]: floatFields.includes(key) ? Number(beer[key]) : beer[key],
+    }),
+    {}
+  );
 
 const SettingsForm = ({ fieldSet }) => {
   const notify = useNotify();
@@ -46,10 +57,11 @@ const SettingsForm = ({ fieldSet }) => {
     (data) => {
       const neBeers = Object.keys(data).map((id) => {
         const oldBeer = allBeers[id];
-        return {
+
+        return parseBeerModel({
           ...oldBeer,
           ...data[id],
-        };
+        });
       });
 
       dispatch(saveBeers(neBeers)).then(({ error }) => {
@@ -100,7 +112,7 @@ const SettingsForm = ({ fieldSet }) => {
           onChangeAll={setValues}
           layout={layouts[layout]}
           handleHideKeyboard={setActiveInput}
-          width={layout === 'number' ? 300 : '100%'}
+          width={layout === 'number' ? 350 : '100%'}
         />
       </Grid>
 
