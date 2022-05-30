@@ -52,5 +52,7 @@ def index():
 
 
 if __name__ == '__main__':
-    logger.info("ALS is running...")
+    logger.info("Beer machine is running...")
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
     app.run(host='0.0.0.0', port=9000)
