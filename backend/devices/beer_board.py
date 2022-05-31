@@ -398,14 +398,14 @@ class BoardInteractionInterface:
 def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
     beer_actuator = Actuators[beer_keg]
     beer_counter = BEER_COUNTER_MAP.get(beer_actuator)
+    logger.info(f"BEER BOARD. POUR BEER FLOW. Pour beer STARTED(keg: {beer_keg}, impulses: {impulses}.")
     try:
-        logger.info(f"BEER BOARD. POUR BEER FLOW. Pour beer STARTED(keg: {beer_keg}, impulses: {impulses}.")
         BoardInteractionInterface.set_initial_actuators_state(),
         callback_function(10, "Initial actuators state.")
         BoardInteractionInterface.close_door(),
         callback_function(20, "Door close.")
         BoardInteractionInterface.pressure_valve_start(),
-        time.sleep(3)
+        time.sleep(1.5)
         if not BoardInteractionInterface.is_valve_fully_open():
             raise BoardError(
                 action="Main flow",
@@ -416,7 +416,6 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
         callback_function(40, "Take air pressure into_system")
         BoardInteractionInterface.reset_counters()
         callback_function(50, "Reset counters")
-        print_receipt(barcode="1234567890", description="")
         BoardInteractionInterface.beer_pour_start(beer_actuator)
         callback_function(60, "Beer pour start")
         BoardInteractionInterface.intake_air(impulses, beer_counter)
@@ -427,18 +426,16 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
                                                         Constants.INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT)
             time.sleep(0.5)
         BoardInteractionInterface.intake_air_start()
-        time.sleep(3)
+        time.sleep(1.5)
         callback_function(80, "Beer pour stop")
         BoardInteractionInterface.pressure_valve_stop()
         callback_function(90, "Pressure valve stop")
         BoardInteractionInterface.open_door()
         BoardInteractionInterface.intake_air_stop()
         callback_function(100, "Open door", True)
-        logger.info(f"BEER BOARD. POUR BEER FLOW. Pour beer FINISHED(keg: {beer_keg}, impulses: {impulses}.")
         return True
     except BoardError as e:
         logger.error(f"BEER BOARD. POUR BEER FLOW. {e}")
-    finally:
         try:
             BoardInteractionInterface.set_initial_actuators_state()
             time.sleep(Constants.AFTER_EXCEPTION)
@@ -446,10 +443,14 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
         except BoardError as e:
             logger.error("BEER BOARD. POUR BEER FLOW. Error in finally.")
             logger.error(f"BEER BOARD. POUR BEER FLOW. {e}")
+    finally:
+        BoardInteractionInterface.set_initial_actuators_state()
+    logger.info(f"BEER BOARD. POUR BEER FLOW. Pour beer FINISHED(keg: {beer_keg}, impulses: {impulses}.")
     return False
 
 
 def system_cleaning_flow(force=False):
+    logger.info(f"BEER BOARD. SYSTEM CLEANING. STARTED (force: {force}")
     try:
         BoardInteractionInterface.set_initial_actuators_state()
         BoardInteractionInterface.close_door()
@@ -468,7 +469,6 @@ def system_cleaning_flow(force=False):
         return True
     except BoardError as e:
         logger.error(f"BEER BOARD. SYSTEM CLEANING FLOW. {e}")
-    finally:
         try:
             BoardInteractionInterface.set_initial_actuators_state()
             time.sleep(Constants.AFTER_EXCEPTION)
@@ -476,6 +476,43 @@ def system_cleaning_flow(force=False):
         except BoardError as e:
             logger.error("BEER BOARD. SYSTEM CLEANING FLOW. Error in finally.")
             logger.error(f"BEER BOARD. SYSTEM CLEANING FLOW. {e}")
+    finally:
+        BoardInteractionInterface.set_initial_actuators_state()
+
+    logger.info(f"BEER BOARD. SYSTEM CLEANING. FINISHED. (force {force}")
+    return False
+
+
+def system_sanitization(liquid, beer_keg, impulses=1000):
+    beer_actuator = Actuators[beer_keg]
+    beer_counter = BEER_COUNTER_MAP.get(beer_actuator)
+    logger.info(f"BEER BOARD. SYSTEM SANITIZATION. STARTED (liquid {liquid}, keg: {beer_keg}, impulses: {impulses}.")
+    try:
+        BoardInteractionInterface.beer_pour_start(beer_actuator)
+        BoardInteractionInterface.intake_air_start()
+        timeout = time.time() + Constants.SANITIZATION_FAIL_TIMEOUT
+        sensor_impulses = 0
+
+        while impulses > sensor_impulses:
+            sensor_impulses = int(BoardInteractionInterface.read_counters()[beer_counter.value])
+            time.sleep(Constants.SANITIZATION_IMPULSE_CHECK_TIMEOUT)
+            if time.time() > timeout:
+                logger.error(f"BEER_BOARD. SYSTEM SANITIZATION. Timeout exceed for liquid {liquid}, keg {beer_keg}.")
+                raise BoardError(action="System sanitization", message=f"Timeout exceed for liquid {liquid}.")
+
+        BoardInteractionInterface.beer_pour_stop(beer_actuator)
+        BoardInteractionInterface.intake_air_stop()
+        return True
+    except BoardError as e:
+        logger.error(f"BEER BOARD. SYSTEM SANITIZATION. {e}")
+        try:
+            BoardInteractionInterface.set_initial_actuators_state()
+            time.sleep(Constants.AFTER_EXCEPTION)
+            BoardInteractionInterface.open_door()
+        except BoardError as e:
+            logger.error("BEER BOARD. SYSTEM SANITIZATION. Error in finally.")
+            logger.error(f"BEER BOARD. SYSTEM SANITIZATION. {e}")
+    logger.info(f"BEER BOARD. SYSTEM SANITIZATION. FINISHED (liquid {liquid}, keg: {beer_keg}, impulses: {impulses}.")
     return False
 
 
@@ -488,4 +525,5 @@ if __name__ == "__main__":
     # print(BoardInteractionInterface.blinking_actuator(Actuators.BEER_KEG_3, 20))
     # pour_beer_flow("BEER_KEG_2", 2250)
     # system_cleaning_flow()
+    # system_sanitization("WATER", "BEER_KEG_2", 2250))
     # BoardInteractionInterface.beer_pour_stop(Actuators.BEER_KEG_2)

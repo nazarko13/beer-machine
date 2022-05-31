@@ -11,7 +11,7 @@ class BeerView(MethodView):
     def get(self):
         beers = BeerOutput.Schema(many=True).dump(Beer.get_all())
         if not beers:
-            return jsonify({'description': 'No active beers'}), 400
+            return jsonify({'description': 'No beers'}), 400
 
         return jsonify(beers)
 
@@ -40,11 +40,12 @@ class BeerActiveView(MethodView):
     def get(self):
         beers = BeerOutput.Schema(many=True).dump(Beer.get_active())
         if not beers:
-            return jsonify({'description': 'No active beers'}), 400
+            return jsonify([])
 
         return jsonify(beers)
 
 
+# TODO change approach with RESP
 RESP = {}
 
 
@@ -66,7 +67,9 @@ class BeerPourView(MethodView):
         except ValidationError as e:
             return jsonify({"description": str(e), "error": "Validation error"}), 400
         if pour_beer_flow(beer_to_pour.keg, beer_to_pour.pulse_count, callback_function):
-            Beer.update(quantity=Beer.quantity - 1).where(Beer.id == beer_to_pour.id).execute()
+            b = Beer.update(quantity=Beer.quantity - 1).where(Beer.id == beer_to_pour.id).execute()
+            print(b)
+            # print_receipt(barcode=b.barcode, description="")
             return jsonify({"description": "OK"})
         else:
             return jsonify({"description": "Something went wrong"}), 400

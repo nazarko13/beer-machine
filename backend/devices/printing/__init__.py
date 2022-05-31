@@ -137,7 +137,9 @@ def receipt_body(styles, barcode, description):
         ("FONTSIZE", (0, 0), (1, 1), 4),
     ]))
     story.append(tab)
-    for line in chunks(DESCRIPTION, 120):
+    if not description:
+        description = "TEST DESCRIPTION"
+    for line in chunks(description, 120):
         story.append(Paragraph(line, styles["ItemS"]))
 
     return story
@@ -148,4 +150,4 @@ def print_receipt(barcode, description):
 
 
 if __name__ == "__main__":
-    print_receipt(21312312312312, "TETSSTSTSTS")
+    print_receipt(21312312312312, DESCRIPTION)
