@@ -64,7 +64,9 @@ const KeyboardProvider = ({
       return;
     }
 
-    keyboard.setInput(get(values, inputName));
+    const value = get(values, inputName);
+
+    keyboard.setInput(typeof value !== 'string' ? String(value) : value);
   }, [inputName, keyboard, values]);
 
   useEffect(() => {

@@ -139,7 +139,7 @@ const FormFieldset = ({
                   {...field}
                   fullWidth
                   size="large"
-                  onFocus={(e) => onFocus(field.name, e, 'number')}
+                  onFocus={(e) => onFocus(field.name, e)}
                 />
               )}
             />
@@ -176,7 +176,6 @@ const FormFieldset = ({
                   fullWidth
                   {...field}
                   size="large"
-                  options={kagOptions}
                   onFocus={(e) => onFocus(field.name, e, 'number')}
                 />
               )}

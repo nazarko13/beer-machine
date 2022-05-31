@@ -55,7 +55,7 @@ const SettingsForm = ({ fieldSet }) => {
 
   const onSubmit = useCallback(
     (data) => {
-      const neBeers = Object.keys(data).map((id) => {
+      const newBeers = Object.keys(data).map((id) => {
         const oldBeer = allBeers[id];
 
         return parseBeerModel({
@@ -64,7 +64,7 @@ const SettingsForm = ({ fieldSet }) => {
         });
       });
 
-      dispatch(saveBeers(neBeers)).then(({ error }) => {
+      dispatch(saveBeers(newBeers)).then(({ error }) => {
         if (error) {
           notify.error('Помилка збереження');
           return;

@@ -4,11 +4,10 @@ import { success, error } from '@redux-requests/core';
 import { preActionStateSetter, errorSetter } from 'common/utils';
 
 import * as actionTypes from './actionTypes';
-import { allBeers } from '../../../common/constants';
 
 const initialState = {
   data: {
-    beers: allBeers,
+    beers: [],
     details: null,
   },
   error: null,
@@ -44,7 +43,7 @@ const adminSlice = createSlice({
     },
 
     [error(actionTypes.getBeers)]: (state) => {
-      // state.data.beers = [];
+      state.data.beers = [];
       state.loading = false;
     },
 
