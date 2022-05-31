@@ -23,3 +23,10 @@ class SystemStatusOutput:
 @marshmallow_dataclass.dataclass(base_schema=CamelCaseSchema)
 class SystemActionInput:
     action: SystemActions
+
+
+@marshmallow_dataclass.dataclass(base_schema=CamelCaseSchema)
+class LiquidSanitizationSchema:
+    liquid: str
+    pulse_count: int
+    keg: str

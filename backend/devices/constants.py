@@ -27,6 +27,10 @@ class Constants:
     BLINK_INTAKE_AIR_TIMEOUT = 100  # час в мілісекундах між відкриттям і закриттям клапана стравки (blinking on board)
     BEER_POUR_ITERATION_TIMEOUT = 0.3  # час в секундах для наливання пива в межах одного проходу циклу
 
+    # SANITIZATION
+    SANITIZATION_FAIL_TIMEOUT = 180  # час в секундах для санітизації системи, якщо більше то зупинити санітизацію
+    SANITIZATION_IMPULSE_CHECK_TIMEOUT = 0.5  # час в секундах між зчитування сенсора наливу під час санітизації
+
     # EXCEPTION
     AFTER_EXCEPTION = 1  # час в секундах для виконнаня команди після отримання помилки
 
