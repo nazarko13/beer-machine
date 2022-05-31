@@ -68,7 +68,7 @@ class SystemConfigurationView(MethodView):
 class SystemSanitization(MethodView):
     def post(self):
         try:
-            liquid_sanitize = LiquidSanitizationSchema.Schema().load(request.json).liquid
+            liquid_sanitize = LiquidSanitizationSchema.Schema().load(request.json)
         except ValidationError as e:
             return jsonify({"description": str(e), "error": "Validation error"}), 400
 
