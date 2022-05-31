@@ -512,8 +512,6 @@ def system_sanitization(liquid, beer_keg, impulses=1000):
         except BoardError as e:
             logger.error("BEER BOARD. SYSTEM SANITIZATION. Error in finally.")
             logger.error(f"BEER BOARD. SYSTEM SANITIZATION. {e}")
-    finally:
-        BoardInteractionInterface.set_initial_actuators_state()
     logger.info(f"BEER BOARD. SYSTEM SANITIZATION. FINISHED (liquid {liquid}, keg: {beer_keg}, impulses: {impulses}.")
     return False
 
