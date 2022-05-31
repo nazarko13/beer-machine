@@ -52,7 +52,7 @@ class Beer(Base):
     @staticmethod
     def get_active():
         return Beer.select().where(
-            Beer.is_active == True, Beer.quantity > 1, Beer.keg.is_null(False)
+            Beer.is_active == True, Beer.quantity > 1, Beer.keg.in_(("BEER_KEG_1", "BEER_KEG_2"))
         ).limit(ACTIVE_BEERS_QTY)
 
     @staticmethod
