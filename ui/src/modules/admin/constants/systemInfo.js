@@ -76,8 +76,8 @@ export const systemInfoModelLabels = createEnum({
   [systemInfoModel.beerCounter3]: 'Кількість пива 3',
   [systemInfoModel.beerCounter4]: 'Кількість пива 4',
   [systemInfoModel.doorSensor]: 'Датчик шторки',
-  [systemInfoModel.pressureInSystem]: 'Тиск системи',
-  [systemInfoModel.tempInSystem]: 'Температура системи',
+  [systemInfoModel.pressureInSystem]: 'Тиск',
+  [systemInfoModel.tempInSystem]: 'Температура',
   [systemInfoModel.voltage]: 'Напруга (V)',
 });
 

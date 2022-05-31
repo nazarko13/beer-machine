@@ -53,9 +53,6 @@ const Cleaning = () => {
       })
     );
 
-  const sedBeerAction = () =>
-    dispatch(adminActions.sendSanitizeAction({ keg }));
-
   const onChangeLiquid = ({ target }) => {
     setValues((v) => ({ ...v, cleanser: target.value }));
   };
@@ -132,7 +129,9 @@ const Cleaning = () => {
           <Grid item xs={5} />
 
           <Grid item xs={5} ml={2} py={2}>
-            <Typography>Кількість імпульсів</Typography>
+            <Typography>
+              Кількість імпульсів (1 літра = 4000 імпульсів)
+            </Typography>
           </Grid>
         </Grid>
 
@@ -186,17 +185,6 @@ const Cleaning = () => {
                 value={formData.water}
                 onChange={onChangeWater}
                 onFocus={() => setActiveInput('water')}
-              />
-            </Grid>
-          </Grid>
-
-          <Grid item container spacing={1} justifyContent="flex-start">
-            <Grid item xs={5}>
-              <Button
-                fullWidth
-                text="ПИВО"
-                style={{ minHeight: 50 }}
-                onClick={sedBeerAction}
               />
             </Grid>
           </Grid>
