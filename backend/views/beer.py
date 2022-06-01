@@ -3,6 +3,7 @@ from flask.views import MethodView
 from marshmallow import ValidationError
 
 from devices.beer_board import pour_beer_flow, system_cleaning_flow
+from devices.printing import print_receipt
 from models.models import Beer
 from schemas.beer import BeerOutput, BeerPourInput
 
@@ -68,8 +69,7 @@ class BeerPourView(MethodView):
             return jsonify({"description": str(e), "error": "Validation error"}), 400
         if pour_beer_flow(beer_to_pour.keg, beer_to_pour.pulse_count, callback_function):
             b = Beer.update(quantity=Beer.quantity - 1).where(Beer.id == beer_to_pour.id).execute()
-            print(b)
-            # print_receipt(barcode=b.barcode, description="")
+            print_receipt(barcode="1222222", description="")
             return jsonify({"description": "OK"})
         else:
             return jsonify({"description": "Something went wrong"}), 400
