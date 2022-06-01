@@ -25,15 +25,17 @@ const AdminAuth = ({ onClose = null }) => {
     navigate(routes.private.admin, data);
   };
 
-  const handleAuth = ({ l, p }) => {
-    dispatch(adminLogin({ login: l, password: p })).then(({ error, data }) => {
-      if (error) {
-        onError(error);
-        return;
-      }
+  const handleAuth = ({ login, newPassword }) => {
+    dispatch(adminLogin({ login, password: newPassword })).then(
+      ({ error, data }) => {
+        if (error) {
+          onError(error);
+          return;
+        }
 
-      onSuccess(data);
-    });
+        onSuccess(data);
+      }
+    );
   };
 
   useActivityHandler(authContainer, onClose);
@@ -45,7 +47,7 @@ const AdminAuth = ({ onClose = null }) => {
       px={2}
       ref={setAuthContainer}
       // todo: fix position
-      style={{ marginTop: '-100px' }}
+      style={{ marginTop: '-190px' }}
     >
       <Typography p={2} px={3} pl={1} variant="h3">
         Вхід Адміністратора

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import DialogActions from '@mui/material/DialogActions';
 import { Controller, useForm } from 'react-hook-form';
@@ -10,14 +10,27 @@ import KeyboardProvider from 'common/components/Keyboard';
 
 const layouts = {
   login: undefined,
-  password: keyboardLayouts.numeric,
+  newPassword: keyboardLayouts.numeric,
+};
+
+const defaultValues = {
+  login: '',
+  newPassword: '',
 };
 
 const AuthForm = ({ onSubmit, onClose }) => {
-  const [inputValues, setValues] = useState({});
   const [activeInput, setActiveInput] = useState(null);
 
-  const { handleSubmit, control, watch, reset } = useForm();
+  const { handleSubmit, control, watch, setValue } = useForm({ defaultValues });
+
+  const handleChange = (vals) => {
+    if (!activeInput) {
+      return;
+    }
+
+    setValue(activeInput, vals[activeInput]);
+  };
+
   const formData = watch();
 
   const updateVisibleInput = (inputName, e) => {
@@ -26,16 +39,15 @@ const AuthForm = ({ onSubmit, onClose }) => {
       e.stopPropagation();
     }
 
-    return setActiveInput(inputName);
+    if (inputName) {
+      setActiveInput(inputName);
+    }
   };
-
-  useEffect(() => {
-    reset(inputValues);
-  }, [inputValues, reset]);
 
   return (
     <Grid
       container
+      noValidate
       spacing={1}
       component="form"
       direction="column"
@@ -45,9 +57,10 @@ const AuthForm = ({ onSubmit, onClose }) => {
     >
       <Grid item container>
         <Controller
-          name="l"
+          name="login"
           control={control}
           rules={{ required: 'Required' }}
+          defaultValue=""
           render={({ field, fieldState }) => (
             <InputField
               {...field}
@@ -64,7 +77,7 @@ const AuthForm = ({ onSubmit, onClose }) => {
 
       <Grid item container>
         <Controller
-          name="p"
+          name="newPassword"
           control={control}
           rules={{ required: 'Required' }}
           render={({ field, fieldState }) => (
@@ -100,10 +113,10 @@ const AuthForm = ({ onSubmit, onClose }) => {
       <KeyboardProvider
         values={formData}
         inputName={activeInput}
-        onChangeAll={setValues}
+        onChangeAll={handleChange}
         layout={layouts[activeInput]}
         handleHideKeyboard={setActiveInput}
-        width={activeInput === 'password' ? 280 : '100%'}
+        width={activeInput === 'newPassword' ? 370 : '100%'}
       />
     </Grid>
   );
