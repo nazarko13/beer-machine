@@ -2,8 +2,6 @@ import time
 from logging import getLogger
 from threading import Lock
 
-from devices.printing import print_receipt
-
 logger = getLogger(__name__)
 import serial
 
@@ -70,13 +68,9 @@ class BoardInteractionInterface:
         def get_system_status(cls):
             """
             Get system status in format:
-            V:23.921, A:0.079, DoorSensor:1, Actuators_state:[0000], Temp_1:17.1, Temp_2:17.1, Press_1:0,
-            Press_2:17, Count_1:0, Count_2:0, Count_3:0, Count_4:0.
-            :return Convert this format to dict:
-            {
-                V:23.321, A:0.046, ValveSensor:0, DoorSensor:0, Actuators_state:[0000], Temp:-60.0, Press:0, Count_1:0,
-                Count_2:0, Count_3:0, Count_4:0.
-             }
+                ValveSensor:0, DoorSensor:0, Actuators_state:[0000], Temp:-60.0, Press:0, Count_1:0, Count_2:0,
+                Count_3:0, Count_4:0.
+            :return Convert data to dict
             """
             ser = cls.__connect_serial()
             ser.write(bytes("*get_system_status~", 'ASCII'))
@@ -89,7 +83,7 @@ class BoardInteractionInterface:
         @classmethod
         def read_counters(cls):
             """
-            Get system status in format: Count_1:0, Count_2:0, Count_3:0, Count_4:0
+            Get counters info: Count_1:0, Count_2:0, Count_3:0, Count_4:0
             :return: {'Count_1': '0', 'Count_2': '0', 'Count_3': '0', 'Count_4': '0'}
             """
             ser = cls.__connect_serial()
@@ -155,6 +149,26 @@ class BoardInteractionInterface:
             ser = cls.__connect_serial()
             logger.info("BEER BOARD. BLINKING ACTUATOR. Start.")
             ser.write(bytes(f"*blinking_actuator:({actuator.value})({blink_time})~", 'ASCII'))
+            _bytes = ser.readline()
+            ser.close()
+            _str = str(_bytes, 'utf').strip()
+            res = _str == "the_actuator_blinked"
+            logger.info(f"BEER BOARD. BLINKING ACTUATOR. Finished with status: {res}. Resp from board: '{_str}'")
+            return res
+
+        @classmethod
+        def start_filling(cls, actuator: Actuators, sensor: Sensors, impulses: int = 100):
+            """
+            Start pour with automatic count on the board. Once count will be equal to impulses reached stop pour.
+            :param actuator:
+            :param sensor:
+            :param impulses:
+            :return: res
+            """
+
+            ser = cls.__connect_serial()
+            logger.info(f"BEER BOARD. POUR WITH COUNTER. Start.Actuator {actuator},sensor {sensor},impulses {impulses}")
+            ser.write(bytes(f"*start_filling:({sensor.value})({actuator.value})({impulses})~", 'ASCII'))
             _bytes = ser.readline()
             ser.close()
             _str = str(_bytes, 'utf').strip()
@@ -268,7 +282,7 @@ class BoardInteractionInterface:
                 raise BoardError(action="Open door", message="Could not start door open process.")
 
     @classmethod
-    def pressure_valve_start(cls, bottle_pressed=True):
+    def pressure_valve_start(cls):
         """
         Set PRESSURE_VALVE on board to True.
         :return: bool
@@ -338,6 +352,19 @@ class BoardInteractionInterface:
         with cls.lock:
             logger.info(f"BEER_BOARD. BEER POUR START. Actuator {beer_actuator} is True.")
             return cls.Board.set_actuator(beer_actuator, True)
+
+    @classmethod
+    def beer_pour_start_with_counter_on_board(cls, beer_actuator: Actuators, counter: Sensors, impulses: int):
+        """
+        Start beer pour. Beer actuator on board is True
+        :param beer_actuator: Actuators
+        :param counter: Sensors
+        :return: bool
+        """
+        with cls.lock:
+            logger.info(f"BEER_BOARD. BEER POUR START. "
+                        f"Actuator {beer_actuator} is True. Counter {counter}. Impulses: {impulses}")
+            return cls.Board.start_filling(beer_actuator, counter, impulses)
 
     @classmethod
     def beer_pour_stop(cls, beer_actuator: Actuators):
@@ -416,18 +443,17 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
         callback_function(40, "Take air pressure into_system")
         BoardInteractionInterface.reset_counters()
         callback_function(50, "Reset counters")
-        BoardInteractionInterface.beer_pour_start(beer_actuator)
+        BoardInteractionInterface.beer_pour_start_with_counter_on_board(beer_actuator, beer_counter, impulses)
         callback_function(60, "Beer pour start")
         BoardInteractionInterface.intake_air(impulses, beer_counter)
-        callback_function(70, "Intake air")
-        BoardInteractionInterface.beer_pour_stop(beer_actuator)
+        callback_function(70, "Beer pour stop")
         for _ in range(Constants.INTAKE_AIR_AFTER_POUR_AMOUNT):
             BoardInteractionInterface.blinking_actuator(Actuators.INTAKE_AIR,
                                                         Constants.INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT)
             time.sleep(0.5)
         BoardInteractionInterface.intake_air_start()
         time.sleep(1.5)
-        callback_function(80, "Beer pour stop")
+        callback_function(80, "Intake air")
         BoardInteractionInterface.pressure_valve_stop()
         callback_function(90, "Pressure valve stop")
         BoardInteractionInterface.open_door()
@@ -444,6 +470,7 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
             logger.error("BEER BOARD. POUR BEER FLOW. Error in finally.")
             logger.error(f"BEER BOARD. POUR BEER FLOW. {e}")
     finally:
+        BoardInteractionInterface.reset_counters()
         BoardInteractionInterface.set_initial_actuators_state()
     logger.info(f"BEER BOARD. POUR BEER FLOW. Pour beer FINISHED(keg: {beer_keg}, impulses: {impulses}.")
     return False

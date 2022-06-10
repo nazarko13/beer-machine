@@ -9,7 +9,6 @@ class Constants:
     SYSTEM_PRESSURE_MAX = 2900  # тиск в системі максимальне значення
     AIR_PRESSURE_CHECK_AMOUNT = 10  # к-ть спроб щоб наповнити систему необхідним тиском
     AIR_PRESSURE_CHECK_TIMEOUT = 1  # час в секундах перед перевіркою тиску повітря в системі
-    INTAKE_ALL_AIR_TIMEOUT = 5  # час в секундах для стравлення повітрян з системи
     # TEMPERATURE
     COOLER_TEMP_MIN = 0  # температура в холодильнику мінімальне значення
     COOLER_TEMP_MAX = 25  # температура в холодильнику максимальне значення
@@ -25,14 +24,13 @@ class Constants:
     # OTHER
     BEER_POUR_FAIL_TIMEOUT = 90  # час в секундах для повного наливання пива, якщо більше то зупинити налив
     BLINK_INTAKE_AIR_TIMEOUT = 100  # час в мілісекундах між відкриттям і закриттям клапана стравки (blinking on board)
-    BEER_POUR_ITERATION_TIMEOUT = 0.1  # час в секундах для наливання пива в межах одного проходу циклу
 
     # SANITIZATION
     SANITIZATION_FAIL_TIMEOUT = 180  # час в секундах для санітизації системи, якщо більше то зупинити санітизацію
-    SANITIZATION_IMPULSE_CHECK_TIMEOUT = 0.5  # час в секундах між зчитування сенсора наливу під час санітизації
+    SANITIZATION_IMPULSE_CHECK_TIMEOUT = 0.5  # час в секундах між зчитуванням сенсора наливу під час санітизації
 
     # EXCEPTION
-    AFTER_EXCEPTION = 1  # час в секундах для виконнаня команди після отримання помилки
+    AFTER_EXCEPTION = 1  # час в секундах для виконання команди після отримання помилки
 
 
 class Actuators(Enum):
