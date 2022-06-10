@@ -354,7 +354,7 @@ class BoardInteractionInterface:
             return cls.Board.set_actuator(beer_actuator, True)
 
     @classmethod
-    def beer_pour_start_with_counter_on_board(cls, beer_actuator: Actuators, counter: Sensors, impulses: int):
+    def beer_pour_start_with_counter_on_board(cls, beer_actuator: Actuators, counter_number: int, impulses: int):
         """
         Start beer pour. Beer actuator on board is True
         :param beer_actuator: Actuators
@@ -362,10 +362,9 @@ class BoardInteractionInterface:
         :return: bool
         """
         with cls.lock:
-            _counter = BEER_SENSOR_MAP.get(counter)
             logger.info(f"BEER_BOARD. BEER POUR START. "
-                        f"Actuator {beer_actuator} is True. Counter {counter}. Impulses: {impulses}")
-            return cls.Board.start_filling(beer_actuator, _counter, impulses)
+                        f"Actuator {beer_actuator.value} is True. Counter {counter_number}. Impulses: {impulses}")
+            return cls.Board.start_filling(beer_actuator, counter_number, impulses)
 
     @classmethod
     def beer_pour_stop(cls, beer_actuator: Actuators):
@@ -426,6 +425,7 @@ class BoardInteractionInterface:
 def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
     beer_actuator = Actuators[beer_keg]
     beer_counter = BEER_COUNTER_MAP.get(beer_actuator)
+    beer_count_number = BEER_SENSOR_MAP.get(beer_counter)
     logger.info(f"BEER BOARD. POUR BEER FLOW. Pour beer STARTED(keg: {beer_keg}, impulses: {impulses}.")
     try:
         BoardInteractionInterface.set_initial_actuators_state(),
@@ -444,7 +444,7 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
         callback_function(40, "Take air pressure into_system")
         BoardInteractionInterface.reset_counters()
         callback_function(50, "Reset counters")
-        BoardInteractionInterface.beer_pour_start_with_counter_on_board(beer_actuator, beer_counter, impulses)
+        BoardInteractionInterface.beer_pour_start_with_counter_on_board(beer_actuator, beer_count_number, impulses)
         callback_function(60, "Beer pour start")
         BoardInteractionInterface.intake_air(impulses, beer_counter)
         callback_function(70, "Beer pour stop")
