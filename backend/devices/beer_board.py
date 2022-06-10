@@ -5,7 +5,7 @@ from threading import Lock
 logger = getLogger(__name__)
 import serial
 
-from devices.constants import Constants, Actuators, Sensors, CONTROL_BOARD_PORT, BEER_COUNTER_MAP
+from devices.constants import Constants, Actuators, Sensors, CONTROL_BOARD_PORT, BEER_COUNTER_MAP, BEER_SENSOR_MAP
 
 command_str = [0 for _ in range(0, 16)]
 
@@ -157,7 +157,7 @@ class BoardInteractionInterface:
             return res
 
         @classmethod
-        def start_filling(cls, actuator: Actuators, sensor: Sensors, impulses: int = 100):
+        def start_filling(cls, actuator: Actuators, sensor: int, impulses: int = 100):
             """
             Start pour with automatic count on the board. Once count will be equal to impulses reached stop pour.
             :param actuator:
@@ -167,8 +167,8 @@ class BoardInteractionInterface:
             """
 
             ser = cls.__connect_serial()
-            logger.info(f"BEER BOARD. POUR WITH COUNTER. Start.Actuator {actuator},sensor {sensor},impulses {impulses}")
-            ser.write(bytes(f"*start_filling:({sensor.value})({actuator.value})({impulses})~", 'ASCII'))
+            logger.info(f"BEER BOARD. POUR WITH COUNTER. Start.Actuator {actuator.value},sensor {sensor},impulses {impulses}")
+            ser.write(bytes(f"*start_filling:({sensor})({actuator.value})({impulses})~", 'ASCII'))
             _bytes = ser.readline()
             ser.close()
             _str = str(_bytes, 'utf').strip()
@@ -362,9 +362,10 @@ class BoardInteractionInterface:
         :return: bool
         """
         with cls.lock:
+            _counter = BEER_SENSOR_MAP.get(counter)
             logger.info(f"BEER_BOARD. BEER POUR START. "
                         f"Actuator {beer_actuator} is True. Counter {counter}. Impulses: {impulses}")
-            return cls.Board.start_filling(beer_actuator, counter, impulses)
+            return cls.Board.start_filling(beer_actuator, _counter, impulses)
 
     @classmethod
     def beer_pour_stop(cls, beer_actuator: Actuators):
