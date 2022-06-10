@@ -57,7 +57,7 @@ class Sensors(Enum):
     BEER_COUNTER_4 = "Count_4"  # датчик к-ті пива
 
 
-BEER_SENSOR_MAP: {
+BEER_SENSOR_MAP = {
     Sensors.BEER_COUNTER_1: 1,
     Sensors.BEER_COUNTER_2: 1,
     Sensors.BEER_COUNTER_3: 3,
