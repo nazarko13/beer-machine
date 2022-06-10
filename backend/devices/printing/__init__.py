@@ -25,7 +25,7 @@ def create_pdf(barcode, description):
         'topMargin': 0,
         'bottomMargin': 0,
         'leftMargin': 0,
-        'pagesize': (95 * mm, 58 * mm)
+        'pagesize': (58 * mm, 95 * mm)
     }
 
     pdfmetrics.registerFont(TTFont("arialbold.ttf", os.path.join(FILE_DIR, 'arialbold.ttf')))
