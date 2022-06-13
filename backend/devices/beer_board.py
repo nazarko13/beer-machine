@@ -400,7 +400,7 @@ class BoardInteractionInterface:
         """
         timeout = time.time() + Constants.BEER_POUR_FAIL_TIMEOUT
         with cls.lock:
-            sensor_impulses = 0
+            sensor_impulses = 1
             logger.info(f"BEER_BOARD. INTAKE AIR. Start intake air.Impulses to intake {beer_impulses}.")
             while beer_impulses > sensor_impulses:
                 if int((beer_impulses / sensor_impulses) * 100) < Constants.BEER_POUR_SPLIT_PERCENT:
