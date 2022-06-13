@@ -403,10 +403,10 @@ class BoardInteractionInterface:
         """
         timeout = time.time() + Constants.BEER_POUR_FAIL_TIMEOUT
         with cls.lock:
-            sensor_impulses = 1
+            sensor_impulses = 0
             logger.info(f"BEER_BOARD. INTAKE AIR. Start intake air.Impulses to intake {beer_impulses}.")
             while beer_impulses > sensor_impulses:
-                if int((beer_impulses / sensor_impulses) * 100) < Constants.BEER_POUR_SPLIT_PERCENT:
+                if int((sensor_impulses / beer_impulses) * 100) < Constants.BEER_POUR_SPLIT_PERCENT:
                     cls.Board.blinking_actuator(Actuators.INTAKE_AIR, Constants.BLINK_INTAKE_AIR_TIMEOUT_BEFORE)
                     time.sleep(Constants.ITERATION_TIMEOUT_BEFORE)
                 else:
