@@ -167,7 +167,8 @@ class BoardInteractionInterface:
             """
 
             ser = cls.__connect_serial()
-            logger.info(f"BEER BOARD. POUR WITH COUNTER. Start.Actuator {actuator.value},sensor {sensor},impulses {impulses}")
+            logger.info(
+                f"BEER BOARD. POUR WITH COUNTER. Start.Actuator {actuator.value},sensor {sensor},impulses {impulses}")
             ser.write(bytes(f"*start_filling:({sensor})({actuator.value})({impulses})~", 'ASCII'))
             _bytes = ser.readline()
             ser.close()
@@ -402,13 +403,16 @@ class BoardInteractionInterface:
             sensor_impulses = 0
             logger.info(f"BEER_BOARD. INTAKE AIR. Start intake air.Impulses to intake {beer_impulses}.")
             while beer_impulses > sensor_impulses:
-                print("BLINK", cls.Board.blinking_actuator(Actuators.INTAKE_AIR, Constants.BLINK_INTAKE_AIR_TIMEOUT))
+                if int((beer_impulses / sensor_impulses) * 100) < Constants.BEER_POUR_SPLIT_PERCENT:
+                    cls.Board.blinking_actuator(Actuators.INTAKE_AIR, Constants.BLINK_INTAKE_AIR_TIMEOUT_BEFORE)
+                    time.sleep(Constants.ITERATION_TIMEOUT_BEFORE)
+                else:
+                    cls.Board.blinking_actuator(Actuators.INTAKE_AIR, Constants.BLINK_INTAKE_AIR_TIMEOUT_AFTER)
+                    time.sleep(Constants.ITERATION_TIMEOUT_AFTER)
                 if time.time() > timeout:
                     logger.error(f"BEER_BOARD. INTAKE AIR. Could not start beer pour or timeout exceed.")
                     raise BoardError(action="Intake air", message="Could not start beer pour or timeout exceed.")
                 sensor_impulses = int(cls.Board.read_counters()[count_sensor.value])
-                print("SENSOR IMPULSES", sensor_impulses)
-                time.sleep(0.25)
         return True
 
     @classmethod
