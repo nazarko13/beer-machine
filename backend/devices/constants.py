@@ -19,8 +19,8 @@ class Constants:
     BLINK_WATER_CLEANING_TIMEOUT = 700  # час в мілісекундах для промивки системи водою (blinking on board)
     BLINK_AIR_CLEANING_TIMEOUT = 200  # час в мілісекундах для продування системи повітрям (blinking on board)
     # INTAKE AIR AFTER POUR стравка повітря після наливання пива
-    INTAKE_AIR_AFTER_POUR_AMOUNT = 3  # к-ть стравок повітря після наливання пива
-    INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT = 200  # час в мілісекундах стравки повітря після наливання пива
+    INTAKE_AIR_AFTER_POUR_AMOUNT = 5  # к-ть стравок повітря після наливання пива
+    INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT = 100  # час в мілісекундах стравки повітря після наливання пива
     # POUR
     BEER_POUR_FAIL_TIMEOUT = 90  # час в секундах для повного наливання пива, якщо більше то зупинити налив
     ITERATION_TIMEOUT_BEFORE = 0.25  # час в секундах для наливання пива в межах одного проходу циклу до відсотка
