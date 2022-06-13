@@ -5,8 +5,8 @@ CONTROL_BOARD_PORT = "/dev/ttyUSB0"
 
 class Constants:
     # PRESSURE
-    SYSTEM_PRESSURE_MIN = 2410  # тиск в системі мінімальне значення
-    SYSTEM_PRESSURE_MAX = 2900  # тиск в системі максимальне значення
+    SYSTEM_PRESSURE_MIN = 1800  # тиск в системі мінімальне значення
+    SYSTEM_PRESSURE_MAX = 2500  # тиск в системі максимальне значення
     AIR_PRESSURE_CHECK_AMOUNT = 10  # к-ть спроб щоб наповнити систему необхідним тиском
     AIR_PRESSURE_CHECK_TIMEOUT = 1  # час в секундах перед перевіркою тиску повітря в системі
     # TEMPERATURE
@@ -19,7 +19,7 @@ class Constants:
     BLINK_WATER_CLEANING_TIMEOUT = 300  # час в мілісекундах для промивки системи водою (blinking on board)
     BLINK_AIR_CLEANING_TIMEOUT = 200  # час в мілісекундах для продування системи повітрям (blinking on board)
     # INTAKE AIR AFTER POUR стравка повітря після наливання пива
-    INTAKE_AIR_AFTER_POUR_AMOUNT = 5  # к-ть стравок повітря після наливання пива
+    INTAKE_AIR_AFTER_POUR_AMOUNT = 8  # к-ть стравок повітря після наливання пива
     INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT = 50  # час в мілісекундах стравки повітря після наливання пива
     # POUR
     BEER_POUR_FAIL_TIMEOUT = 90  # час в секундах для повного наливання пива, якщо більше то зупинити налив

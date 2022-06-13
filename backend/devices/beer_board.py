@@ -263,10 +263,13 @@ class BoardInteractionInterface:
                 time.sleep(Constants.DOOR_CLOSE_TIMEOUT)
                 res = cls.Board.get_system_status()[Sensors.DOOR.value] == '1'
                 logger.info(f"BEER_BOARD. DOOR CLOSE. Door close process finished with status {res}.")
+                if not res:
+                    logger.error("BEER_BOARD. DOOR CLOSE. Door was not closed due to something on the way")
+                    raise BoardError(action="Close door", message="Could not close  door.")
                 return res
-            else:
-                logger.error("BEER_BOARD. DOOR CLOSE. Could not start door close process.")
-                raise BoardError(action="Close door", message="Could not start door close process.")
+
+            logger.error("BEER_BOARD. DOOR CLOSE. Could not start door close process.")
+            raise BoardError(action="Close door", message="Could not start door close process.")
 
     @classmethod
     def open_door(cls):
@@ -433,7 +436,7 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
     beer_actuator = Actuators[beer_keg]
     beer_counter = BEER_COUNTER_MAP.get(beer_actuator)
     beer_count_number = BEER_SENSOR_MAP.get(beer_counter)
-    logger.info(f"BEER BOARD. POUR BEER FLOW. Pour beer STARTED(keg: {beer_keg}, impulses: {impulses}.")
+    logger.info(f"BEER BOARD. POUR BEER FLOW. Pour beer STARTED (keg: {beer_keg}, impulses: {impulses}.")
     try:
         BoardInteractionInterface.set_initial_actuators_state(),
         callback_function(10, "Initial actuators state.")
@@ -458,7 +461,7 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
         for _ in range(Constants.INTAKE_AIR_AFTER_POUR_AMOUNT):
             BoardInteractionInterface.blinking_actuator(Actuators.INTAKE_AIR,
                                                         Constants.INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT)
-            time.sleep(0.5)
+            time.sleep(0.2)
         BoardInteractionInterface.intake_air_start()
 
         # printing receipt and updating quantity TODO move to separate function
