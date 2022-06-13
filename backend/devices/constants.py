@@ -16,18 +16,18 @@ class Constants:
     DOOR_CLOSE_TIMEOUT = 1  # час в секундах повного закривання шторки в секундах
     DOOR_OPEN_TIMEOUT = 2  # час в секундах повного відкриття шторки в секундах
     # CLEANING промивка системи
-    BLINK_WATER_CLEANING_TIMEOUT = 700  # час в мілісекундах для промивки системи водою (blinking on board)
+    BLINK_WATER_CLEANING_TIMEOUT = 300  # час в мілісекундах для промивки системи водою (blinking on board)
     BLINK_AIR_CLEANING_TIMEOUT = 200  # час в мілісекундах для продування системи повітрям (blinking on board)
     # INTAKE AIR AFTER POUR стравка повітря після наливання пива
     INTAKE_AIR_AFTER_POUR_AMOUNT = 5  # к-ть стравок повітря після наливання пива
     INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT = 100  # час в мілісекундах стравки повітря після наливання пива
     # POUR
     BEER_POUR_FAIL_TIMEOUT = 90  # час в секундах для повного наливання пива, якщо більше то зупинити налив
-    ITERATION_TIMEOUT_BEFORE = 0.25  # час в секундах для наливання пива в межах одного проходу циклу до відсотка
+    ITERATION_TIMEOUT_BEFORE = 0.1  # час в секундах для наливання пива в межах одного проходу циклу до відсотка
     ITERATION_TIMEOUT_AFTER = 0.25  # час в секундах для наливання пива в межах одного проходу циклу після відсотка
-    BEER_POUR_SPLIT_PERCENT = 70  # відсоток  для розподілу між стравками (ціле частина)
-    BLINK_INTAKE_AIR_TIMEOUT_BEFORE = 200  # час в мілісекундах між відкриттям і закриттям клапана стравки до відсотка
-    BLINK_INTAKE_AIR_TIMEOUT_AFTER = 200  # час в мілісекундах між відкриттям і закриттям клапана стравки після відсотка
+    BEER_POUR_SPLIT_PERCENT = 75  # відсоток  для розподілу між стравками (ціле частина)
+    BLINK_INTAKE_AIR_TIMEOUT_BEFORE = 800  # час в мілісекундах між відкриттям і закриттям клапана стравки до відсотка
+    BLINK_INTAKE_AIR_TIMEOUT_AFTER = 100  # час в мілісекундах між відкриттям і закриттям клапана стравки після відсотка
 
     # SANITIZATION
     SANITIZATION_FAIL_TIMEOUT = 180  # час в секундах для санітизації системи, якщо більше то зупинити санітизацію

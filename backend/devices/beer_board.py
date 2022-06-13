@@ -2,6 +2,9 @@ import time
 from logging import getLogger
 from threading import Lock
 
+from devices.printing import print_receipt
+from models.models import Beer
+
 logger = getLogger(__name__)
 import serial
 
@@ -147,7 +150,7 @@ class BoardInteractionInterface:
             # TODO
             """
             ser = cls.__connect_serial()
-            logger.info("BEER BOARD. BLINKING ACTUATOR. Start.")
+            logger.info(f"BEER BOARD. BLINKING ACTUATOR. Start. Actuator {actuator.value}, blink time: {blink_time}")
             ser.write(bytes(f"*blinking_actuator:({actuator.value})({blink_time})~", 'ASCII'))
             _bytes = ser.readline()
             ser.close()
@@ -426,7 +429,7 @@ class BoardInteractionInterface:
             return cls.Board.initial_actuator()
 
 
-def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
+def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
     beer_actuator = Actuators[beer_keg]
     beer_counter = BEER_COUNTER_MAP.get(beer_actuator)
     beer_count_number = BEER_SENSOR_MAP.get(beer_counter)
@@ -457,6 +460,11 @@ def pour_beer_flow(beer_keg, impulses=1000, callback_function=print):
                                                         Constants.INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT)
             time.sleep(0.5)
         BoardInteractionInterface.intake_air_start()
+
+        # printing receipt and updating quantity TODO move to separate function
+        updated_beer = Beer.update_quantity(beer_id)
+        print_receipt(barcode=updated_beer.barcode, description=updated_beer.description)
+
         time.sleep(1.5)
         callback_function(80, "Intake air")
         BoardInteractionInterface.pressure_valve_stop()
