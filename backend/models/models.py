@@ -59,6 +59,13 @@ class Beer(Base):
     def get_all():
         return Beer.select()
 
+    @staticmethod
+    def update_quantity(beer_id):
+        beer = Beer.select().where(Beer.id == beer_id).get()
+        beer.quantity = beer.quantity - 1
+        beer.save()
+        return beer
+
 
 def create_database():
     logger.info("Creating database")
