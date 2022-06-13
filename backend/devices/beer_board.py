@@ -150,7 +150,7 @@ class BoardInteractionInterface:
             # TODO
             """
             ser = cls.__connect_serial()
-            logger.info(f"BEER BOARD. BLINKING ACTUATOR. Start. Actuator {actuator.value}, blink time: {blink_time}")
+            logger.info(f"BEER BOARD. BLINKING ACTUATOR. Start. Actuator {actuator.name}, blink time: {blink_time}")
             ser.write(bytes(f"*blinking_actuator:({actuator.value})({blink_time})~", 'ASCII'))
             _bytes = ser.readline()
             ser.close()

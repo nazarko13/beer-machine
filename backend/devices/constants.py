@@ -20,13 +20,13 @@ class Constants:
     BLINK_AIR_CLEANING_TIMEOUT = 200  # час в мілісекундах для продування системи повітрям (blinking on board)
     # INTAKE AIR AFTER POUR стравка повітря після наливання пива
     INTAKE_AIR_AFTER_POUR_AMOUNT = 5  # к-ть стравок повітря після наливання пива
-    INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT = 100  # час в мілісекундах стравки повітря після наливання пива
+    INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT = 50  # час в мілісекундах стравки повітря після наливання пива
     # POUR
     BEER_POUR_FAIL_TIMEOUT = 90  # час в секундах для повного наливання пива, якщо більше то зупинити налив
-    ITERATION_TIMEOUT_BEFORE = 0.1  # час в секундах для наливання пива в межах одного проходу циклу до відсотка
-    ITERATION_TIMEOUT_AFTER = 0.25  # час в секундах для наливання пива в межах одного проходу циклу після відсотка
+    ITERATION_TIMEOUT_BEFORE = 0.15  # час в секундах для наливання пива в межах одного проходу циклу до відсотка
+    ITERATION_TIMEOUT_AFTER = 0.15  # час в секундах для наливання пива в межах одного проходу циклу після відсотка
     BEER_POUR_SPLIT_PERCENT = 75  # відсоток  для розподілу між стравками (ціле частина)
-    BLINK_INTAKE_AIR_TIMEOUT_BEFORE = 800  # час в мілісекундах між відкриттям і закриттям клапана стравки до відсотка
+    BLINK_INTAKE_AIR_TIMEOUT_BEFORE = 100  # час в мілісекундах між відкриттям і закриттям клапана стравки до відсотка
     BLINK_INTAKE_AIR_TIMEOUT_AFTER = 100  # час в мілісекундах між відкриттям і закриттям клапана стравки після відсотка
 
     # SANITIZATION
@@ -63,7 +63,7 @@ class Sensors(Enum):
 
 BEER_SENSOR_MAP = {
     Sensors.BEER_COUNTER_1: 1,
-    Sensors.BEER_COUNTER_2: 1,
+    Sensors.BEER_COUNTER_2: 2,
     Sensors.BEER_COUNTER_3: 3,
     Sensors.BEER_COUNTER_4: 4
 }
