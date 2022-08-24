@@ -2,15 +2,16 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { healthStates, modalNames } from 'common/constants';
-import { getError, getHealthState } from '../ducks/selectors';
+import { getError, getHealthState, getIsCooling } from '../ducks/selectors';
 import { openModal } from '../../modalHandler/ducks';
 import { checkHealth } from '../ducks';
 
-const checkInterval = 1000 * 30 * 60;
+const checkInterval = 15 * 60000;
 
 const useCheckHealthState = () => {
   const dispatch = useDispatch();
   const error = useSelector(getError);
+  const isCooling = useSelector(getIsCooling);
   const healthState = useSelector(getHealthState);
 
   const isNotHealthy = useMemo(
@@ -19,15 +20,16 @@ const useCheckHealthState = () => {
   );
 
   const invokeHealthStateError = useCallback(() => {
-    if (isNotHealthy && error) {
+    if ((isNotHealthy && error) || isCooling) {
       dispatch(
         openModal({
           name: modalNames.healthStateMessage,
-          message: error.message,
+          title: isCooling ? 'Зачекайте, будь ласка.' : undefined,
+          message: isCooling ? 'Апарат охолоджується!' : error.message,
         })
       );
     }
-  }, [dispatch, error, isNotHealthy]);
+  }, [dispatch, error, isCooling, isNotHealthy]);
 
   const startCheckWithInterval = useCallback(() => {
     return setInterval(() => {

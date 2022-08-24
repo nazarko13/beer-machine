@@ -20,6 +20,11 @@ export const getError = createSelector(getHomeState, (state) => state.error);
 
 export const getProgress = createSelector(getHomeData, (data) => data.progress);
 
+export const getIsCooling = createSelector(
+  getHomeData,
+  (data) => data.isCooling
+);
+
 export const getHealthState = createSelector(getHomeData, (data) => {
   const health = data.healthState;
 

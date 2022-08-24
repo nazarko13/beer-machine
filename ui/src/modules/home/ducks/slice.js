@@ -10,6 +10,7 @@ const initialState = {
     beers: [],
     progress: 0,
     healthState: null,
+    isCooling: false,
   },
   error: null,
   loading: false,
@@ -28,10 +29,12 @@ const stockSlice = createSlice({
   extraReducers: {
     [success(actionTypes.checkHealth)]: (state) => {
       state.data.healthState = true;
+      state.data.isCooling = false;
     },
 
-    [error(actionTypes.checkHealth)]: (state) => {
+    [error(actionTypes.checkHealth)]: (state, action) => {
       state.data.healthState = false;
+      state.data.isCooling = action.error.response.status === 400;
     },
 
     [actionTypes.getBeers]: preActionStateSetter,
