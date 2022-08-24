@@ -461,7 +461,7 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
         for _ in range(Constants.INTAKE_AIR_AFTER_POUR_AMOUNT):
             BoardInteractionInterface.blinking_actuator(Actuators.INTAKE_AIR,
                                                         Constants.INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT)
-            time.sleep(0.2)
+            time.sleep(Constants.TIMEOUT_BETWEEN_INTAKE_AIR_ITERATION)
         BoardInteractionInterface.intake_air_start()
 
         # printing receipt and updating quantity TODO move to separate function
@@ -531,6 +531,7 @@ def system_sanitization(liquid, beer_keg, impulses=1000):
     beer_counter = BEER_COUNTER_MAP.get(beer_actuator)
     logger.info(f"BEER BOARD. SYSTEM SANITIZATION. STARTED (liquid {liquid}, keg: {beer_keg}, impulses: {impulses}.")
     try:
+        BoardInteractionInterface.reset_counters()
         BoardInteractionInterface.beer_pour_start(beer_actuator)
         BoardInteractionInterface.intake_air_start()
         timeout = time.time() + Constants.SANITIZATION_FAIL_TIMEOUT
