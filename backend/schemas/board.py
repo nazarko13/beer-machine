@@ -8,8 +8,6 @@ from views.constants import SystemActions
 
 @marshmallow_dataclass.dataclass(base_schema=CamelCaseSchema)
 class SystemStatusOutput:
-    voltage: str = field(metadata={"attribute": "V"})
-    amperes: str = field(metadata={"attribute": "A"})
     door_sensor: bool = field(metadata={"attribute": "DoorSensor"})
     actuators_state: str = field(metadata={"attribute": "Actuators_state"})
     temp_in_system: str = field(metadata={"attribute": "Temp"})

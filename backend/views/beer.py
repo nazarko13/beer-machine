@@ -67,9 +67,7 @@ class BeerPourView(MethodView):
             beer_to_pour = BeerPourInput.Schema().load(request.json)
         except ValidationError as e:
             return jsonify({"description": str(e), "error": "Validation error"}), 400
-        if pour_beer_flow(beer_to_pour.keg, beer_to_pour.pulse_count, callback_function):
-            b = Beer.update(quantity=Beer.quantity - 1).where(Beer.id == beer_to_pour.id).execute()
-            print_receipt(barcode="1222222", description="")
+        if pour_beer_flow(beer_to_pour.keg, beer_to_pour.id, beer_to_pour.pulse_count, callback_function):
             return jsonify({"description": "OK"})
         else:
             return jsonify({"description": "Something went wrong"}), 400
