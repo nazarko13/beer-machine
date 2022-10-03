@@ -11,7 +11,7 @@ import lightBeer from 'assets/images/light.png';
 const useStyles = makeStyles(({ spacing }) => ({
   root: {
     width: '90%',
-    fontSize: '1.1rem',
+    fontSize: '1.5rem',
     borderRadius: 10,
     backgroundColor: '#8bbc2a',
     height: ({ height }) => height || 60,
