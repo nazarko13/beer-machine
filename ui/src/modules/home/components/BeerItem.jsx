@@ -38,7 +38,7 @@ const BeerItem = ({ name, price, type, handlePour }) => {
       xs={6}
       py={2}
       direction="column"
-      onClick={handlePour}
+      onMouseUp={handlePour}
       justifyContent="center"
       boxShadow="0 0 15px 0.1px #8bbc2a"
     >
