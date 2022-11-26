@@ -14,6 +14,9 @@ const palette = {
     lightGrey: '#F1F3F4',
     dark: '#000000',
   },
+  neutral: {
+    main: '#000000',
+  },
   primary: {
     main: '#07881c',
   },

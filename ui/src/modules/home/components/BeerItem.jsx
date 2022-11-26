@@ -57,6 +57,7 @@ const BeerItem = ({ name, price, type, handlePour }) => {
         <Button
           fullWidth
           size="large"
+          color="neutral"
           classes={classes}
           text={`${name} ${price} UAH`}
         />

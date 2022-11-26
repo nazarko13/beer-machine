@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 
 import { Tabs } from 'common/components';
 import { adminTabs, tabKeys } from './constants';
+import SystemSettings from './components/SystemSettings';
 import SettingsForm from './components/SettingsForm';
 import SystemInfo from './components/SystemInfo';
 import Cleaning from './components/Cleaning';
@@ -26,6 +27,7 @@ const Admin = ({ fieldSet }) => {
             [tabKeys.settingsForm]: <SettingsForm fieldSet={fieldSet} />,
             [tabKeys.systemInfo]: <SystemInfo />,
             [tabKeys.cleaning]: <Cleaning />,
+            [tabKeys.generalSettings]: <SystemSettings />,
           }[activeTab]
         }
       </Grid>

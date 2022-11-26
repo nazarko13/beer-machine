@@ -7,9 +7,11 @@ const Button = ({
   color = 'primary',
   onClick = () => null,
   variant = 'contained',
+  size = 'large',
   ...props
 }) => (
   <MUIButton
+    size={size}
     color={color}
     variant={variant}
     onClick={onClick}
