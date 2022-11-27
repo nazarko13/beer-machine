@@ -16,7 +16,7 @@ const useStyles = makeStyles(({ spacing }) => ({
     borderRadius: 10,
     backgroundColor: '#8bbc2a',
     height: ({ height }) => height || 60,
-    padding: spacing(0, 1),
+    padding: spacing(1),
   },
 }));
 
