@@ -31,3 +31,8 @@ export const startWashing = (payload) => ({
   type: actionTypes.startWashing,
   request: api.startWashing(payload),
 });
+
+export const getSystemSettings = () => ({
+  type: actionTypes.getSystemSettings,
+  request: api.getSystemSettings(),
+});

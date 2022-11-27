@@ -13,9 +13,9 @@ import {
 } from './ducks/selectors';
 import { AdminAccessControls } from './components';
 import PourLoader from './components/PourLoader';
-import { useCheckHealthState } from './hooks';
 import Beers from './components/Beers';
 import { checkHealth } from './ducks';
+import { useCheckHealthState, useCheckWorkingHours } from './hooks';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -38,6 +38,8 @@ const Home = () => {
   }, [checkHealthState]);
 
   useCheckHealthState();
+
+  useCheckWorkingHours();
 
   return (
     <Grid container height="100%">

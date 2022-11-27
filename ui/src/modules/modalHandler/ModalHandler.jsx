@@ -34,6 +34,7 @@ const ModalHandler = () => {
               [modalNames.message]: (
                 <MessageModal {...modalProps} onClose={onClose} />
               ),
+              [modalNames.workingHours]: <MessageModal {...modalProps} />,
             }[modalName]
           }
         </Grid>

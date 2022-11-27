@@ -6,3 +6,4 @@ export const pourStatus = `${moduleName}.pourStatus`;
 export const adminLogin = `${moduleName}.adminLogin`;
 export const checkHealth = `${moduleName}.checkHealth`;
 export const startWashing = `${moduleName}.startWashing`;
+export const getSystemSettings = `${moduleName}.getSystemSettings`;

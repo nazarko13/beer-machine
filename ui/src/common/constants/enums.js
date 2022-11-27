@@ -37,6 +37,7 @@ export const beerImages = createEnum({
 export const modalNames = createEnum({
   adminAuth: null,
   message: null,
+  workingHours: null,
   healthStateMessage: null,
 });
 
