@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, useWatch } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { routes } from 'common/constants';
@@ -21,12 +21,20 @@ const WorkingTimeForm = () => {
   const dispatch = useDispatch();
   const config = useSelector(getStateSystemSettings);
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, trigger } = useForm({
     defaultValues: config,
     mode: 'all',
     reValidateMode: 'onChange',
     resolver: yupResolver(systemSettingsSchema),
   });
+
+  const workingFrom = useWatch({ control, name: 'workingHours.fromHour' });
+
+  useEffect(() => {
+    if (typeof workingFrom === 'number') {
+      trigger('workingHours.toHour');
+    }
+  }, [workingFrom, trigger]);
 
   const handleSave = (data) => dispatch(updateSystemSettings(data));
 
