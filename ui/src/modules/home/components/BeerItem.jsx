@@ -13,13 +13,9 @@ const useStyles = makeStyles(({ spacing }) => ({
     width: '90%',
     fontSize: '1.1rem',
     borderRadius: 10,
-    backgroundColor: '#8bbc2a',
+    backgroundColor: 'black',
     height: ({ height }) => height || 60,
-    padding: spacing(0, 0.5),
-
-    '&:hover': {
-      backgroundColor: '#8bbc2a',
-    },
+    padding: spacing(0, 1),
   },
 }));
 
@@ -57,7 +53,6 @@ const BeerItem = ({ name, price, type, handlePour }) => {
         <Button
           fullWidth
           size="large"
-          color="neutral"
           classes={classes}
           text={`${name} ${price} UAH`}
         />

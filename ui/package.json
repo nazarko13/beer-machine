@@ -5,10 +5,10 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@hookform/resolvers": "^2.9.10",
     "@mui/lab": "^5.0.0-alpha.109",
     "@mui/material": "^5.2.3",
     "@mui/styles": "^5.2.3",
-    "@mui/x-date-pickers": "^5.0.9",
     "@redux-requests/axios": "^1.2.0",
     "@redux-requests/core": "^1.7.0",
     "@reduxjs/toolkit": "^1.7.0",
@@ -25,7 +25,8 @@
     "react-router-dom": "^6.1.1",
     "react-simple-keyboard": "^3.4.11",
     "reselect": "^4.1.5",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.31.1"
   },
   "devDependencies": {
     "@babel/core": "^7.17.0",

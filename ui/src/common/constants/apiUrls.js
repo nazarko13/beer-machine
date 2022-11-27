@@ -10,6 +10,7 @@ const apiUrls = {
   system: '/system',
   systemStatus: '/system/status',
   sanitization: '/sanitization',
+  systemSettings: '/system/settings',
 };
 
 export default apiUrls;

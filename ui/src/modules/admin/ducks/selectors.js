@@ -25,8 +25,6 @@ export const getLoading = createSelector(
   (state) => state.loading
 );
 
-export const getErrors = createSelector(getAdminState, (state) => state.errors);
-
 const getDoorSensorValue = (v) => (v ? 'Активний' : 'Неактивний');
 
 export const getSystemInfoData = createSelector(getDetails, (info) =>
@@ -42,4 +40,9 @@ export const getSystemInfoData = createSelector(getDetails, (info) =>
       label: systemInfoModelLabels[val],
     };
   })
+);
+
+export const getStateSystemSettings = createSelector(
+  getData,
+  (data) => data.systemSettings
 );

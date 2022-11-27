@@ -9,6 +9,7 @@ const initialState = {
   data: {
     beers: [],
     details: null,
+    systemSettings: null,
   },
   error: null,
   loading: false,
@@ -89,6 +90,16 @@ const adminSlice = createSlice({
       state.loading = false;
     },
     [error(actionTypes.setSystemInfo)]: (state) => {
+      state.loading = false;
+    },
+
+    // system settings
+    [actionTypes.getSystemSettings]: preActionStateSetter,
+    [success(actionTypes.getSystemSettings)]: (state, action) => {
+      state.loading = false;
+      state.data.systemSettings = action.response.data;
+    },
+    [error(actionTypes.getSystemSettings)]: (state) => {
       state.loading = false;
     },
   },

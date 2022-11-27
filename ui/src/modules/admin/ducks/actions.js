@@ -26,3 +26,13 @@ export const sendSanitizeAction = (params) => ({
   type: actionTypes.setSystemInfo,
   request: api.sendSanitizeAction(params),
 });
+
+export const getSystemSettings = () => ({
+  type: actionTypes.getSystemSettings,
+  request: api.getSystemSettings(),
+});
+
+export const updateSystemSettings = (params) => ({
+  type: actionTypes.updateSystemSettings,
+  request: api.updateSystemSettings(params),
+});

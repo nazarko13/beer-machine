@@ -15,6 +15,11 @@ const api = {
   setSystemSetting: (params) => requests.postDataAction(apiUrls.system, params),
   sendSanitizeAction: (params) =>
     requests.postDataAction(apiUrls.sanitization, params),
+
+  getSystemSettings: () => requests.getDataAction(apiUrls.systemSettings),
+
+  updateSystemSettings: (params) =>
+    requests.putDataAction(apiUrls.systemSettings, params),
 };
 
 export default api;
