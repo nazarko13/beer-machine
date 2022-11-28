@@ -6,6 +6,7 @@ import { adminTabs, tabKeys } from './constants';
 import SystemInfo from './components/SystemInfo';
 import SettingsForm from './components/SettingsForm';
 import Cleaning from './components/Cleaning';
+import SystemSettings from './components/SystemSettings';
 
 const Admin = ({ fieldSet }) => {
   const [activeTab, setActiveTab] = useState(tabKeys.settingsForm);
@@ -26,6 +27,7 @@ const Admin = ({ fieldSet }) => {
             [tabKeys.settingsForm]: <SettingsForm fieldSet={fieldSet} />,
             [tabKeys.systemInfo]: <SystemInfo />,
             [tabKeys.cleaning]: <Cleaning />,
+            [tabKeys.generalSettings]: <SystemSettings />,
           }[activeTab]
         }
       </Grid>

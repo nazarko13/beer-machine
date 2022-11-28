@@ -1,22 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  name: null,
-  props: {},
-};
+const initialState = [];
 
 const modalsSlice = createSlice({
   name: 'modals',
   initialState,
   reducers: {
     openModal(state, action) {
-      state.name = action.payload.name;
-      state.props = action.payload;
+      const modal = action.payload;
+      const existIndex = state.findIndex((m) => m.name === modal.name);
+
+      if (existIndex >= 0) {
+        const existModal = state[existIndex];
+        const newState = [...state];
+
+        newState[existIndex] = {
+          name: existModal.name,
+          props: { ...(existModal?.props || {}), ...(modal?.props || {}) },
+        };
+
+        return newState;
+      }
+
+      return [...state, modal];
     },
 
-    closeModal(state) {
-      state.name = null;
-      state.props = null;
+    closeModal(state, action) {
+      const { payload } = action;
+
+      if (!payload) {
+        return [];
+      }
+
+      return state.filter((m) => m.name !== payload);
     },
   },
 });

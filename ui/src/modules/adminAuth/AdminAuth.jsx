@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import { useActivityHandler, useNotify } from 'common/hooks';
 import { closeModal } from 'modules/modalHandler/ducks';
 import { adminLogin } from 'modules/home/ducks';
-import { routes } from 'common/constants';
+import { modalNames, routes } from 'common/constants';
 import AuthForm from './components/AuthForm';
 
 const AdminAuth = ({ onClose = null }) => {
@@ -21,7 +21,7 @@ const AdminAuth = ({ onClose = null }) => {
     notify.error(error.response?.data?.description || error.message);
 
   const onSuccess = (data) => {
-    dispatch(closeModal());
+    dispatch(closeModal(modalNames.adminAuth));
     navigate(routes.private.admin, data);
   };
 
@@ -38,7 +38,7 @@ const AdminAuth = ({ onClose = null }) => {
     );
   };
 
-  useActivityHandler(authContainer, onClose);
+  useActivityHandler(authContainer, () => onClose(modalNames.adminAuth));
 
   return (
     <Paper

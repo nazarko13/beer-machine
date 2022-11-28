@@ -97,7 +97,9 @@ const SystemSettings = () => {
     dispatch(getSystemSettings());
   }, [dispatch]);
 
-  useEffect(() => getSettings(), [getSettings]);
+  useEffect(() => {
+    getSettings();
+  }, [getSettings]);
 
   if (loading) {
     return <Loader />;

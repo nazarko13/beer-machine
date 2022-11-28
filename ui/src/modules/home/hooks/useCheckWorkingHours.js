@@ -1,22 +1,19 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 import { modalNames } from 'common/constants';
 
-import moment from 'moment';
 import { openModal, closeModal } from '../../modalHandler/ducks';
-import { getModalName } from '../../modalHandler/ducks/selectors';
+import { getIsModalOpened } from '../../modalHandler/ducks/selectors';
 import { getSystemSettings } from '../ducks';
 
 const checkInterval = 15 * 10000;
 
 const useCheckWorkingHours = () => {
   const dispatch = useDispatch();
-  const modalName = useSelector(getModalName);
-
-  const isWorkingHoursAlert = useMemo(
-    () => modalName === modalNames.workingHours,
-    [modalName]
+  const isWorkingHoursAlert = useSelector(
+    getIsModalOpened(modalNames.workingHours)
   );
 
   const invokeWorkingHoursError = useCallback(
@@ -40,12 +37,12 @@ const useCheckWorkingHours = () => {
 
       const isWorking = currentHour >= fromHour && currentHour < toHour;
 
-      if (!isWorking) {
+      if (!isWorking && !isWorkingHoursAlert) {
         invokeWorkingHoursError(fromHour, toHour);
       }
 
       if (isWorking && isWorkingHoursAlert) {
-        dispatch(closeModal());
+        dispatch(closeModal(modalNames.workingHours));
       }
     } catch (e) {
       console.error(e);
@@ -65,6 +62,11 @@ const useCheckWorkingHours = () => {
 
     return () => clearInterval(interval);
   }, [startCheckWithInterval]);
+
+  useEffect(
+    () => () => dispatch(closeModal(modalNames.workingHours)),
+    [dispatch]
+  );
 };
 
 export default useCheckWorkingHours;

@@ -1,18 +1,19 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
-import Typography from '@mui/material/Typography';
 import Button from '../Button';
+import { modalNames } from '../../constants';
 
 const Message = ({ message, onClose, title }) => {
   const container = useRef();
 
   const eventHandler = useCallback(() => {
     setTimeout(() => {
-      onClose();
+      onClose(modalNames.message);
     }, 60000);
   }, [onClose]);
 
@@ -41,7 +42,11 @@ const Message = ({ message, onClose, title }) => {
 
       {onClose && (
         <DialogActions>
-          <Button text="ЗАКРИТИ" color="primary" onClick={onClose} />
+          <Button
+            text="ЗАКРИТИ"
+            color="primary"
+            onClick={() => onClose(modalNames.message)}
+          />
         </DialogActions>
       )}
     </Grid>
