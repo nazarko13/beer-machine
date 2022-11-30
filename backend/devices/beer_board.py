@@ -4,11 +4,12 @@ from threading import Lock
 
 from devices.printing import print_receipt
 from models.models import Beer
+from settings import CONTROL_BOARD_PORT
 
 logger = getLogger(__name__)
 import serial
 
-from devices.constants import Constants, Actuators, Sensors, CONTROL_BOARD_PORT, BEER_COUNTER_MAP, BEER_SENSOR_MAP
+from devices.constants import Constants, Actuators, Sensors, BEER_COUNTER_MAP, BEER_SENSOR_MAP
 
 command_str = [0 for _ in range(0, 16)]
 

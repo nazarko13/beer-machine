@@ -67,6 +67,15 @@ class Beer(Base):
         return beer
 
 
+class SystemSettings(Base):
+    id = PrimaryKeyField()
+    config = CharField(null=False, default='{"workingHours": {"fromHour": 10, "toHour": 12}}')
+
+    @staticmethod
+    def get_first():
+        return SystemSettings.get(SystemSettings.id == 1)
+
+
 def create_database():
     logger.info("Creating database")
     DB.create_tables(Base.__subclasses__())

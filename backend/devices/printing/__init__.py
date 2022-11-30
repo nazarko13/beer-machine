@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 import os
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from logging import getLogger
 
 from reportlab.graphics.barcode import createBarcodeDrawing
@@ -12,6 +12,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle
 
 from devices.printing.printer import Printer
+from settings import DAYS_TO_EXPIRE
 
 FILE_DIR = os.path.dirname(os.path.abspath(__file__))
 RECEIPT_FILE_PATH = os.path.join(FILE_DIR, 'receipt.pdf')
@@ -21,7 +22,7 @@ DESCRIPTION = 'Пиво темне. Не пастеризоване "Бурго�
 DESCRIPTION_LIGHT_BEER = 'Пиво світле. Не пастеризоване "Бургомістр Пілснер". Виробник: ТзОВ "Інтер Бір Трейд". Юридична адреса: 79052, м.Львів, вул.Півколо, 14. Склад: вода питна підготовлена, солод ячмінний, хміль, дріжджі пивні. Термін придатності - 5 діб. Зберігати при температурі від +2 до +5 градусів у затемненому приміщенні. Номер партії відповідає даті виготовлення. Без ГМО. Вміст спирту не менше - 4,2%. Масова частка сухих речовин у початковому суслі - 12%. Енергетична цінність в 100г продукту - 48кКал. Поживна(харчова) цінність в 100г продукту - 4,6г вуглеводів. ДСТУ 3888-99. Допускається наявність дріжджового осаду. Ліцензія N°990108201800071. Не рекомендується вживати дітям віком до 18 років, вагітним, особам, які мають медичні чи професійні протипоказання.'
 
 
-def create_pdf(barcode, description):
+def create_pdf(barcode, description, filling_date):
     pdf_settings = {
         'rightMargin': 0,
         'topMargin': 0,
@@ -37,7 +38,7 @@ def create_pdf(barcode, description):
     # styles
     styles = add_styles()
 
-    story = receipt_body(styles, barcode, description)
+    story = receipt_body(styles, barcode, filling_date, description)
     doc.build(story)
 
     logger.info("Receipt has been created: Barcode #{}.".format(barcode))
@@ -58,20 +59,26 @@ def add_styles():
         name='Right7SpaceBefore5',
         fontName='arialbold.ttf',
         alignment=TA_LEFT,
-        fontSize=7
+        fontSize=7,
+        leading=6,
     ))
 
     return styles
 
 
-def receipt_body(styles, barcode, description=DESCRIPTION):
+def receipt_body(styles, barcode, filling_date, description=DESCRIPTION):
     story = list()
 
     _barcode = createBarcodeDrawing('EAN13', value=barcode, height=7 * mm, barWidth=0.5 * mm, humanReadable=False,
                                     lquiet=True, rquiet=True)
-    print_date = datetime.today().strftime('%Y/%m/%d')
+    print_date = datetime.today().strftime('%Y-%m-%d')
+    expiration_date = filling_date + timedelta(days=DAYS_TO_EXPIRE)
     tab = Table([
-        [_barcode, Paragraph(f"Дата розливу: {print_date}  Обєм 1000ml", styles["Right7SpaceBefore5"])]
+        [_barcode, Paragraph(
+            f"Дата розливу: {print_date} "
+            f"Дата вст.кеги: {filling_date} "
+            f"Cпожити до: {expiration_date} "
+            f"Обєм: 950ml +- 5%", styles["Right7SpaceBefore5"])]
 
     ], colWidths=[50 * mm, 40 * mm], rowHeights=[10 * mm])
     tab.setStyle(TableStyle([
@@ -83,9 +90,9 @@ def receipt_body(styles, barcode, description=DESCRIPTION):
     return story
 
 
-def print_receipt(barcode, description):
-    Printer.print(create_pdf(barcode, description))
+def print_receipt(barcode, description, filling_date):
+    Printer.print(create_pdf(barcode, description, filling_date))
 
 
 if __name__ == "__main__":
-    print_receipt(21312312312312, DESCRIPTION)
+    print_receipt(21312312312312, DESCRIPTION, date.today())

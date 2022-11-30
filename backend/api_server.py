@@ -4,6 +4,7 @@ from flask import Flask
 from flask_cors import CORS
 
 from loggers import setup_logging
+from views.system_settings import SystemSettingsView
 
 setup_logging()
 logger = getLogger(__name__)
@@ -32,6 +33,8 @@ app.add_url_rule(API_PREFIX + '/cleaning', view_func=BeerSystemCleaning.as_view(
 app.add_url_rule(API_PREFIX + '/system/status', view_func=SystemStatusView.as_view('system_status'), methods=["GET"])
 app.add_url_rule(API_PREFIX + '/system', view_func=SystemConfigurationView.as_view('system_config'), methods=["POST"])
 app.add_url_rule(API_PREFIX + '/sanitization', view_func=SystemSanitization.as_view('sanitization'), methods=["POST"])
+app.add_url_rule(API_PREFIX + '/system/settings', view_func=SystemSettingsView.as_view('system_settings'),
+                 methods=["GET", "PUT"])
 
 
 @app.route('/')

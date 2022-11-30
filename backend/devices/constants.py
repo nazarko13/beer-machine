@@ -1,6 +1,8 @@
 from enum import Enum
 
-CONTROL_BOARD_PORT = "/dev/ttyUSB0"
+from settings import E_INTAKE_AIR_AFTER_POUR_AMOUNT, E_INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT, E_BEER_POUR_FAIL_TIMEOUT, \
+    E_ITERATION_TIMEOUT_BEFORE, E_ITERATION_TIMEOUT_AFTER, E_BEER_POUR_SPLIT_PERCENT, \
+    E_BLINK_INTAKE_AIR_TIMEOUT_BEFORE, E_BLINK_INTAKE_AIR_TIMEOUT_AFTER, E_TIMEOUT_BETWEEN_INTAKE_AIR_ITERATION
 
 
 class Constants:
@@ -19,16 +21,16 @@ class Constants:
     BLINK_WATER_CLEANING_TIMEOUT = 200  # час в мілісекундах для промивки системи водою (blinking on board)
     BLINK_AIR_CLEANING_TIMEOUT = 200  # час в мілісекундах для продування системи повітрям (blinking on board)
     # INTAKE AIR AFTER POUR стравка повітря після наливання пива
-    INTAKE_AIR_AFTER_POUR_AMOUNT = 20  # к-ть стравок повітря після наливання пива
-    INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT = 10  # час в мілісекундах стравки повітря після наливання пива
+    INTAKE_AIR_AFTER_POUR_AMOUNT = E_INTAKE_AIR_AFTER_POUR_AMOUNT  # к-ть стравок повітря після наливання пива
+    INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT = E_INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT  # час в мілісекундах стравки повітря після наливання пива
     # POUR
-    BEER_POUR_FAIL_TIMEOUT = 1800  # час в секундах для повного наливання пива, якщо більше то зупинити налив
-    ITERATION_TIMEOUT_BEFORE = 0.15  # час в секундах для наливання пива в межах одного проходу циклу до відсотка
-    ITERATION_TIMEOUT_AFTER = 0.3  # час в секундах для наливання пива в межах одного проходу циклу після відсотка
-    BEER_POUR_SPLIT_PERCENT = 70  # відсоток  для розподілу між стравками (ціле частина)
-    BLINK_INTAKE_AIR_TIMEOUT_BEFORE = 100  # час в мілісекундах між відкриттям і закриттям клапана стравки до відсотка
-    BLINK_INTAKE_AIR_TIMEOUT_AFTER = 50  # час в мілісекундах між відкриттям і закриттям клапана стравки після відсотка
-    TIMEOUT_BETWEEN_INTAKE_AIR_ITERATION = 0.2  # час в секундах між відкриттям і закриттям клапана стравки після відсотка
+    BEER_POUR_FAIL_TIMEOUT = E_BEER_POUR_FAIL_TIMEOUT  # час в секундах для повного наливання пива, якщо більше то зупинити налив
+    ITERATION_TIMEOUT_BEFORE = E_ITERATION_TIMEOUT_BEFORE  # час в секундах для наливання пива в межах одного проходу циклу до відсотка
+    ITERATION_TIMEOUT_AFTER = E_ITERATION_TIMEOUT_AFTER  # час в секундах для наливання пива в межах одного проходу циклу після відсотка
+    BEER_POUR_SPLIT_PERCENT = E_BEER_POUR_SPLIT_PERCENT  # відсоток  для розподілу між стравками (ціле частина)
+    BLINK_INTAKE_AIR_TIMEOUT_BEFORE = E_BLINK_INTAKE_AIR_TIMEOUT_BEFORE  # час в мілісекундах між відкриттям і закриттям клапана стравки до відсотка
+    BLINK_INTAKE_AIR_TIMEOUT_AFTER = E_BLINK_INTAKE_AIR_TIMEOUT_AFTER  # час в мілісекундах між відкриттям і закриттям клапана стравки після відсотка
+    TIMEOUT_BETWEEN_INTAKE_AIR_ITERATION = E_TIMEOUT_BETWEEN_INTAKE_AIR_ITERATION  # час в секундах між відкриттям і закриттям клапана стравки після відсотка
 
     # SANITIZATION
     SANITIZATION_FAIL_TIMEOUT = 180  # час в секундах для санітизації системи, якщо більше то зупинити санітизацію
