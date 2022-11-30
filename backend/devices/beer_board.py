@@ -467,7 +467,9 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
 
         # printing receipt and updating quantity TODO move to separate function
         updated_beer = Beer.update_quantity(beer_id)
-        print_receipt(barcode=updated_beer.barcode, description=updated_beer.description)
+        print_receipt(barcode=updated_beer.barcode,
+                      description=updated_beer.description,
+                      filling_date=updated_beer.filling_date)
 
         time.sleep(1.5)
         callback_function(80, "Intake air")
