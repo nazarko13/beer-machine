@@ -12,3 +12,4 @@ class WorkingHoursSchema:
 @marshmallow_dataclass.dataclass(base_schema=CamelCaseSchema)
 class SystemSettingsSchema:
     working_hours: WorkingHoursSchema
+    # beer_remains_qty: int # TODO for next version

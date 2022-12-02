@@ -1,8 +1,10 @@
 from logging import getLogger
 
+from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
 from flask_cors import CORS
 
+from export.csv_export import send_statistics
 from loggers import setup_logging
 from views.system_settings import SystemSettingsView
 
@@ -11,7 +13,7 @@ logger = getLogger(__name__)
 
 from views.board import SystemStatusView, SystemConfigurationView, SystemSanitization
 from models.models import init_database, create_database
-from settings import API_PREFIX
+from settings import API_PREFIX, CRON_HOUR, CRON_MINUTE
 from views.beer import BeerActiveView, BeerPourView, BeerView, BeerPourStatus, BeerSystemCleaning
 from views.employee import EmployeeView
 from views.health import HealthView
@@ -20,6 +22,10 @@ app = Flask(__name__, static_folder='build', static_url_path='/')
 
 init_database()
 create_database()
+
+scheduler = BackgroundScheduler(daemon=True)
+scheduler.add_job(send_statistics, 'cron', hour=CRON_HOUR, minute=CRON_MINUTE)
+scheduler.start()
 
 CORS(app, resources={r"/*": {"origins": "*"}})
 

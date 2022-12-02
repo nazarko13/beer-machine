@@ -3,7 +3,10 @@ from logging import getLogger
 from threading import Lock
 
 from devices.printing import print_receipt
-from models.models import Beer
+from devices.utils import handle_board_error_action
+from export.telegram_bot import send_message
+from models.models import Beer, BeerStatistics, SystemSettings
+from schemas.system_settings import SystemSettingsSchema
 from settings import CONTROL_BOARD_PORT
 
 logger = getLogger(__name__)
@@ -126,7 +129,7 @@ class BoardInteractionInterface:
             ser.close()
             _str = str(_bytes, 'utf').strip()
             if not _str.strip() == "actuators is set":
-                raise BoardError(action="Set actuator", message=f"Could not set actuator{actuator} to state{state}")
+                raise BoardError(action="set_actuator", message=f"Could not set actuator{actuator} to state{state}")
             return True
 
         @classmethod
@@ -266,11 +269,11 @@ class BoardInteractionInterface:
                 logger.info(f"BEER_BOARD. DOOR CLOSE. Door close process finished with status {res}.")
                 if not res:
                     logger.error("BEER_BOARD. DOOR CLOSE. Door was not closed due to something on the way")
-                    raise BoardError(action="Close door", message="Could not close  door.")
+                    raise BoardError(action="close_door_check_sensor", message="Could not close door.")
                 return res
 
             logger.error("BEER_BOARD. DOOR CLOSE. Could not start door close process.")
-            raise BoardError(action="Close door", message="Could not start door close process.")
+            raise BoardError(action="close_door", message="Could not start door close process.")
 
     @classmethod
     def open_door(cls):
@@ -287,7 +290,7 @@ class BoardInteractionInterface:
                 logger.info("BEER_BOARD. OPEN DOOR. Door open process FINISHED.")
             else:
                 logger.error("BEER_BOARD. DOOR CLOSE. Could not start door open process.")
-                raise BoardError(action="Open door", message="Could not start door open process.")
+                raise BoardError(action="open_door", message="Could not start door open process.")
 
     @classmethod
     def pressure_valve_start(cls):
@@ -301,6 +304,7 @@ class BoardInteractionInterface:
 
     @classmethod
     def is_valve_fully_open(cls):
+        # TODO raise error here
         valve_pressed_bottle = float(cls.Board.get_system_status()[Sensors.VALVE_SENSOR.value])
         logger.info(f"BEER_BOARD. PRESSURE VALVE START Current valve pressed bottle: {valve_pressed_bottle}.")
         return valve_pressed_bottle
@@ -346,7 +350,7 @@ class BoardInteractionInterface:
         logger.error(f"BEER_BOARD. AIR PRESSURE INTO SYSTEM. Could not fill the system with needed air pressure.")
         cls.air_pressure_stop()
         raise BoardError(
-            action="Take air pressure into system",
+            action="take_air_pressure_into_system",
             message="Could not fill the system with needed air pressure."
         )
 
@@ -417,8 +421,8 @@ class BoardInteractionInterface:
                     cls.Board.blinking_actuator(Actuators.INTAKE_AIR, Constants.BLINK_INTAKE_AIR_TIMEOUT_AFTER)
                     time.sleep(Constants.ITERATION_TIMEOUT_AFTER)
                 if time.time() > timeout:
-                    logger.error(f"BEER_BOARD. INTAKE AIR. Could not start beer pour or timeout exceed.")
-                    raise BoardError(action="Intake air", message="Could not start beer pour or timeout exceed.")
+                    logger.error(f"BEER_BOARD. INTAKE AIR. Beer pour timeout exceed.")
+                    raise BoardError(action="intake_air", message="Beer pour timeout exceed.")
                 sensor_impulses = int(cls.Board.read_counters()[count_sensor.value])
         return True
 
@@ -438,6 +442,12 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
     beer_counter = BEER_COUNTER_MAP.get(beer_actuator)
     beer_count_number = BEER_SENSOR_MAP.get(beer_counter)
     logger.info(f"BEER BOARD. POUR BEER FLOW. Pour beer STARTED (keg: {beer_keg}, impulses: {impulses}.")
+    beer = Beer.get(beer_id)
+    beer_statistics = BeerStatistics.create(beer_name=beer.name, barcode=beer.barcode, remains=beer.quantity)
+    # TODO for next version
+    # system_settings = SystemSettingsSchema.Schema().loads(SystemSettings.get_first().config)
+    # if beer.quantity <= system_settings.beer_remains_qty:
+    #     send_message(f"Пиво закінчується: {beer.name} - {beer.quantity}л")
     try:
         BoardInteractionInterface.set_initial_actuators_state(),
         callback_function(10, "Initial actuators state.")
@@ -447,7 +457,7 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
         time.sleep(1.5)
         if not BoardInteractionInterface.is_valve_fully_open():
             raise BoardError(
-                action="Main flow",
+                action="press_bottle",
                 message="Bottle was not pressed."
             )
         callback_function(30, "Pressure valve start.")
@@ -481,6 +491,7 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
         return True
     except BoardError as e:
         logger.error(f"BEER BOARD. POUR BEER FLOW. {e}")
+        handle_board_error_action(e.action, beer_statistics)
         try:
             BoardInteractionInterface.set_initial_actuators_state()
             time.sleep(Constants.AFTER_EXCEPTION)
@@ -505,7 +516,7 @@ def system_cleaning_flow(force=False):
         if not force:
             if BoardInteractionInterface.is_valve_fully_open():
                 raise BoardError(
-                    action="Cleaning flow",
+                    action="cleaning_flow",
                     message="Bottle was not removed."
                 )
         BoardInteractionInterface.blinking_actuator(Actuators.WATER, Constants.BLINK_WATER_CLEANING_TIMEOUT)
@@ -545,7 +556,7 @@ def system_sanitization(liquid, beer_keg, impulses=1000):
             time.sleep(Constants.SANITIZATION_IMPULSE_CHECK_TIMEOUT)
             if time.time() > timeout:
                 logger.error(f"BEER_BOARD. SYSTEM SANITIZATION. Timeout exceed for liquid {liquid}, keg {beer_keg}.")
-                raise BoardError(action="System sanitization", message=f"Timeout exceed for liquid {liquid}.")
+                raise BoardError(action="system_sanitization", message=f"Timeout exceed for liquid {liquid}.")
 
         BoardInteractionInterface.beer_pour_stop(beer_actuator)
         BoardInteractionInterface.intake_air_stop()

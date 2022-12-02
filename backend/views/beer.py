@@ -1,11 +1,10 @@
-from datetime import datetime, date
+from datetime import date
 
 from flask import jsonify, request
 from flask.views import MethodView
 from marshmallow import ValidationError
 
 from devices.beer_board import pour_beer_flow, system_cleaning_flow
-from devices.printing import print_receipt
 from models.models import Beer
 from schemas.beer import BeerOutput, BeerPourInput
 
