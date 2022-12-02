@@ -19,7 +19,7 @@ class Constants:
     DOOR_OPEN_TIMEOUT = 2  # час в секундах повного відкриття шторки в секундах
     # CLEANING промивка системи
     BLINK_WATER_CLEANING_TIMEOUT = 200  # час в мілісекундах для промивки системи водою (blinking on board)
-    BLINK_AIR_CLEANING_TIMEOUT = 200  # час в мілісекундах для продування системи повітрям (blinking on board)
+    BLINK_AIR_CLEANING_TIMEOUT = 300  # час в мілісекундах для продування системи повітрям (blinking on board)
     # INTAKE AIR AFTER POUR стравка повітря після наливання пива
     INTAKE_AIR_AFTER_POUR_AMOUNT = E_INTAKE_AIR_AFTER_POUR_AMOUNT  # к-ть стравок повітря після наливання пива
     INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT = E_INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT  # час в мілісекундах стравки повітря після наливання пива

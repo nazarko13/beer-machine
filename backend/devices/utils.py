@@ -15,7 +15,7 @@ EXCEPTION_ACTIONS_TO_SAVE_IN_STATISTICS = {
 
 def handle_board_error_action(action: str, beer_statistics: BeerStatistics):
     statistics_msg = EXCEPTION_ACTIONS_TO_SAVE_IN_STATISTICS.get(action)
-    notification_msg = EXCEPTION_ACTIONS_TO_SENT_NOTIFICATION.get(action, "Інше")
+    notification_msg = EXCEPTION_ACTIONS_TO_SENT_NOTIFICATION.get(action)
     if notification_msg:
         if action == 'intake_air':
             send_message(notification_msg + beer_statistics.beer_name, error=True)

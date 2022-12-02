@@ -481,7 +481,7 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
                       description=updated_beer.description,
                       filling_date=updated_beer.filling_date)
 
-        time.sleep(1.5)
+        time.sleep(5)
         callback_function(80, "Intake air")
         BoardInteractionInterface.pressure_valve_stop()
         callback_function(90, "Pressure valve stop")
