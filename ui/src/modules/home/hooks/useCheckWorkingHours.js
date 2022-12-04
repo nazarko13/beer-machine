@@ -22,7 +22,7 @@ const useCheckWorkingHours = () => {
         openModal({
           name: modalNames.workingHours,
           title: 'Апарат не працює',
-          message: `Робочі години з ${from}:00 по ${to}:00.`,
+          message: `Робочі години з ${from} по ${to}.`,
         })
       );
     },
@@ -33,9 +33,17 @@ const useCheckWorkingHours = () => {
     try {
       const { data } = await dispatch(getSystemSettings());
       const currentHour = moment().hour();
+      const currentMinutes = moment().minutes();
+      const currentTime = currentHour + currentMinutes / 60;
       const { fromHour, toHour } = data.workingHours;
 
-      const isWorking = currentHour >= fromHour && currentHour < toHour;
+      const [fromH, fromM] = (fromHour || '').split(':').map(Number);
+      const [toH, toM] = (toHour || '').split(':').map(Number);
+
+      const from = fromH + fromM / 60;
+      const to = toH + toM / 60;
+
+      const isWorking = currentTime >= from && currentTime < to;
 
       if (!isWorking && !isWorkingHoursAlert) {
         invokeWorkingHoursError(fromHour, toHour);

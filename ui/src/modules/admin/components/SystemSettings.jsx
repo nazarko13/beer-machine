@@ -15,7 +15,27 @@ import { getLoading, getStateSystemSettings } from '../ducks/selectors';
 
 const workingHoursOptions = new Array(25)
   .fill(null)
-  .map((_, index) => ({ value: index, name: index }));
+  .reduce((acc, val, index) => {
+    const item = {
+      value: `${index}:00`,
+      name: `${index}:00`,
+    };
+
+    if (index === 24) {
+      return [...acc, item];
+    }
+
+    const nextItem = {
+      value: `${index}:30`,
+      name: `${index}:30`,
+    };
+
+    return [...acc, item, nextItem];
+  }, []);
+
+const remainingBeerQty = new Array(10)
+  .fill(null)
+  .map((_, index) => ({ value: index + 1, name: index + 1 }));
 
 const WorkingTimeForm = () => {
   const dispatch = useDispatch();
@@ -39,48 +59,102 @@ const WorkingTimeForm = () => {
   const handleSave = (data) => dispatch(updateSystemSettings(data));
 
   return (
-    <Grid item container component="form" spacing={2}>
-      <Grid item xs={6}>
-        <Controller
-          name="workingHours.fromHour"
-          defaultValue={10}
-          control={control}
-          render={({ field, fieldState }) => (
-            <SelectField
-              {...field}
-              error={fieldState.error}
-              fullWidth
-              label="Від"
-              size="medium"
-              options={workingHoursOptions}
+    <Grid
+      item
+      container
+      height="100%"
+      wrap="nowrap"
+      spacing={2}
+      component="form"
+      direction="column"
+      justifyContent="space-between"
+    >
+      <Grid item container>
+        <Grid
+          item
+          container
+          wrap="nowrap"
+          spacing={1}
+          alignItems="center"
+          justifyContent="flex-start"
+        >
+          <Typography variant="h3" component={Grid} item>
+            Сповіщати в телеграм коли залишок пива:
+          </Typography>
+
+          <Grid item>
+            <Controller
+              name="beerRemainsQty"
+              defaultValue={0}
+              control={control}
+              render={({ field, fieldState }) => (
+                <SelectField
+                  {...field}
+                  error={fieldState.error}
+                  size="small"
+                  options={remainingBeerQty}
+                />
+              )}
             />
-          )}
-        />
+          </Grid>
+
+          <Typography variant="h3" component={Grid} item>
+            л.
+          </Typography>
+        </Grid>
+
+        <Grid item container xs={7} mt={4}>
+          <Grid item xs>
+            <Typography variant="h3">Час роботи апарату</Typography>
+          </Grid>
+
+          <Grid item container spacing={1} mt={2}>
+            <Grid item xs={6}>
+              <Controller
+                name="workingHours.fromHour"
+                defaultValue="10:00"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <SelectField
+                    {...field}
+                    error={fieldState.error}
+                    fullWidth
+                    label="Від"
+                    size="medium"
+                    options={workingHoursOptions}
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <Controller
+                name="workingHours.toHour"
+                defaultValue="22:00"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <SelectField
+                    {...field}
+                    error={fieldState.error}
+                    fullWidth
+                    label="До"
+                    size="medium"
+                    options={workingHoursOptions}
+                  />
+                )}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
 
-      <Grid item xs={6}>
-        <Controller
-          name="workingHours.toHour"
-          defaultValue={22}
-          control={control}
-          render={({ field, fieldState }) => (
-            <SelectField
-              {...field}
-              error={fieldState.error}
-              fullWidth
-              label="До"
-              size="medium"
-              options={workingHoursOptions}
-            />
-          )}
-        />
-      </Grid>
-
-      <Grid item container justifyContent="flex-end" mt={2}>
+      <Grid item xs={6} mt={3}>
         <Button
+          item
           fullWidth
           size="large"
           text="ЗБЕРЕГТИ"
+          component={Grid}
           onClick={handleSubmit(handleSave)}
         />
       </Grid>
@@ -126,14 +200,8 @@ const SystemSettings = () => {
       </Grid>
 
       <Grid item container px={2}>
-        <Grid item container xs={6} direction="column">
-          <Grid item xs>
-            <Typography variant="h2">Час роботи апарату</Typography>
-          </Grid>
-
-          <Grid item xs={6} pt={2}>
-            <WorkingTimeForm />
-          </Grid>
+        <Grid item container direction="column">
+          <WorkingTimeForm />
         </Grid>
       </Grid>
     </Grid>
