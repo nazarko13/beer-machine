@@ -13,6 +13,7 @@ import { fieldLabels, fields, fieldSizes } from '../constants';
 import { getBeers } from '../ducks/selectors';
 import FormFieldset from './FormFieldset';
 import { saveBeers } from '../ducks';
+import AddBeerModal from './AddBeerModal';
 
 const layouts = {
   number: keyboardLayouts.numeric,
@@ -37,6 +38,7 @@ const SettingsForm = ({ fieldSet }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const allBeers = useSelector(getBeers);
+  const [addNew, setAddNew] = useState(false);
   const [layout, setLayout] = useState(undefined);
   const [inputValues, setValues] = useState({});
   const [activeInput, setActiveInput] = useState(null);
@@ -45,6 +47,8 @@ const SettingsForm = ({ fieldSet }) => {
   });
 
   const formData = watch();
+
+  const toggleAddNewBeer = () => setAddNew((isAdd) => !isAdd);
 
   const isMaxCountReached = useMemo(() => {
     const data = Object.values(formData).length ? formData : allBeers;
@@ -98,23 +102,26 @@ const SettingsForm = ({ fieldSet }) => {
 
   return (
     <Grid position="relative" container maxHeight="100%">
-      <Grid
-        item
-        container
-        bottom={0}
-        zIndex={100}
-        position="fixed"
-        justifyContent="center"
-      >
-        <KeyboardProvider
-          values={formData}
-          inputName={activeInput}
-          onChangeAll={setValues}
-          layout={layouts[layout]}
-          handleHideKeyboard={setActiveInput}
-          width={layout === 'number' ? 350 : '100%'}
-        />
-      </Grid>
+      {!addNew && (
+        <Grid
+          item
+          container
+          bottom={0}
+          zIndex={100}
+          width="100%"
+          position="fixed"
+          justifyContent="center"
+        >
+          <KeyboardProvider
+            values={formData}
+            inputName={activeInput}
+            onChangeAll={setValues}
+            layout={layouts[layout]}
+            handleHideKeyboard={setActiveInput}
+            width={layout === 'number' ? 350 : '100%'}
+          />
+        </Grid>
+      )}
 
       <Grid component="form" width="100%" onSubmit={handleSubmit(onSubmit)}>
         <Grid
@@ -128,6 +135,14 @@ const SettingsForm = ({ fieldSet }) => {
           <Grid item>
             <Button text="Зберегти" type="submit" />
           </Grid>
+
+          {/* <Grid item> */}
+          {/*  <Button */}
+          {/*    text="Додати пиво" */}
+          {/*    color="info" */}
+          {/*    onClick={toggleAddNewBeer} */}
+          {/*  /> */}
+          {/* </Grid> */}
 
           <Grid item>
             <Button
@@ -166,6 +181,8 @@ const SettingsForm = ({ fieldSet }) => {
           </Grid>
         </Grid>
       </Grid>
+
+      <AddBeerModal open={addNew} onCancel={toggleAddNewBeer} />
     </Grid>
   );
 };

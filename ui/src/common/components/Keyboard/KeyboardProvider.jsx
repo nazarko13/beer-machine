@@ -24,14 +24,14 @@ const useStyles = makeStyles({
 
 const KeyboardProvider = ({
   layout,
-  width,
+  width = 'inherit',
   values,
   inputName,
   onChangeAll,
   layoutType = 'default',
   handleHideKeyboard,
 }) => {
-  const styles = useStyles();
+  const styles = useStyles({ width });
   const [keyboard, setKeyboard] = useState(null);
   const [layoutName, setLayoutName] = useState(layoutType);
 

@@ -4,7 +4,7 @@ import DialogActions from '@mui/material/DialogActions';
 import { Controller, useForm } from 'react-hook-form';
 
 import Button from 'common/components/Button';
-import { keyboardLayouts } from 'common/constants';
+import { keyboardLayouts, modalNames } from 'common/constants';
 import InputField from 'common/components/InputField';
 import KeyboardProvider from 'common/components/Keyboard';
 
@@ -52,6 +52,7 @@ const AuthForm = ({ onSubmit, onClose }) => {
       component="form"
       direction="column"
       alignItems="center"
+      justifyContent="center"
       autoComplete="off"
       onSubmit={handleSubmit(onSubmit)}
     >
@@ -105,7 +106,7 @@ const AuthForm = ({ onSubmit, onClose }) => {
             size="large"
             color="warning"
             text="Скасувати"
-            onClick={onClose}
+            onClick={() => onClose(modalNames.adminAuth)}
           />
         </Grid>
       </Grid>
@@ -116,7 +117,7 @@ const AuthForm = ({ onSubmit, onClose }) => {
         onChangeAll={handleChange}
         layout={layouts[activeInput]}
         handleHideKeyboard={setActiveInput}
-        width={activeInput === 'newPassword' ? 370 : '100%'}
+        width={activeInput === 'newPassword' ? 370 : 850}
       />
     </Grid>
   );

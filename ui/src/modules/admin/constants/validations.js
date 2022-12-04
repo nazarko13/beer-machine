@@ -19,3 +19,16 @@ export const systemSettingsSchema = Yup.object().shape({
     ),
   }),
 });
+
+const requiredMessage = 'Цу поле обовʼязкове';
+
+export const addBeerSchema = Yup.object().shape({
+  name: Yup.string().required(requiredMessage),
+  price: Yup.string().required(requiredMessage),
+  type: Yup.string().required(requiredMessage),
+  pulseCount: Yup.string().required(requiredMessage),
+  barcode: Yup.string().required(requiredMessage),
+  keg: Yup.string().required(requiredMessage),
+  quantity: Yup.string().required(requiredMessage),
+  description: Yup.string().required(requiredMessage),
+});

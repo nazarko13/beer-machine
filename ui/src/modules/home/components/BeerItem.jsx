@@ -29,7 +29,7 @@ const images = {
 const BeerItem = ({ name, price, type, handlePour }) => {
   const classes = useStyles();
 
-  const bind = useLongPress(handlePour, { threshold: 2500 });
+  const bind = useLongPress(handlePour, { threshold: 5000 });
 
   return (
     <Grid

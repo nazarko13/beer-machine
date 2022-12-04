@@ -200,14 +200,15 @@ const Cleaning = () => {
           position="fixed"
           justifyContent="center"
         >
-          <KeyboardProvider
-            width={350}
-            values={formData}
-            layout={keyboardLayouts.numeric}
-            inputName={activeInput}
-            onChangeAll={updateValues}
-            handleHideKeyboard={() => setActiveInput(null)}
-          />
+          <Grid item width={350}>
+            <KeyboardProvider
+              values={formData}
+              layout={keyboardLayouts.numeric}
+              inputName={activeInput}
+              onChangeAll={updateValues}
+              handleHideKeyboard={() => setActiveInput(null)}
+            />
+          </Grid>
         </Grid>
       )}
     </Grid>

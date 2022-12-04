@@ -46,7 +46,6 @@ const AdminAuth = ({ onClose = null }) => {
       p={1}
       px={2}
       ref={setAuthContainer}
-      // todo: fix position
       style={{ marginTop: '-190px' }}
     >
       <Typography p={2} px={3} pl={1} variant="h3">
