@@ -1,16 +1,19 @@
 from logging import getLogger
 
+from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
 from flask_cors import CORS
 
+from export.csv_export import send_statistics
 from loggers import setup_logging
+from views.system_settings import SystemSettingsView
 
 setup_logging()
 logger = getLogger(__name__)
 
 from views.board import SystemStatusView, SystemConfigurationView, SystemSanitization
 from models.models import init_database, create_database
-from settings import API_PREFIX
+from settings import API_PREFIX, CRON_HOUR, CRON_MINUTE
 from views.beer import BeerActiveView, BeerPourView, BeerView, BeerPourStatus, BeerSystemCleaning
 from views.employee import EmployeeView
 from views.health import HealthView
@@ -19,6 +22,10 @@ app = Flask(__name__, static_folder='build', static_url_path='/')
 
 init_database()
 create_database()
+
+scheduler = BackgroundScheduler(daemon=True)
+scheduler.add_job(send_statistics, 'cron', hour=CRON_HOUR, minute=CRON_MINUTE)
+scheduler.start()
 
 CORS(app, resources={r"/*": {"origins": "*"}})
 
@@ -32,6 +39,8 @@ app.add_url_rule(API_PREFIX + '/cleaning', view_func=BeerSystemCleaning.as_view(
 app.add_url_rule(API_PREFIX + '/system/status', view_func=SystemStatusView.as_view('system_status'), methods=["GET"])
 app.add_url_rule(API_PREFIX + '/system', view_func=SystemConfigurationView.as_view('system_config'), methods=["POST"])
 app.add_url_rule(API_PREFIX + '/sanitization', view_func=SystemSanitization.as_view('sanitization'), methods=["POST"])
+app.add_url_rule(API_PREFIX + '/system/settings', view_func=SystemSettingsView.as_view('system_settings'),
+                 methods=["GET", "PUT"])
 
 
 @app.route('/')

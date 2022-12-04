@@ -1,9 +1,10 @@
+from datetime import date
+
 from flask import jsonify, request
 from flask.views import MethodView
 from marshmallow import ValidationError
 
 from devices.beer_board import pour_beer_flow, system_cleaning_flow
-from devices.printing import print_receipt
 from models.models import Beer
 from schemas.beer import BeerOutput, BeerPourInput
 
@@ -22,6 +23,9 @@ class BeerView(MethodView):
         except ValidationError as e:
             return jsonify({"description": str(e), "error": "Validation error"}), 400
         for beer in beers_to_update:
+            beer_from_db = Beer.get(Beer.id == beer.id)
+            if beer_from_db.quantity != beer.quantity:
+                Beer.update({Beer.filling_date: date.today()}).where(Beer.id == beer.id).execute()
             Beer.update(
                 {Beer.name: beer.name,
                  Beer.price: beer.price,

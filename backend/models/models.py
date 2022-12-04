@@ -1,8 +1,10 @@
+import datetime
 import os
 from enum import Enum
 from logging import getLogger
 
-from peewee import SqliteDatabase, PrimaryKeyField, CharField, IntegerField, FloatField, BooleanField, Model, DateField
+from peewee import SqliteDatabase, PrimaryKeyField, CharField, IntegerField, FloatField, BooleanField, Model, DateField, \
+    DateTimeField
 
 from settings import ACTIVE_BEERS_QTY
 
@@ -65,6 +67,24 @@ class Beer(Base):
         beer.quantity = beer.quantity - 1
         beer.save()
         return beer
+
+
+class SystemSettings(Base):
+    id = PrimaryKeyField()
+    config = CharField(null=False, default='{"workingHours": {"fromHour": 10, "toHour": 12}}')
+
+    @staticmethod
+    def get_first():
+        return SystemSettings.get(SystemSettings.id == 1)
+
+
+class BeerStatistics(Base):
+    id = PrimaryKeyField()
+    beer_name = CharField(max_length=100, null=False)
+    pour_date = DateTimeField(default=datetime.datetime.now)
+    remains = IntegerField(default=1, null=False)
+    status = CharField(max_length=13, null=False, default="OK")
+    error_message = CharField(max_length=250, null=False, default="")
 
 
 def create_database():

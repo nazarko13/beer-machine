@@ -1,6 +1,5 @@
 import configparser
 import os
-import random
 from functools import lru_cache
 from logging import getLogger
 
@@ -28,10 +27,6 @@ def _write_settings(settings_path, settings):
 def write_settings(settings):
     settings_path = os.path.join(PROJECT_DIR, '.environment', 'settings.ini')
     _write_settings(settings_path, settings)
-
-
-def generate_auth_code(terminal_number):
-    return terminal_number + str(random.randint(10 ** 11, 10 ** 12 - 1))
 
 
 class Singleton(type):
