@@ -60,9 +60,7 @@ const WorkingTimeForm = () => {
 
   return (
     <Grid
-      item
       container
-      height="100%"
       wrap="nowrap"
       spacing={2}
       component="form"
@@ -146,17 +144,17 @@ const WorkingTimeForm = () => {
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
 
-      <Grid item xs={6} mt={3}>
-        <Button
-          item
-          fullWidth
-          size="large"
-          text="ЗБЕРЕГТИ"
-          component={Grid}
-          onClick={handleSubmit(handleSave)}
-        />
+        <Grid item container xs={7} mt={5}>
+          <Button
+            item
+            fullWidth
+            size="large"
+            text="ЗБЕРЕГТИ"
+            component={Grid}
+            onClick={handleSubmit(handleSave)}
+          />
+        </Grid>
       </Grid>
     </Grid>
   );
@@ -200,9 +198,7 @@ const SystemSettings = () => {
       </Grid>
 
       <Grid item container px={2}>
-        <Grid item container direction="column">
-          <WorkingTimeForm />
-        </Grid>
+        <WorkingTimeForm />
       </Grid>
     </Grid>
   );

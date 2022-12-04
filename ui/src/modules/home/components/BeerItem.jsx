@@ -1,5 +1,6 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
+import { useLongPress } from 'use-long-press';
 import makeStyles from '@mui/styles/makeStyles';
 
 import Button from 'common/components/Button';
@@ -28,6 +29,8 @@ const images = {
 const BeerItem = ({ name, price, type, handlePour }) => {
   const classes = useStyles();
 
+  const bind = useLongPress(handlePour, { threshold: 2500 });
+
   return (
     <Grid
       item
@@ -35,9 +38,9 @@ const BeerItem = ({ name, price, type, handlePour }) => {
       xs={6}
       py={2}
       direction="column"
-      onMouseUp={handlePour}
       justifyContent="center"
       boxShadow="0 0 15px 0.1px #8bbc2a"
+      {...bind()}
     >
       <Grid
         item
