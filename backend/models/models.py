@@ -75,7 +75,7 @@ class SystemSettings(Base):
 
     @staticmethod
     def get_first():
-        return SystemSettings.get(SystemSettings.id == 1)
+        return SystemSettings.get_or_none(SystemSettings.id == 1)
 
 
 class BeerStatistics(Base):

@@ -24,5 +24,6 @@ def handle_board_error_action(action: str, beer_statistics: BeerStatistics):
     if statistics_msg:
         BeerStatistics.update({
             BeerStatistics.status: "Error",
-            BeerStatistics.error_message: statistics_msg
+            BeerStatistics.error_message: statistics_msg,
+            BeerStatistics.remains: beer_statistics.remains + 1
         }).where(BeerStatistics.id == beer_statistics.id).execute()

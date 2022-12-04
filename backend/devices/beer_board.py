@@ -443,11 +443,10 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
     beer_count_number = BEER_SENSOR_MAP.get(beer_counter)
     logger.info(f"BEER BOARD. POUR BEER FLOW. Pour beer STARTED (keg: {beer_keg}, impulses: {impulses}.")
     beer = Beer.get(beer_id)
-    beer_statistics = BeerStatistics.create(beer_name=beer.name, barcode=beer.barcode, remains=beer.quantity)
-    # TODO for next version
-    # system_settings = SystemSettingsSchema.Schema().loads(SystemSettings.get_first().config)
-    # if beer.quantity <= system_settings.beer_remains_qty:
-    #     send_message(f"Пиво закінчується: {beer.name} - {beer.quantity}л")
+    beer_statistics = BeerStatistics.create(beer_name=beer.name, barcode=beer.barcode, remains=beer.quantity - 1)
+    system_settings = SystemSettingsSchema.Schema().loads(SystemSettings.get_first().config)
+    if beer.quantity <= system_settings.beer_remains_qty:
+        send_message(f"Пиво закінчується: {beer.name} - {beer.quantity}л")
     try:
         BoardInteractionInterface.set_initial_actuators_state(),
         callback_function(10, "Initial actuators state.")
