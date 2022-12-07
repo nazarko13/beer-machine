@@ -90,7 +90,7 @@ const images = {
 
 const defaultOptions = {
   shouldPreventDefault: true,
-  delay: 2500,
+  delay: 2000,
 };
 
 const BeerItem = ({ name, price, type, handlePour }) => {
