@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import Grid from '@mui/material/Grid';
-import { useLongPress } from 'use-long-press';
 import makeStyles from '@mui/styles/makeStyles';
 
 import Button from 'common/components/Button';
@@ -8,6 +7,69 @@ import { beerTypes } from 'common/constants/enums';
 
 import darkBeer from 'assets/images/dark.png';
 import lightBeer from 'assets/images/light.png';
+
+const isTouchEvent = (event) => {
+  return 'touches' in event;
+};
+
+const preventDefault = (event) => {
+  if (!isTouchEvent(event)) return;
+
+  if (event.touches.length < 2 && event.preventDefault) {
+    event.preventDefault();
+  }
+};
+
+const useLongPress = (
+  onLongPress,
+  onClick,
+  { shouldPreventDefault = true, delay = 300 } = {}
+) => {
+  const [longPressTriggered, setLongPressTriggered] = useState(false);
+  const timeout = useRef();
+  const target = useRef();
+
+  const start = useCallback(
+    (event) => {
+      if (shouldPreventDefault && event.target) {
+        event.target.addEventListener('touchend', preventDefault, {
+          passive: false,
+        });
+        target.current = event.target;
+      }
+      timeout.current = setTimeout(() => {
+        onLongPress(event);
+        setLongPressTriggered(true);
+      }, delay);
+    },
+    [onLongPress, delay, shouldPreventDefault]
+  );
+
+  const clear = useCallback(
+    (event, shouldTriggerClick = true) => {
+      if (timeout.current) {
+        clearTimeout(timeout.current);
+      }
+
+      if (shouldTriggerClick && !longPressTriggered) {
+        onClick();
+      }
+      setLongPressTriggered(false);
+      if (shouldPreventDefault && target.current) {
+        target.current.removeEventListener('touchend', preventDefault);
+      }
+    },
+    [shouldPreventDefault, onClick, longPressTriggered]
+  );
+
+  return {
+    onMouseDown: (e) => start(e),
+    onTouchStart: (e) => start(e),
+    onMouseUp: (e) => clear(e),
+    onMouseLeave: (e) => clear(e, false),
+    onTouchEnd: (e) => clear(e),
+  };
+};
 
 const useStyles = makeStyles(({ spacing }) => ({
   root: {
@@ -26,10 +88,15 @@ const images = {
   [beerTypes.dark]: darkBeer,
 };
 
+const defaultOptions = {
+  shouldPreventDefault: true,
+  delay: 2500,
+};
+
 const BeerItem = ({ name, price, type, handlePour }) => {
   const classes = useStyles();
 
-  const bind = useLongPress(handlePour, { threshold: 5000 });
+  const bind = useLongPress(handlePour, handlePour, defaultOptions);
 
   return (
     <Grid
@@ -40,7 +107,7 @@ const BeerItem = ({ name, price, type, handlePour }) => {
       direction="column"
       justifyContent="center"
       boxShadow="0 0 15px 0.1px #8bbc2a"
-      {...bind()}
+      {...bind}
     >
       <Grid
         item
