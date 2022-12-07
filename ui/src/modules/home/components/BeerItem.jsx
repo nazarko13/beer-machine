@@ -107,6 +107,7 @@ const BeerItem = ({ name, price, type, handlePour }) => {
       direction="column"
       justifyContent="center"
       boxShadow="0 0 15px 0.1px #8bbc2a"
+      onClick={handlePour}
       {...bind}
     >
       <Grid
