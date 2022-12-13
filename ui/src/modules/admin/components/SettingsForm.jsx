@@ -33,7 +33,7 @@ const parseBeerModel = (beer) =>
     {}
   );
 
-const SettingsForm = ({ fieldSet }) => {
+const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
   const notify = useNotify();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -136,13 +136,15 @@ const SettingsForm = ({ fieldSet }) => {
             <Button text="Зберегти" type="submit" />
           </Grid>
 
-          {/* <Grid item> */}
-          {/*  <Button */}
-          {/*    text="Додати пиво" */}
-          {/*    color="info" */}
-          {/*    onClick={toggleAddNewBeer} */}
-          {/*  /> */}
-          {/* </Grid> */}
+          {isSuperAdmin && (
+            <Grid item>
+              <Button
+                text="Додати пиво"
+                color="info"
+                onClick={toggleAddNewBeer}
+              />
+            </Grid>
+          )}
 
           <Grid item>
             <Button

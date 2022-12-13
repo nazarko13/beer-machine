@@ -40,7 +40,7 @@ const adminSlice = createSlice({
 
     [success(actionTypes.getBeers)]: (state, action) => {
       state.data.beers = action.response.data;
-      state.loading = true;
+      state.loading = false;
     },
 
     [error(actionTypes.getBeers)]: (state) => {
@@ -101,6 +101,15 @@ const adminSlice = createSlice({
     },
     [error(actionTypes.getSystemSettings)]: (state) => {
       state.loading = false;
+    },
+
+    [actionTypes.addNewBeer]: preActionStateSetter,
+
+    [success(actionTypes.addNewBeer)]: (state, action) => {
+      state.loading = false;
+      const newBeer = action.response.data;
+
+      state.data.beers = [...state.data.beers, newBeer];
     },
   },
 });

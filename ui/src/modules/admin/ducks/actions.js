@@ -12,6 +12,11 @@ export const saveBeers = (params) => ({
   request: api.saveBeers(params),
 });
 
+export const addNewBeer = (data) => ({
+  type: actionTypes.addNewBeer,
+  request: api.addNewBeer(data),
+});
+
 export const getSystemInfo = () => ({
   type: actionTypes.getSystemInfo,
   request: api.getSystemSetting(),

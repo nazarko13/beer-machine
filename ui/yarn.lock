@@ -9838,6 +9838,11 @@ signal-exit@^3.0.3:
   resolved "https://registry.npmjs.org/signal-exit/-/signal-exit-3.0.7.tgz"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
+simple-keyboard-layouts@^3.1.241:
+  version "3.1.241"
+  resolved "https://registry.yarnpkg.com/simple-keyboard-layouts/-/simple-keyboard-layouts-3.1.241.tgz#2aa2d77d6ebe253e9d2db8d85567efef8fa16da0"
+  integrity sha512-+uMbAViS0C6vqx7Up/+hzgU99s26xVQLMJMPJcL1rslhmzn/eDXS6YKYwo/Imt7UWHqX0fgj+OqWPTUeY+AsDQ==
+
 sisteransi@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npmjs.org/sisteransi/-/sisteransi-1.0.5.tgz"

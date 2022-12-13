@@ -10,6 +10,7 @@ const api = {
   getPourStatus: () => requests.getDataAction(apiUrls.pourStatus),
   adminLogin: (params = {}) => requests.getDataAction(apiUrls.admin, params),
   saveBeers: (params = {}) => requests.putDataAction(apiUrls.beer, params),
+  addNewBeer: (data = {}) => requests.postDataAction(apiUrls.beer, data),
   startWashing: (data) => requests.postDataAction(apiUrls.cleaning, data),
   getSystemSetting: () => requests.getDataAction(apiUrls.systemStatus),
   setSystemSetting: (params) => requests.postDataAction(apiUrls.system, params),
