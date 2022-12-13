@@ -6,7 +6,7 @@ from marshmallow import ValidationError
 
 from devices.beer_board import pour_beer_flow, system_cleaning_flow
 from models.models import Beer
-from schemas.beer import BeerOutput, BeerPourInput
+from schemas.beer import BeerOutput, BeerPourInput, BeerInput
 
 
 class BeerView(MethodView):
@@ -39,6 +39,23 @@ class BeerView(MethodView):
                  }
             ).where(Beer.id == beer.id).execute()
         return jsonify({'description': 'OK'})
+
+    def post(self):
+        try:
+            beer_to_create = BeerInput.Schema().load(request.json)
+        except ValidationError as e:
+            return jsonify({"description": str(e), "error": "Validation error"}), 400
+        created_beer = Beer.create(
+            name=beer_to_create.name,
+            price=beer_to_create.price,
+            type=beer_to_create.type,
+            pulse_count=beer_to_create.pulse_count,
+            barcode=beer_to_create.barcode,
+            description=beer_to_create.description,
+            keg=beer_to_create.keg,
+            quantity=beer_to_create.quantity
+        )
+        return jsonify(BeerOutput.Schema().dump(created_beer))
 
 
 class BeerActiveView(MethodView):
