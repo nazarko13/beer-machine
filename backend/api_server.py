@@ -48,9 +48,6 @@ def index():
     return app.send_static_file('index.html')
 
 
-# TODO 1. printer integration
-
-
 if __name__ == '__main__':
     logger.info("Beer machine is running...")
     app.config['TEMPLATES_AUTO_RELOAD'] = True
