@@ -15,6 +15,10 @@ class SystemActions(Enum):
     BEER_1_CLOSE = 11
     BEER_2_OPEN = 12
     BEER_2_CLOSE = 13
-    RESET_COUNTERS = 14
-    AIR_OPEN = 15
-    AIR_CLOSE = 16
+    BEER_3_OPEN = 14
+    BEER_3_CLOSE = 15
+    BEER_4_OPEN = 16
+    BEER_4_CLOSE = 17
+    RESET_COUNTERS = 18
+    AIR_OPEN = 19
+    AIR_CLOSE = 20

@@ -52,6 +52,14 @@ class SystemConfigurationView(MethodView):
                 BoardInteractionInterface.beer_pour_start(Actuators.BEER_KEG_2)
             elif action == SystemActions.BEER_2_CLOSE:
                 BoardInteractionInterface.beer_pour_stop(Actuators.BEER_KEG_2)
+            elif action == SystemActions.BEER_3_OPEN:
+                BoardInteractionInterface.beer_pour_start(Actuators.BEER_KEG_3)
+            elif action == SystemActions.BEER_3_CLOSE:
+                BoardInteractionInterface.beer_pour_stop(Actuators.BEER_KEG_3)
+            elif action == SystemActions.BEER_4_OPEN:
+                BoardInteractionInterface.beer_pour_start(Actuators.BEER_KEG_4)
+            elif action == SystemActions.BEER_4_CLOSE:
+                BoardInteractionInterface.beer_pour_stop(Actuators.BEER_KEG_4)
             elif action == SystemActions.RESET_COUNTERS:
                 BoardInteractionInterface.reset_counters()
             elif action == SystemActions.AIR_OPEN:
