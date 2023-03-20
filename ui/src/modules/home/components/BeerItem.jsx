@@ -75,11 +75,10 @@ const useStyles = makeStyles(({ spacing }) => ({
   root: {
     width: '90%',
     color: 'black',
-    fontSize: '1.5rem',
+    fontSize: '2.25rem',
     borderRadius: 10,
     backgroundColor: '#8bbc2a',
-    height: ({ height }) => height || 60,
-    padding: spacing(1),
+    padding: spacing(2, 1),
   },
 }));
 
@@ -102,7 +101,6 @@ const BeerItem = ({ name, price, type, handlePour }) => {
     <Grid
       container
       py={2}
-      // mx={2}
       my={0}
       direction="column"
       justifyContent="center"
