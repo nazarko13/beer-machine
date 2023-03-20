@@ -20,7 +20,7 @@ export const systemSettingsSchema = Yup.object().shape({
   }),
 });
 
-const requiredMessage = 'Цу поле обовʼязкове';
+const requiredMessage = 'Це поле обовʼязкове';
 
 export const addBeerSchema = Yup.object().shape({
   name: Yup.string().required(requiredMessage),
