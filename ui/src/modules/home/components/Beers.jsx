@@ -127,33 +127,36 @@ const Beers = () => {
       alignItems="center"
     >
       {!!data.length && (
-        <>
-          <Grid item py={2}>
-            <Typography fontWeight={100} fontSize="3rem" pt={2}>
-              ВСТАВТЕ ПЛЯШКУ І ОБЕРІТЬ ПИВО
-            </Typography>
-          </Grid>
+        <Grid item py={2}>
+          <Typography fontWeight={100} fontSize="3rem" pt={2}>
+            ВСТАВТЕ ПЛЯШКУ І ОБЕРІТЬ ПИВО
+          </Typography>
+        </Grid>
+      )}
 
+      <Grid container height="100%" alignItems="center" justifyContent="center">
+        {!!data.length && (
           <Grid
-            item
             container
             pt={3}
-            width="80%"
-            height="95%"
-            spacing={2}
+            width="90%"
+            spacing={3}
             alignItems="center"
-            justifyContent="space-between"
+            justifyContent="center"
           >
             {data.map((item) => (
-              <BeerItem
+              <Grid
+                item
+                container
                 key={item.name}
-                {...item}
-                handlePour={() => handlePourBeer(item)}
-              />
+                xs={data.length === 1 ? 6 : 5}
+              >
+                <BeerItem {...item} handlePour={() => handlePourBeer(item)} />
+              </Grid>
             ))}
           </Grid>
-        </>
-      )}
+        )}
+      </Grid>
 
       <GetBottlePopup
         open={modal === modalTypes.getBottle}

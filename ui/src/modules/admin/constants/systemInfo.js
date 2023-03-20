@@ -78,7 +78,7 @@ export const systemInfoModel = createEnum({
   pressureInSystem: null,
   tempInSystem: null,
   voltage: null,
-  pressureSensor: null,
+  valveSensor: null,
 });
 
 export const systemInfoModelLabels = createEnum({
@@ -92,7 +92,7 @@ export const systemInfoModelLabels = createEnum({
   [systemInfoModel.pressureInSystem]: 'Тиск',
   [systemInfoModel.tempInSystem]: 'Температура',
   // [systemInfoModel.voltage]: 'Напруга (V)',
-  [systemInfoModel.pressureSensor]: 'Датчик прижиму',
+  [systemInfoModel.valveSensor]: 'Датчик прижиму',
 });
 
 export const cleaningTestActions = [

@@ -28,18 +28,24 @@ export const getLoading = createSelector(
 const getDoorSensorValue = (v) => (v ? 'Активний' : 'Неактивний');
 
 export const getSystemInfoData = createSelector(getDetails, (info) =>
-  Object.keys(systemInfoModel).map((val) => {
-    const value = info?.[val];
+  Object.keys(systemInfoModel)
+    .map((val) => {
+      const value = info?.[val];
 
-    return {
-      id: val,
-      value:
-        typeof value === 'boolean'
-          ? getDoorSensorValue(value)
-          : value || 'невідомо',
-      label: systemInfoModelLabels[val],
-    };
-  })
+      if (!systemInfoModelLabels.toKeys.includes(val)) {
+        return null;
+      }
+
+      return {
+        id: val,
+        value:
+          typeof value === 'boolean'
+            ? getDoorSensorValue(value)
+            : value || 'невідомо',
+        label: systemInfoModelLabels[val],
+      };
+    })
+    .filter(Boolean)
 );
 
 export const getStateSystemSettings = createSelector(

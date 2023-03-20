@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import Card from '@mui/material/Card';
+import { useNavigate } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Button from 'common/components/Button';
 import { routes } from 'common/constants';
-import Typography from '@mui/material/Typography';
 import * as adminActions from '../ducks';
 import { mainButtons, systemActions, systemActionsLabels } from '../constants';
 import { getSystemInfoData, getLoading } from '../ducks/selectors';

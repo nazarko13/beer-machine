@@ -100,10 +100,10 @@ const BeerItem = ({ name, price, type, handlePour }) => {
 
   return (
     <Grid
-      item
       container
-      xs={6}
       py={2}
+      // mx={2}
+      my={0}
       direction="column"
       justifyContent="center"
       boxShadow="0 0 15px 0.1px #8bbc2a"
