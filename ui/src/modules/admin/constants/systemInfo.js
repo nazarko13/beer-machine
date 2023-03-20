@@ -13,6 +13,10 @@ export const systemActions = createEnum({
   beer1Close: 'BEER_1_CLOSE',
   beer2Open: 'BEER_2_OPEN',
   beer2Close: 'BEER_2_CLOSE',
+  beer3Open: 'BEER_3_OPEN',
+  beer3Close: 'BEER_3_CLOSE',
+  beer4Open: 'BEER_4_OPEN',
+  beer4Close: 'BEER_4_CLOSE',
   resetCounters: 'RESET_COUNTERS',
   airOpen: 'AIR_OPEN',
   airClose: 'AIR_CLOSE',
@@ -31,6 +35,10 @@ export const systemActionsLabels = createEnum({
   [systemActions.beer1Close]: 'Закрити 1й клапан пива',
   [systemActions.beer2Open]: 'Відкрити 2й клапан пива',
   [systemActions.beer2Close]: 'Закрити 2й клапан пива',
+  [systemActions.beer3Open]: 'Відкрити 3й клапан пива',
+  [systemActions.beer3Close]: 'Закрити 3й клапан пива',
+  [systemActions.beer4Open]: 'Відкрити 4й клапан пива',
+  [systemActions.beer4Close]: 'Закрити 4й клапан пива',
   [systemActions.resetCounters]: 'Скинути витратоміри',
   [systemActions.resetCounters]: 'Скинути витратоміри',
   [systemActions.resetCounters]: 'Скинути витратоміри',
@@ -51,6 +59,10 @@ export const mainButtons = [
   systemActions.beer1Close,
   systemActions.beer2Open,
   systemActions.beer2Close,
+  systemActions.beer3Open,
+  systemActions.beer3Close,
+  systemActions.beer4Open,
+  systemActions.beer4Close,
   systemActions.airOpen,
   systemActions.airClose,
 ];
@@ -66,11 +78,12 @@ export const systemInfoModel = createEnum({
   pressureInSystem: null,
   tempInSystem: null,
   voltage: null,
+  pressureSensor: null,
 });
 
 export const systemInfoModelLabels = createEnum({
   [systemInfoModel.actuatorsState]: 'Стан приводів',
-  [systemInfoModel.amperes]: 'Сила струму (A)',
+  // [systemInfoModel.amperes]: 'Сила струму (A)',
   [systemInfoModel.beerCounter1]: 'Кількість пива 1',
   [systemInfoModel.beerCounter2]: 'Кількість пива 2',
   [systemInfoModel.beerCounter3]: 'Кількість пива 3',
@@ -78,7 +91,8 @@ export const systemInfoModelLabels = createEnum({
   [systemInfoModel.doorSensor]: 'Датчик шторки',
   [systemInfoModel.pressureInSystem]: 'Тиск',
   [systemInfoModel.tempInSystem]: 'Температура',
-  [systemInfoModel.voltage]: 'Напруга (V)',
+  // [systemInfoModel.voltage]: 'Напруга (V)',
+  [systemInfoModel.pressureSensor]: 'Датчик прижиму',
 });
 
 export const cleaningTestActions = [

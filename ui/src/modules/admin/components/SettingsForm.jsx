@@ -9,18 +9,22 @@ import { keyboardLayouts, routes } from 'common/constants';
 import KeyboardProvider from 'common/components/Keyboard';
 import Button from 'common/components/Button';
 import { useNotify } from 'common/hooks';
-import { fieldLabels, fields, fieldSizes } from '../constants';
+
+import {
+  fields,
+  fieldSizes,
+  fieldLabels,
+  maxActiveBeersCount,
+} from '../constants';
+import { saveBeers } from '../ducks';
 import { getBeers } from '../ducks/selectors';
 import FormFieldset from './FormFieldset';
-import { saveBeers } from '../ducks';
 import AddBeerModal from './AddBeerModal';
 
 const layouts = {
   number: keyboardLayouts.numeric,
   default: undefined,
 };
-
-const maxActiveBeersCount = 2;
 
 const floatFields = [fields.price, fields.quantity, fields.pulseCount];
 

@@ -34,6 +34,8 @@ export const fieldSizes = createEnum({
   [fields.quantity]: 1,
 });
 
+export const maxActiveBeersCount = 4;
+
 export const adminFieldSet = [
   fields.isActive,
   fields.name,
@@ -42,6 +44,7 @@ export const adminFieldSet = [
   fields.keg,
   fields.quantity,
 ];
+
 export const superAdminFieldSet = Object.values(fields);
 
 export const beerTypeOptions = [
@@ -59,17 +62,33 @@ export const beerTypeOptions = [
   },
 ];
 
-export const kagOptions = [
-  {
-    name: 'Не вибрано',
-    value: '',
-  },
-  {
-    name: 'Кега 1',
-    value: 'BEER_KEG_1',
-  },
-  {
-    name: 'Кега 2',
-    value: 'BEER_KEG_2',
-  },
-];
+export const kagOptions = new Array(maxActiveBeersCount + 1)
+  .fill(null)
+  .map((_, index) => {
+    if (!index) {
+      return {
+        name: 'Не вибрано',
+        value: '',
+      };
+    }
+
+    return {
+      name: `Кега ${index}`,
+      value: `BEER_KEG_${index}`,
+    };
+  });
+
+//   [
+//   {
+//     name: 'Не вибрано',
+//     value: '',
+//   },
+//   {
+//     name: 'Кега 1',
+//     value: 'BEER_KEG_1',
+//   },
+//   {
+//     name: 'Кега 2',
+//     value: 'BEER_KEG_2',
+//   },
+// ];
