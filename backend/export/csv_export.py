@@ -24,9 +24,7 @@ def write_to_csv(data, filename):
 
 def export_beer_statistics_to_csv():
     file_name = "{}_{}.csv".format(SHOP_NAME.replace(" ", '_'), date.today())
-    beer_data = BeerStatistics.select().order_by(BeerStatistics.id.desc()).where(
-        BeerStatistics.pour_date.between(datetime.today().replace(day=1, hour=1), datetime.now())
-    ).tuples()
+    beer_data = BeerStatistics.select().order_by(BeerStatistics.id.desc()).tuples()
 
     # export to csv file
     write_to_csv(beer_data, file_name)

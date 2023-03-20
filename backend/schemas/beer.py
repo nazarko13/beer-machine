@@ -27,3 +27,15 @@ class BeerPourInput:
     id: int
     pulse_count: Optional[int]
     keg: Optional[str]
+
+
+@marshmallow_dataclass.dataclass(base_schema=CamelCaseSchema)
+class BeerInput:
+    name: str
+    price: float
+    type: str
+    pulse_count: int
+    barcode: str
+    description: str
+    keg: str
+    quantity: int

@@ -54,9 +54,12 @@ class BoardInteractionInterface:
             """
             :param str_to_convert:
             Convert input string to dict. Split by comma and remove whitespaces.
-            Example:
+            Example1:
             str_to_convert="Count_1:0, Count_2:0, Count_3:0, Count_4:0'
             result = {'Count_1': '0', 'Count_2': '0', 'Count_3': '0', 'Count_4': '0'}
+            Example2:
+            str_to_convert="ValveSensor:0, DoorSensor:0, Actuators_state:[0000], Temp:-99.0, Press:0.
+            result = {'ValveSensor': '0', 'DoorSensor': '0', 'Actuators_state': '[0000]', 'Temp': '-99.0', 'Press': '0'}
             :return result:
             """
             return {y[0]: y[1] for y in [x.strip().split(":") for x in str_to_convert.split(',')]}
@@ -109,7 +112,7 @@ class BoardInteractionInterface:
             _bytes = ser.readline()
             ser.close()
             _str = str(_bytes, 'utf').strip()
-            res = _str.strip() == "actuators is set"
+            res = _str.strip() == "actuators_is_set"
             logger.info(f"BEER BOARD. INITIAL ACTUATOR. Result: {res}. Resp from board: '{_str}'")
             for i in range(0, len(command_str)):
                 command_str[i] = 0
@@ -128,7 +131,7 @@ class BoardInteractionInterface:
             _bytes = ser.readline()
             ser.close()
             _str = str(_bytes, 'utf').strip()
-            if not _str.strip() == "actuators is set":
+            if not _str.strip() == "actuators_is_set":
                 raise BoardError(action="set_actuator", message=f"Could not set actuator{actuator} to state{state}")
             return True
 
@@ -304,10 +307,13 @@ class BoardInteractionInterface:
 
     @classmethod
     def is_valve_fully_open(cls):
-        # TODO raise error here
-        valve_pressed_bottle = float(cls.Board.get_system_status()[Sensors.VALVE_SENSOR.value])
-        logger.info(f"BEER_BOARD. PRESSURE VALVE START Current valve pressed bottle: {valve_pressed_bottle}.")
-        return valve_pressed_bottle
+        """
+        Check if valve is fully open.
+        :return: True if ValveSensor equal '1' else False.
+        """
+        is_valve_pressed_bottle = cls.Board.get_system_status()[Sensors.VALVE_SENSOR.value] == '1'
+        logger.info(f"BEER_BOARD. PRESSURE VALVE START Current valve pressed bottle: {is_valve_pressed_bottle}.")
+        return is_valve_pressed_bottle
 
     @classmethod
     def pressure_valve_stop(cls):

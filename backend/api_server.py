@@ -31,7 +31,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 app.add_url_rule(API_PREFIX + '/health', view_func=HealthView.as_view('health_view'), methods=["GET"])
 app.add_url_rule(API_PREFIX + '/admin', view_func=EmployeeView.as_view('employee_view'), methods=["GET"])
-app.add_url_rule(API_PREFIX + '/beer', view_func=BeerView.as_view('beer_view'), methods=["GET", "PUT"])
+app.add_url_rule(API_PREFIX + '/beer', view_func=BeerView.as_view('beer_view'), methods=["GET", "PUT", "POST"])
 app.add_url_rule(API_PREFIX + '/beer/active', view_func=BeerActiveView.as_view('beer_active_view'), methods=["GET"])
 app.add_url_rule(API_PREFIX + '/beer/pour', view_func=BeerPourView.as_view('beer_pour_view'), methods=["POST"])
 app.add_url_rule(API_PREFIX + '/beer/pour/status', view_func=BeerPourStatus.as_view('pour_state_view'), methods=["GET"])
@@ -46,9 +46,6 @@ app.add_url_rule(API_PREFIX + '/system/settings', view_func=SystemSettingsView.a
 @app.route('/')
 def index():
     return app.send_static_file('index.html')
-
-
-# TODO 1. printer integration
 
 
 if __name__ == '__main__':

@@ -6,7 +6,7 @@ API_PREFIX = f"/api/{API_VERSION}"
 # general
 SHOP_NAME = read_settings()['COMMON']['SHOP_NAME']
 PRINTER_NAME = "masung"
-ACTIVE_BEERS_QTY = 2
+ACTIVE_BEERS_QTY = 4
 DAYS_TO_EXPIRE = 6
 # cron
 CRON_HOUR = '22'
