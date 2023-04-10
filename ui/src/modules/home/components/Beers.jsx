@@ -128,7 +128,7 @@ const Beers = () => {
     >
       {!!data.length && (
         <Grid item py={2}>
-          <Typography fontWeight={100} fontSize="3rem" pt={2}>
+          <Typography fontWeight={100} fontSize="3rem">
             ВСТАВТЕ ПЛЯШКУ І ОБЕРІТЬ ПИВО
           </Typography>
         </Grid>
@@ -138,20 +138,18 @@ const Beers = () => {
         {!!data.length && (
           <Grid
             container
-            pt={3}
-            width="90%"
+            px={1.5}
             spacing={3}
             alignItems="center"
             justifyContent="center"
           >
             {data.map((item) => (
-              <Grid
-                item
-                container
-                key={item.name}
-                xs={data.length === 1 ? 6 : 5}
-              >
-                <BeerItem {...item} handlePour={() => handlePourBeer(item)} />
+              <Grid item container xs={6} key={item.name}>
+                <BeerItem
+                  {...item}
+                  count={data.length}
+                  handlePour={() => handlePourBeer(item)}
+                />
               </Grid>
             ))}
           </Grid>

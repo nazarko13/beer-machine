@@ -75,10 +75,10 @@ const useStyles = makeStyles(({ spacing }) => ({
   root: {
     width: '90%',
     color: 'black',
-    fontSize: '2.25rem',
+    fontSize: '1.9rem',
     borderRadius: 10,
     backgroundColor: '#8bbc2a',
-    padding: spacing(2, 1),
+    padding: spacing(1, 1),
   },
 }));
 
@@ -92,7 +92,7 @@ const defaultOptions = {
   delay: 2000,
 };
 
-const BeerItem = ({ name, price, type, handlePour }) => {
+const BeerItem = ({ name, price, type, count, handlePour }) => {
   const classes = useStyles();
 
   const bind = useLongPress(handlePour, handlePour, defaultOptions);
@@ -114,7 +114,7 @@ const BeerItem = ({ name, price, type, handlePour }) => {
         alt={name}
         width="100%"
         component="img"
-        maxHeight={300}
+        maxHeight={count > 2 ? 170 : 300}
         src={images[type] || lightBeer}
         style={{ objectFit: 'contain' }}
       />
