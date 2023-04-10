@@ -311,7 +311,7 @@ class BoardInteractionInterface:
         Check if valve is fully open.
         :return: True if ValveSensor equal '1' else False.
         """
-        is_valve_pressed_bottle = cls.Board.get_system_status()[Sensors.VALVE_SENSOR.value] == '1'
+        is_valve_pressed_bottle = cls.Board.get_system_status()[Sensors.VALVE_SENSOR.value] != '1'
         logger.info(f"BEER_BOARD. PRESSURE VALVE START Current valve pressed bottle: {is_valve_pressed_bottle}.")
         return is_valve_pressed_bottle
 
