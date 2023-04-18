@@ -75,7 +75,7 @@ const useStyles = makeStyles(({ spacing }) => ({
   root: {
     width: '90%',
     color: 'black',
-    fontSize: '1.9rem',
+    fontSize: '1.85rem',
     borderRadius: 10,
     backgroundColor: '#8bbc2a',
     padding: spacing(1, 1),
@@ -99,6 +99,8 @@ const BeerItem = ({ name, price, type, count, handlePour }) => {
 
   return (
     <Grid
+      flex={1}
+      height="100%"
       container
       py={2}
       my={0}

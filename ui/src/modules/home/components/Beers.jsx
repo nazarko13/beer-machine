@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import { useDispatch, useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { createEnum } from 'common/utils';
 import { modalNames } from 'common/constants';
@@ -127,7 +127,7 @@ const Beers = () => {
       alignItems="center"
     >
       {!!data.length && (
-        <Grid item py={2}>
+        <Grid item pt={2}>
           <Typography fontWeight={100} fontSize="3rem">
             ВСТАВТЕ ПЛЯШКУ І ОБЕРІТЬ ПИВО
           </Typography>
@@ -139,12 +139,12 @@ const Beers = () => {
           <Grid
             container
             px={1.5}
-            spacing={3}
-            alignItems="center"
+            spacing={data.length <= 2 ? 3 : 2}
+            alignItems="stretch"
             justifyContent="center"
           >
             {data.map((item) => (
-              <Grid item container xs={6} key={item.name}>
+              <Grid item xs={6} key={item.name}>
                 <BeerItem
                   {...item}
                   count={data.length}
