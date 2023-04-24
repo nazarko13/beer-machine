@@ -62,7 +62,7 @@ class BoardInteractionInterface:
             result = {'ValveSensor': '0', 'DoorSensor': '0', 'Actuators_state': '[0000]', 'Temp': '-99.0', 'Press': '0'}
             :return result:
             """
-            return {y[0]: y[1] for y in [x.strip().split(":") for x in str_to_convert.split(',')]}
+            return {y[0]: y[1] for y in [x.strip().split(":") for x in str_to_convert.split(',')[:-1]]}
 
         @classmethod
         def help(cls):
