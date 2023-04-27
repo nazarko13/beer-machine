@@ -452,7 +452,15 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
     beer_statistics = BeerStatistics.create(beer_name=beer.name, barcode=beer.barcode, remains=beer.quantity - 1)
     system_settings = SystemSettingsSchema.Schema().loads(SystemSettings.get_first().config)
     if beer.quantity <= system_settings.beer_remains_qty:
-        send_message(f"Пиво закінчується: {beer.name} - {beer.quantity}л")
+        try:
+            send_message(f"Пиво закінчується: {beer.name} - {beer.quantity}л")
+            logger.info(
+                "BEER BOARD. POUR BEER FLOW."
+                f"Beer({beer.name}) quantity({beer.quantity}) <= system settings ({system_settings.beer_remains_qty})"
+            )
+        except Exception:
+            logger.info(f"BEER BOARD. POUR BEER FLOW. Could not sent message (keg: {beer_keg}, impulses: {impulses}.")
+
     try:
         BoardInteractionInterface.set_initial_actuators_state(),
         callback_function(10, "Initial actuators state.")
@@ -486,7 +494,7 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
                       description=updated_beer.description,
                       filling_date=updated_beer.filling_date)
 
-        time.sleep(5)
+        time.sleep(Constants.TIMEOUT_BETWEEN_STOP_POUR_AND_OPEN_VALVE_AND_DOOR)
         callback_function(80, "Intake air")
         BoardInteractionInterface.pressure_valve_stop()
         callback_function(90, "Pressure valve stop")

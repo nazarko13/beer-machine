@@ -13,3 +13,4 @@ class WorkingHoursSchema:
 class SystemSettingsSchema:
     working_hours: WorkingHoursSchema
     beer_remains_qty: int
+    with_over_18_check: bool
