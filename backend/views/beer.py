@@ -53,7 +53,9 @@ class BeerView(MethodView):
             barcode=beer_to_create.barcode,
             description=beer_to_create.description,
             keg=beer_to_create.keg,
-            quantity=beer_to_create.quantity
+            quantity=beer_to_create.quantity,
+            filling_date=date.today(),
+            expiration_date=date.today()
         )
         return jsonify(BeerOutput.Schema().dump(created_beer))
 
