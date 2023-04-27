@@ -16,6 +16,7 @@ const initialState = {
   loading: false,
   isSuperUser: false,
   pourLoading: false,
+  systemSetting: {},
 };
 
 const stockSlice = createSlice({
@@ -68,6 +69,10 @@ const stockSlice = createSlice({
     [success(actionTypes.pourBeer)]: (state) => {
       state.pourLoading = false;
       state.data.progress = 0;
+    },
+
+    [success(actionTypes.getSystemSettings)]: (state, action) => {
+      state.systemSetting = action.response.data;
     },
 
     [error(actionTypes.pourBeer)]: (state) => {

@@ -5,18 +5,25 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { createEnum } from 'common/utils';
 import { modalNames } from 'common/constants';
-import { getActiveBeers, pourBeer, startWashing } from '../ducks';
-import { openModal } from '../../modalHandler/ducks';
-import { getActiveBeersData } from '../ducks/selectors';
-import GetBottlePopup from './GetBottlePopup';
-import WashingLoader from './WashingLoader';
-import { useGetPourStatus } from '../hooks';
 import BeerItem from './BeerItem';
+import WashingLoader from './WashingLoader';
+import GetBottlePopup from './GetBottlePopup';
+import { useGetPourStatus } from '../hooks';
+import { openModal } from '../../modalHandler/ducks';
+import { getActiveBeersData, getIsWithOver18Check } from '../ducks/selectors';
+import {
+  pourBeer,
+  startWashing,
+  getActiveBeers,
+  getSystemSettings,
+} from '../ducks';
+import Ask18Popup from './Ask18Popup';
 
 const modalTypes = createEnum({
+  error: null,
   getBottle: null,
   washingLoader: null,
-  error: null,
+  checkIsOver18: null,
 });
 
 const requestWashingCount = 2;
@@ -24,8 +31,10 @@ const requestWashingCount = 2;
 const Beers = () => {
   const dispatch = useDispatch();
   const [modal, setModal] = useState(null);
+  const [beerForPour, setBeerForPour] = useState(null);
   const [count, setWashingRequestNum] = useState(0);
   const data = useSelector(getActiveBeersData);
+  const withOver18Check = useSelector(getIsWithOver18Check);
 
   const [runGetStatus, stopGetStatus] = useGetPourStatus();
 
@@ -98,9 +107,29 @@ const Beers = () => {
     ]
   );
 
+  const onBeerClick = (beer) => {
+    if (withOver18Check) {
+      setBeerForPour(beer);
+      setModal(modalTypes.checkIsOver18);
+      return;
+    }
+
+    handlePourBeer(beer);
+  };
+
+  const pourBeerOnAcceptAge = () => {
+    setModal(null);
+    handlePourBeer(beerForPour);
+    setBeerForPour(null);
+  };
+
   useEffect(() => {
     getActiveBears();
   }, [getActiveBears]);
+
+  useEffect(() => {
+    dispatch(getSystemSettings());
+  }, [dispatch]);
 
   if (!data.length) {
     return (
@@ -148,7 +177,7 @@ const Beers = () => {
                 <BeerItem
                   {...item}
                   count={data.length}
-                  handlePour={() => handlePourBeer(item)}
+                  handlePour={() => onBeerClick(item)}
                 />
               </Grid>
             ))}
@@ -159,6 +188,12 @@ const Beers = () => {
       <GetBottlePopup
         open={modal === modalTypes.getBottle}
         onClose={handleWashing}
+      />
+
+      <Ask18Popup
+        open={modal === modalTypes.checkIsOver18}
+        onClose={() => setModal(null)}
+        onSuccess={pourBeerOnAcceptAge}
       />
 
       <WashingLoader open={modal === modalTypes.washingLoader} />

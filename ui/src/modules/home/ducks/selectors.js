@@ -5,6 +5,14 @@ import { healthStates } from 'common/constants';
 const getHomeState = (store) => store.home;
 
 const getHomeData = createSelector(getHomeState, (state) => state.data);
+const getSystemSettings = createSelector(
+  getHomeState,
+  (state) => state.systemSetting
+);
+export const getIsWithOver18Check = createSelector(
+  getSystemSettings,
+  (s) => !!s.withOver18Check
+);
 
 export const getLoading = createSelector(
   getHomeState,

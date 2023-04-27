@@ -1,6 +1,7 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import Grid from '@mui/material/Grid';
 import makeStyles from '@mui/styles/makeStyles';
+import Typography from '@mui/material/Typography';
 
 import Button from 'common/components/Button';
 import { beerTypes } from 'common/constants/enums';
@@ -97,6 +98,16 @@ const BeerItem = ({ name, price, type, count, handlePour }) => {
 
   const bind = useLongPress(handlePour, handlePour, defaultOptions);
 
+  const btnText = useMemo(
+    () => (
+      <Typography fontSize="inherit">
+        {name}
+        <div style={{ wordBreak: 'unset' }}>{`${price} UAH`}</div>
+      </Typography>
+    ),
+    [name, price]
+  );
+
   return (
     <Grid
       flex={1}
@@ -122,12 +133,7 @@ const BeerItem = ({ name, price, type, count, handlePour }) => {
       />
 
       <Grid item container alignItems="center" justifyContent="center">
-        <Button
-          fullWidth
-          size="large"
-          classes={classes}
-          text={`${name} ${price} UAH`}
-        />
+        <Button fullWidth size="large" classes={classes} text={btnText} />
       </Grid>
     </Grid>
   );

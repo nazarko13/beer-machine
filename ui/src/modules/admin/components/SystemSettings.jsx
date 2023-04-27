@@ -12,6 +12,7 @@ import { Loader, SelectField } from 'common/components';
 import { systemSettingsSchema } from '../constants/validations';
 import { getSystemSettings, updateSystemSettings } from '../ducks';
 import { getLoading, getStateSystemSettings } from '../ducks/selectors';
+import { IOSSwitch } from './styled';
 
 const workingHoursOptions = new Array(25)
   .fill(null)
@@ -99,6 +100,31 @@ const WorkingTimeForm = () => {
           <Typography variant="h3" component={Grid} item>
             л.
           </Typography>
+        </Grid>
+
+        <Grid
+          item
+          mt={2}
+          container
+          wrap="nowrap"
+          spacing={1}
+          alignItems="center"
+          justifyContent="flex-start"
+        >
+          <Typography variant="h3" component={Grid} item>
+            Перевірка віку (18+)
+          </Typography>
+
+          <Grid item>
+            <Controller
+              name="withOver18Check"
+              defaultValue={config?.withOver18Check}
+              control={control}
+              render={({ field, fieldState }) => (
+                <IOSSwitch {...field} size="medium" error={fieldState.error} />
+              )}
+            />
+          </Grid>
         </Grid>
 
         <Grid item container xs={7} mt={4}>
