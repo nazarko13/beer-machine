@@ -183,14 +183,17 @@ class BoardInteractionInterface:
             _bytes = ser.readline()
             ser.close()
             _str = str(_bytes, 'utf').strip()
-            res = _str == "the_actuator_blinked"
+            res = _str == "filling_started"
             logger.info(f"BEER BOARD. BLINKING ACTUATOR. Finished with status: {res}. Resp from board: '{_str}'")
             return res
 
     lock = Lock()
 
     @classmethod
-    def start_filling(cls, actuator: Actuators, sensor: int, impulses: int):
+    def start_filling_internal_test(cls, actuator: Actuators, sensor: int, impulses: int) -> bool:
+        """
+        This method call Board.start_filling() to emulate beer pour flow. Only for test purpose.
+        """
         logger.info(f"BEER_BOARD. START FILLING. Actuator: {actuator}, sensor:{sensor}, impulses: {impulses}")
         return cls.Board.start_filling(actuator, sensor, impulses)
 
@@ -452,7 +455,7 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
     beer_actuator = Actuators[beer_keg]
     beer_counter = BEER_COUNTER_MAP.get(beer_actuator)
     beer_count_number = BEER_SENSOR_MAP.get(beer_counter)
-    logger.info(f"BEER BOARD. POUR BEER FLOW. Pour beer STARTED (keg: {beer_keg}, impulses: {impulses}.")
+    logger.info(f"BEER BOARD. POUR BEER FLOW. Pour beer STARTED (keg: {beer_keg}, impulses: {impulses}).")
     beer = Beer.get(beer_id)
     beer_statistics = BeerStatistics.create(beer_name=beer.name, barcode=beer.barcode, remains=beer.quantity - 1)
     system_settings = SystemSettingsSchema.Schema().loads(SystemSettings.get_first().config)
