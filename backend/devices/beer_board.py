@@ -191,9 +191,8 @@ class BoardInteractionInterface:
 
     @classmethod
     def start_filling(cls, actuator: Actuators, sensor: int, impulses: int):
-        with cls.lock:
-            logger.info(f"BEER_BOARD. START FILLING. Actuator: {actuator}, sensor:{sensor}, impulses: {impulses}")
-            return cls.start_filling(actuator, sensor, impulses)
+        logger.info(f"BEER_BOARD. START FILLING. Actuator: {actuator}, sensor:{sensor}, impulses: {impulses}")
+        return cls.Board.start_filling(actuator, sensor, impulses)
 
     @classmethod
     def __is_pressure_in_system_ok(cls):

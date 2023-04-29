@@ -32,9 +32,11 @@ try:
         print("Invalid choice")
 
     # mins_to_run = input("Enter minutes to run `read_counters`: ")
-    sensor = input("Sensor (Count_1: 1, Count_2: 2, Count_3: 3, Count_4: 4)")
+    sensor = input("Sensor (Count_1: 1, Count_2: 2, Count_3: 3, Count_4: 4): ")
+    impulses = 100
+    print(f"COMMAND *start_filling:({sensor})({actuator.value})({impulses})~")
     t_end = time.time() + 60 * 1
-    BoardInteractionInterface.start_filling(actuator, int(sensor), impulses=100)
+    print(BoardInteractionInterface.start_filling(actuator, int(sensor), impulses=impulses))
     while time.time() < t_end:
         counters_response = BoardInteractionInterface.read_counters()
         time.sleep(1)
