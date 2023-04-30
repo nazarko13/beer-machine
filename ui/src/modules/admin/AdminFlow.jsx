@@ -23,7 +23,7 @@ const Admin = ({ fieldSet }) => {
     <Grid container wrap="nowrap" minHeight="100%" direction="column">
       <Grid item container position="fixed" zIndex={10}>
         <Tabs
-          tabs={adminTabs}
+          tabs={adminTabs.filter(({ admin }) => !!admin)}
           activeTab={activeTab}
           handleChangeTab={setActiveTab}
         />

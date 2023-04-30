@@ -18,6 +18,7 @@ export const adminTabs = [
   {
     value: tabKeys.settingsForm,
     name: tabNames[tabKeys.settingsForm],
+    admin: true,
   },
   {
     value: tabKeys.systemInfo,
@@ -26,25 +27,7 @@ export const adminTabs = [
   {
     value: tabKeys.cleaning,
     name: tabNames[tabKeys.cleaning],
-  },
-  {
-    value: tabKeys.generalSettings,
-    name: tabNames[tabKeys.generalSettings],
-  },
-];
-
-export const superAdminTabs = [
-  {
-    value: tabKeys.settingsForm,
-    name: tabNames[tabKeys.settingsForm],
-  },
-  {
-    value: tabKeys.systemInfo,
-    name: tabNames[tabKeys.systemInfo],
-  },
-  {
-    value: tabKeys.cleaning,
-    name: tabNames[tabKeys.cleaning],
+    admin: true,
   },
   {
     value: tabKeys.generalSettings,
