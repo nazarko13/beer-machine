@@ -28,7 +28,7 @@ def delete_system_settings():
 def delete_statistics():
     if input(f"Do you want to delete statistics. Press (y) to continue: ") == 'y':
         BeerStatistics.delete().where(BeerStatistics.id > 0).execute()
-        print("Settings deleted")
+        print("BeerStatistics deleted")
 
 
 if __name__ == "__main__":
