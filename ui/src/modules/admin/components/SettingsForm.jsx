@@ -14,6 +14,7 @@ import {
   fields,
   fieldSizes,
   fieldLabels,
+  fieldSizesAdmin,
   maxActiveBeersCount,
 } from '../constants';
 import { saveBeers } from '../ducks';
@@ -60,6 +61,11 @@ const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
 
     return activeBeers.length === maxActiveBeersCount;
   }, [formData, allBeers]);
+
+  const sizes = useMemo(
+    () => (isSuperAdmin ? fieldSizes : fieldSizesAdmin),
+    [isSuperAdmin]
+  );
 
   const onSubmit = useCallback(
     (data) => {
@@ -115,6 +121,7 @@ const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
           width="100%"
           position="fixed"
           justifyContent="center"
+          id="keyboardLayout"
         >
           <KeyboardProvider
             values={formData}
@@ -159,9 +166,9 @@ const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
           </Grid>
         </Grid>
 
-        <Grid item xs container spacing={2} px={3} pt={1} width="100%">
+        <Grid item xs container spacing={2} px={2} pt={1} width="100%">
           {fieldSet.map((fieldName) => (
-            <Grid key={fieldName} item xs={fieldSizes[fieldName]}>
+            <Grid key={fieldName} item width={sizes[fieldName]}>
               <Typography>{fieldLabels[fieldName]}</Typography>
             </Grid>
           ))}
@@ -173,12 +180,14 @@ const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
           justifyContent="center"
           minHeight={activeInput ? 'calc(100% + 215px)' : '100%'}
         >
-          <Grid p={2} spacing={2} container wrap="nowrap" direction="column">
+          <Grid p={2} spacing={1} container wrap="nowrap" direction="column">
             {Object.keys(allBeers || {}).map((key) => (
               <FormFieldset
                 {...allBeers[key]}
                 key={key}
+                admin={!isSuperAdmin}
                 control={control}
+                setValue={setValue}
                 fieldSet={fieldSet}
                 onFocus={updateVisibleInput}
                 disableActivation={isMaxCountReached}
