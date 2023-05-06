@@ -76,7 +76,7 @@ const useStyles = makeStyles(({ spacing }) => ({
   root: {
     width: '90%',
     color: 'black',
-    fontSize: '1.85rem',
+    fontSize: '25px',
     borderRadius: 10,
     backgroundColor: '#8bbc2a',
     padding: spacing(1, 1),
