@@ -7,18 +7,18 @@ from settings import E_INTAKE_AIR_AFTER_POUR_AMOUNT, E_INTAKE_AIR_AFTER_POUR_BLI
 
 class Constants:
     # PRESSURE
-    SYSTEM_PRESSURE_MIN = 1800  # тиск в системі мінімальне значення
-    SYSTEM_PRESSURE_MAX = 2500  # тиск в системі максимальне значення
+    SYSTEM_PRESSURE_MIN = 2200  # тиск в системі мінімальне значення
+    SYSTEM_PRESSURE_MAX = 2700  # тиск в системі максимальне значення
     AIR_PRESSURE_CHECK_AMOUNT = 10  # к-ть спроб щоб наповнити систему необхідним тиском
     AIR_PRESSURE_CHECK_TIMEOUT = 0.5  # час в секундах перед перевіркою тиску повітря в системі
     # TEMPERATURE
-    COOLER_TEMP_MIN = 0  # температура в холодильнику мінімальне значення
-    COOLER_TEMP_MAX = 7  # температура в холодильнику максимальне значення
+    COOLER_TEMP_MIN = -9  # температура в холодильнику мінімальне значення
+    COOLER_TEMP_MAX = 2  # температура в холодильнику максимальне значення
     # DOOR
     DOOR_CLOSE_TIMEOUT = 1  # час в секундах повного закривання шторки в секундах
     DOOR_OPEN_TIMEOUT = 2  # час в секундах повного відкриття шторки в секундах
     # CLEANING промивка системи
-    BLINK_WATER_CLEANING_TIMEOUT = 200  # час в мілісекундах для промивки системи водою (blinking on board)
+    BLINK_WATER_CLEANING_TIMEOUT = 300  # час в мілісекундах для промивки системи водою (blinking on board)
     BLINK_AIR_CLEANING_TIMEOUT = 300  # час в мілісекундах для продування системи повітрям (blinking on board)
     # INTAKE AIR AFTER POUR стравка повітря після наливання пива
     INTAKE_AIR_AFTER_POUR_AMOUNT = E_INTAKE_AIR_AFTER_POUR_AMOUNT  # к-ть стравок повітря після наливання пива
