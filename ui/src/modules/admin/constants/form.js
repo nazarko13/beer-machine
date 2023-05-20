@@ -24,14 +24,22 @@ export const fieldLabels = createEnum({
 });
 
 export const fieldSizes = createEnum({
-  [fields.isActive]: 1,
-  [fields.name]: 2,
-  [fields.price]: 1,
-  [fields.type]: 2,
-  [fields.pulseCount]: 1,
-  [fields.barcode]: 2,
-  [fields.keg]: 2,
-  [fields.quantity]: 1,
+  [fields.isActive]: '8%',
+  [fields.name]: '20%',
+  [fields.price]: '8%',
+  [fields.type]: '11%',
+  [fields.pulseCount]: '10%',
+  [fields.barcode]: '15%',
+  [fields.keg]: '11%',
+  [fields.quantity]: '8%',
+});
+
+export const fieldSizesAdmin = createEnum({
+  [fields.isActive]: '10%',
+  [fields.name]: '45%',
+  [fields.price]: '10%',
+  [fields.keg]: '15%',
+  [fields.quantity]: '10%',
 });
 
 export const maxActiveBeersCount = 4;
@@ -40,7 +48,6 @@ export const adminFieldSet = [
   fields.isActive,
   fields.name,
   fields.price,
-  fields.type,
   fields.keg,
   fields.quantity,
 ];
@@ -77,18 +84,3 @@ export const kagOptions = new Array(maxActiveBeersCount + 1)
       value: `BEER_KEG_${index}`,
     };
   });
-
-//   [
-//   {
-//     name: 'Не вибрано',
-//     value: '',
-//   },
-//   {
-//     name: 'Кега 1',
-//     value: 'BEER_KEG_1',
-//   },
-//   {
-//     name: 'Кега 2',
-//     value: 'BEER_KEG_2',
-//   },
-// ];

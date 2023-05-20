@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Grid from '@mui/material/Grid';
 import { Controller } from 'react-hook-form';
 
 import { useNotify } from 'common/hooks';
-import { CheckBoxField, InputField, SelectField } from 'common/components';
-import { beerTypeOptions, fields, fieldSizes, kagOptions } from '../constants';
+import {
+  Button,
+  CheckBoxField,
+  InputField,
+  SelectField,
+} from 'common/components';
+import {
+  fields,
+  fieldSizes,
+  kagOptions,
+  fieldSizesAdmin,
+  beerTypeOptions,
+} from '../constants';
 
 const FormFieldset = ({
   id,
@@ -12,16 +23,20 @@ const FormFieldset = ({
   name,
   type,
   price,
+  admin,
   barcode,
   isActive,
   control,
   fieldSet,
+  onFocus,
   quantity = 0,
+  setValue,
   pulseCount,
   disableActivation,
-  onFocus,
 }) => {
   const notify = useNotify();
+
+  const sizes = useMemo(() => (admin ? fieldSizesAdmin : fieldSizes), [admin]);
 
   const onChangeActive =
     ({ onChange }) =>
@@ -38,7 +53,7 @@ const FormFieldset = ({
     <Grid item container direction="column">
       <Grid item xs container spacing={2} p={1} pt={1}>
         {fieldSet.includes(fields.isActive) && (
-          <Grid item xs={fieldSizes[fields.isActive]}>
+          <Grid item width={sizes[fields.isActive]}>
             <Controller
               control={control}
               name={`${id}.isActive`}
@@ -55,7 +70,7 @@ const FormFieldset = ({
         )}
 
         {fieldSet.includes(fields.name) && (
-          <Grid item xs={fieldSizes[fields.name]}>
+          <Grid item width={sizes[fields.name]}>
             <Controller
               control={control}
               name={`${id}.name`}
@@ -64,6 +79,7 @@ const FormFieldset = ({
                 <InputField
                   {...field}
                   fullWidth
+                  disabled={admin}
                   size="large"
                   onFocus={(e) => onFocus(field.name, e)}
                 />
@@ -73,7 +89,7 @@ const FormFieldset = ({
         )}
 
         {fieldSet.includes(fields.price) && (
-          <Grid item xs={fieldSizes[fields.price]}>
+          <Grid item width={sizes[fields.price]}>
             <Controller
               control={control}
               name={`${id}.price`}
@@ -83,6 +99,7 @@ const FormFieldset = ({
                   fullWidth
                   size="large"
                   {...field}
+                  disabled={admin}
                   onFocus={(e) => onFocus(field.name, e, 'number')}
                 />
               )}
@@ -91,11 +108,12 @@ const FormFieldset = ({
         )}
 
         {fieldSet.includes(fields.type) && (
-          <Grid item xs={fieldSizes[fields.type]}>
+          <Grid item width={sizes[fields.type]}>
             <Controller
               control={control}
               name={`${id}.type`}
               defaultValue={type}
+              disabled={admin}
               render={({ field }) => (
                 <SelectField
                   fullWidth
@@ -111,7 +129,7 @@ const FormFieldset = ({
         )}
 
         {fieldSet.includes(fields.pulseCount) && (
-          <Grid item xs={fieldSizes[fields.pulseCount]}>
+          <Grid item width={sizes[fields.pulseCount]}>
             <Controller
               control={control}
               name={`${id}.pulseCount`}
@@ -129,7 +147,7 @@ const FormFieldset = ({
         )}
 
         {fieldSet.includes(fields.barcode) && (
-          <Grid item xs={fieldSizes[fields.barcode]}>
+          <Grid item width={sizes[fields.barcode]}>
             <Controller
               control={control}
               name={`${id}.barcode`}
@@ -147,7 +165,7 @@ const FormFieldset = ({
         )}
 
         {fieldSet.includes(fields.keg) && (
-          <Grid item xs={fieldSizes[fields.keg]}>
+          <Grid item width={sizes[fields.keg]}>
             <Controller
               control={control}
               name={`${id}.keg`}
@@ -158,6 +176,7 @@ const FormFieldset = ({
                   size="small"
                   variant="filled"
                   {...field}
+                  disabled={admin}
                   options={kagOptions}
                 />
               )}
@@ -166,7 +185,7 @@ const FormFieldset = ({
         )}
 
         {fieldSet.includes(fields.quantity) && (
-          <Grid item xs={fieldSizes[fields.quantity]}>
+          <Grid item width={sizes[fields.quantity]}>
             <Controller
               control={control}
               name={`${id}.quantity`}
@@ -182,6 +201,14 @@ const FormFieldset = ({
             />
           </Grid>
         )}
+
+        <Grid item xs={1}>
+          <Button
+            text="31"
+            sx={{ px: 0.5, minWidth: '50px', height: '100%' }}
+            onClick={() => setValue(`${id}.quantity`, 31)}
+          />
+        </Grid>
       </Grid>
     </Grid>
   );

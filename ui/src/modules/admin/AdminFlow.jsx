@@ -32,7 +32,7 @@ const Admin = ({ fieldSet }) => {
       <Grid xs item container mt={6} flex={1} bgcolor="#ffffff90">
         {
           {
-            [tabKeys.settingsForm]: <SettingsForm fieldSet={fieldSet} />,
+            [tabKeys.settingsForm]: <SettingsForm fieldSet={fieldSet} admin />,
             [tabKeys.systemInfo]: <SystemInfo />,
             [tabKeys.cleaning]: <Cleaning />,
             [tabKeys.generalSettings]: <SystemSettings />,
