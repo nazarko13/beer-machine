@@ -52,7 +52,9 @@ def add_styles():
         name='ItemS',
         fontName='arialbold.ttf',
         alignment=0,
-        fontSize=6
+        fontSize=6,
+        splitLongWords=0,
+        leading=10
     ))
 
     styles.add(ParagraphStyle(
@@ -86,6 +88,9 @@ def receipt_body(styles, barcode, filling_date, description=DESCRIPTION):
         ("VALIGN", (0, 0), (1, 0), "TOP"),
     ]))
     story.append(tab)
+    # TODO uncomment if needed
+    # prepared_description = '<br/>'.join(description[i:i + 76] for i in range(0, len(description), 75))
+    # print(prepared_description)
     story.append(Paragraph(description, styles["ItemS"]))
     return story
 

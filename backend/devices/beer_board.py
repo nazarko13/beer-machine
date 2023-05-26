@@ -211,6 +211,17 @@ class BoardInteractionInterface:
             return Constants.SYSTEM_PRESSURE_MIN <= pressure_in_system <= Constants.SYSTEM_PRESSURE_MAX
 
     @classmethod
+    def get_pressure_in_system(cls):
+        """
+        Get pressure in system
+        :return: float
+        """
+        with cls.lock:
+            pressure_in_system = float(cls.Board.get_system_status()[Sensors.SYSTEM_PRESSURE.value])
+            logger.info(f"BEER_BOARD. GET PRESSURE IN SYSTEM. Pressure: {pressure_in_system}.")
+            return pressure_in_system
+
+    @classmethod
     def is_temp_in_cooler_ok(cls):
         """
         Check if temp in cooler is in predefined range inclusive.
@@ -470,11 +481,11 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
             logger.info(f"BEER BOARD. POUR BEER FLOW. Could not sent message (keg: {beer_keg}, impulses: {impulses}.")
 
     try:
-        BoardInteractionInterface.set_initial_actuators_state(),
+        BoardInteractionInterface.set_initial_actuators_state()
         callback_function(10, "Initial actuators state.")
-        BoardInteractionInterface.close_door(),
+        BoardInteractionInterface.close_door()
         callback_function(20, "Door close.")
-        BoardInteractionInterface.pressure_valve_start(),
+        BoardInteractionInterface.pressure_valve_start()
         time.sleep(1.5)
         if not BoardInteractionInterface.is_valve_fully_open():
             raise BoardError(
@@ -482,7 +493,7 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
                 message="Bottle was not pressed."
             )
         callback_function(30, "Pressure valve start.")
-        BoardInteractionInterface.take_air_pressure_into_system(),
+        BoardInteractionInterface.take_air_pressure_into_system()
         callback_function(40, "Take air pressure into_system")
         BoardInteractionInterface.reset_counters()
         callback_function(50, "Reset counters")
@@ -502,7 +513,11 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
                       description=updated_beer.description,
                       filling_date=updated_beer.filling_date)
 
-        time.sleep(Constants.TIMEOUT_BETWEEN_STOP_POUR_AND_OPEN_VALVE_AND_DOOR)
+        timeout_to_stop = time.time() + Constants.GET_PRESSURE_IN_SYSTEM_TIMEOUT_EXCEPTION
+        while time.time() < timeout_to_stop:
+            pressure_in_system = BoardInteractionInterface.get_pressure_in_system()
+            if pressure_in_system < Constants.GET_PRESSURE_IN_SYSTEM_TO_STOP:
+                break
         callback_function(80, "Intake air")
         BoardInteractionInterface.pressure_valve_stop()
         callback_function(90, "Pressure valve stop")
@@ -520,6 +535,8 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
         except BoardError as e:
             logger.error("BEER BOARD. POUR BEER FLOW. Error in finally.")
             logger.error(f"BEER BOARD. POUR BEER FLOW. {e}")
+    except Exception as critical_exception:
+        logger.error(f"BEER BOARD. POUR BEER FLOW. CRITICAL ERROR {critical_exception}")
     finally:
         BoardInteractionInterface.reset_counters()
         BoardInteractionInterface.set_initial_actuators_state()
