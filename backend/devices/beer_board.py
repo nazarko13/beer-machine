@@ -548,7 +548,6 @@ def system_cleaning_flow(force=False):
     logger.info(f"BEER BOARD. SYSTEM CLEANING. STARTED (force: {force}")
     try:
         BoardInteractionInterface.set_initial_actuators_state()
-        BoardInteractionInterface.close_door()
         BoardInteractionInterface.pressure_valve_start()
         time.sleep(1)
         if not force:
@@ -557,6 +556,7 @@ def system_cleaning_flow(force=False):
                     action="cleaning_flow",
                     message="Bottle was not removed."
                 )
+        BoardInteractionInterface.close_door()
         BoardInteractionInterface.blinking_actuator(Actuators.WATER, Constants.BLINK_WATER_CLEANING_TIMEOUT)
         BoardInteractionInterface.blinking_actuator(Actuators.AIR_PRESSURE, Constants.BLINK_AIR_CLEANING_TIMEOUT)
         BoardInteractionInterface.pressure_valve_stop()

@@ -88,9 +88,6 @@ def receipt_body(styles, barcode, filling_date, description=DESCRIPTION):
         ("VALIGN", (0, 0), (1, 0), "TOP"),
     ]))
     story.append(tab)
-    # TODO uncomment if needed
-    # prepared_description = '<br/>'.join(description[i:i + 76] for i in range(0, len(description), 75))
-    # print(prepared_description)
     story.append(Paragraph(description, styles["ItemS"]))
     return story
 

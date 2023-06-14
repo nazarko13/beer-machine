@@ -31,8 +31,8 @@ class Constants:
     BLINK_INTAKE_AIR_TIMEOUT_BEFORE = E_BLINK_INTAKE_AIR_TIMEOUT_BEFORE  # час в мілісекундах між відкриттям і закриттям клапана стравки до відсотка
     BLINK_INTAKE_AIR_TIMEOUT_AFTER = E_BLINK_INTAKE_AIR_TIMEOUT_AFTER  # час в мілісекундах між відкриттям і закриттям клапана стравки після відсотка
     TIMEOUT_BETWEEN_INTAKE_AIR_ITERATION = E_TIMEOUT_BETWEEN_INTAKE_AIR_ITERATION  # час в секундах між відкриттям і закриттям клапана стравки після відсотка
-    GET_PRESSURE_IN_SYSTEM_TIMEOUT_EXCEPTION = 60  # час в секундах до закінчення перевірки тиску в системі у випадку якщо тиск не зменшується
-    GET_PRESSURE_IN_SYSTEM_TO_STOP = 100  # тиск в системі для закінчення стравки
+    GET_PRESSURE_IN_SYSTEM_TIMEOUT_EXCEPTION = 70  # час в секундах до закінчення перевірки тиску в системі у випадку якщо тиск не зменшується
+    GET_PRESSURE_IN_SYSTEM_TO_STOP = 180  # тиск в системі для закінчення стравки
     # SANITIZATION
     SANITIZATION_FAIL_TIMEOUT = 180  # час в секундах для санітизації системи, якщо більше то зупинити санітизацію
     SANITIZATION_IMPULSE_CHECK_TIMEOUT = 0.5  # час в секундах між зчитуванням сенсора наливу під час санітизації
