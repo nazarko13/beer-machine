@@ -20,12 +20,15 @@ def http_error_handler(response):
 def send_message(message="hello from your telegram bot", error=False, timeout=5):
     if error:
         message = "❗️Помилка. " + message
-    response = requests.get(
-        url=f'{TELEGRAM_BASE_URL}/sendMessage?chat_id={TELEGRAM_CHAT_ID}&text={SHOP_NAME}. {message}',
-        timeout=timeout
-    )
-    logger.info(f"TELEGRAM BOT. SEND ERRORS. Error: {message}")
-    http_error_handler(response)
+    try:
+        response = requests.get(
+            url=f'{TELEGRAM_BASE_URL}/sendMessage?chat_id={TELEGRAM_CHAT_ID}&text={SHOP_NAME}. {message}',
+            timeout=timeout
+        )
+        http_error_handler(response)
+    except Exception as e:
+        logger.error(f"TELEGRAM BOT. SEND MESSAGE. Could not send message due to error: {e}")
+    logger.info(f"TELEGRAM BOT. SEND MESSAGE. Error: {message}")
 
 
 def send_document(filename: str):
