@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 
 from flask import jsonify, request
 from flask.views import MethodView
@@ -7,6 +7,7 @@ from marshmallow import ValidationError
 from devices.beer_board import pour_beer_flow, system_cleaning_flow
 from models.models import Beer
 from schemas.beer import BeerOutput, BeerPourInput, BeerInput
+from settings import DAYS_TO_EXPIRE
 
 
 class BeerView(MethodView):
@@ -25,7 +26,10 @@ class BeerView(MethodView):
         for beer in beers_to_update:
             beer_from_db = Beer.get(Beer.id == beer.id)
             if beer_from_db.quantity != beer.quantity:
-                Beer.update({Beer.filling_date: date.today()}).where(Beer.id == beer.id).execute()
+                Beer.update({
+                    Beer.filling_date: date.today(),
+                    Beer.expiration_date: date.today() + timedelta(days=DAYS_TO_EXPIRE)
+                }).where(Beer.id == beer.id).execute()
             Beer.update(
                 {Beer.name: beer.name,
                  Beer.price: beer.price,
@@ -55,7 +59,7 @@ class BeerView(MethodView):
             keg=beer_to_create.keg,
             quantity=beer_to_create.quantity,
             filling_date=date.today(),
-            expiration_date=date.today()
+            expiration_date=date.today() + timedelta(days=DAYS_TO_EXPIRE)
         )
         return jsonify(BeerOutput.Schema().dump(created_beer))
 

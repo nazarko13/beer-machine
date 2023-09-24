@@ -511,7 +511,8 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
         updated_beer = Beer.update_quantity(beer_id)
         print_receipt(barcode=updated_beer.barcode,
                       description=updated_beer.description,
-                      filling_date=updated_beer.filling_date)
+                      filling_date=updated_beer.filling_date,
+                      expiration_date=updated_beer.expiration_date)
 
         timeout_to_stop = time.time() + Constants.GET_PRESSURE_IN_SYSTEM_TIMEOUT_EXCEPTION
         while time.time() < timeout_to_stop:
