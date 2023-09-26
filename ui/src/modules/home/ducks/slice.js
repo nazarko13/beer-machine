@@ -35,7 +35,7 @@ const stockSlice = createSlice({
 
     [error(actionTypes.checkHealth)]: (state, action) => {
       state.data.healthState = false;
-      state.data.isCooling = action.error.response.status === 400;
+      state.data.isCooling = action.error?.response?.status === 400;
     },
 
     [actionTypes.getBeers]: preActionStateSetter,
