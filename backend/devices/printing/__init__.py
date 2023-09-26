@@ -22,7 +22,7 @@ DESCRIPTION = 'Пиво темне. Не пастеризоване "Бурго�
 DESCRIPTION_LIGHT_BEER = 'Пиво світле. Не пастеризоване "Бургомістр Пілснер". Виробник: ТзОВ "Інтер Бір Трейд". Юридична адреса: 79052, м.Львів, вул.Півколо, 14. Склад: вода питна підготовлена, солод ячмінний, хміль, дріжджі пивні. Термін придатності - 5 діб. Зберігати при температурі від +2 до +5 градусів у затемненому приміщенні. Номер партії відповідає даті виготовлення. Без ГМО. Вміст спирту не менше - 4,2%. Масова частка сухих речовин у початковому суслі - 12%. Енергетична цінність в 100г продукту - 48кКал. Поживна(харчова) цінність в 100г продукту - 4,6г вуглеводів. ДСТУ 3888-99. Допускається наявність дріжджового осаду. Ліцензія N°990108201800071. Не рекомендується вживати дітям віком до 18 років, вагітним, особам, які мають медичні чи професійні протипоказання.'
 
 
-def create_pdf(barcode, description, filling_date):
+def create_pdf(barcode, description, filling_date, expiration_date):
     pdf_settings = {
         'rightMargin': 0,
         'topMargin': 0,
@@ -38,7 +38,7 @@ def create_pdf(barcode, description, filling_date):
     # styles
     styles = add_styles()
 
-    story = receipt_body(styles, barcode, filling_date, description)
+    story = receipt_body(styles, barcode, filling_date, expiration_date, description)
     doc.build(story)
 
     logger.info("Receipt has been created: Barcode #{}.".format(barcode))
@@ -52,7 +52,9 @@ def add_styles():
         name='ItemS',
         fontName='arialbold.ttf',
         alignment=0,
-        fontSize=6
+        fontSize=6,
+        splitLongWords=0,
+        leading=10
     ))
 
     styles.add(ParagraphStyle(
@@ -66,13 +68,12 @@ def add_styles():
     return styles
 
 
-def receipt_body(styles, barcode, filling_date, description=DESCRIPTION):
+def receipt_body(styles, barcode, filling_date, expiration_date, description=DESCRIPTION):
     story = list()
 
     _barcode = createBarcodeDrawing('EAN13', value=barcode, height=7 * mm, barWidth=0.5 * mm, humanReadable=False,
                                     lquiet=True, rquiet=True)
     print_date = datetime.today().strftime('%Y-%m-%d')
-    expiration_date = filling_date + timedelta(days=DAYS_TO_EXPIRE)
     tab = Table([
         [_barcode, Paragraph(
             f"Дата розливу: {print_date} "
@@ -90,9 +91,9 @@ def receipt_body(styles, barcode, filling_date, description=DESCRIPTION):
     return story
 
 
-def print_receipt(barcode, description, filling_date):
-    Printer.print(create_pdf(barcode, description, filling_date))
+def print_receipt(barcode, description, filling_date, expiration_date):
+    Printer.print(create_pdf(barcode, description, filling_date, expiration_date))
 
 
 if __name__ == "__main__":
-    print_receipt(21312312312312, DESCRIPTION, date.today())
+    print_receipt(21312312312312, DESCRIPTION, date.today(), date.today() + timedelta(days=DAYS_TO_EXPIRE))

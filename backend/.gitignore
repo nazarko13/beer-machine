@@ -6,3 +6,4 @@ logs/
 *.db
 *.pdf
 *.pyc
+beers_to_update.json

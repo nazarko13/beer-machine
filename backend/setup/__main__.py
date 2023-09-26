@@ -11,11 +11,3 @@ print(separator)
 print('ADMINISTRATORS SETUP STARTED')
 configure_employees.main()
 print('ADMINISTRATORS SETUP COMPLETED')
-
-print(separator)
-
-print('BEERS SETUP STARTED')
-configure_beers.main()
-print('BEERS SETUP COMPLETED')
-
-print(separator)

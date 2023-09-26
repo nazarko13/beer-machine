@@ -25,6 +25,10 @@ cat ../version.md
 source venv/bin/activate
 python -m setup.check_board
 ;;
+"configure_beers")
+source venv/bin/activate
+python -m setup.configure_beers
+;;
 "-h" | "--help")
 echo "     install                  Install project requirements."
 echo "     setup                    Setup project."
@@ -32,8 +36,9 @@ echo "     start                    Start project."
 echo "     stop                     Stop project."
 echo "     info                     Information about version and contributors."
 echo "     check_board              Check connection to the board."
+echo "     configure_beers          Configure beers."
 ;;
 *)
-  echo 'Wrong argument. Possible values: "start", "setup", "install", "stop", "check_board", "info". Have a nice day!'
+  echo 'Wrong argument. Possible values: "start", "setup", "install", "stop", "check_board", "configure_beers", "info". Have a nice day!'
   exit 1
 esac
