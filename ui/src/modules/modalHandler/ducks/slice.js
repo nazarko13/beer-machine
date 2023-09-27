@@ -28,11 +28,13 @@ const modalsSlice = createSlice({
     closeModal(state, action) {
       const { payload } = action;
 
-      if (!payload) {
+      const modalsToClose = [payload].flat().filter(Boolean);
+
+      if (!modalsToClose.length) {
         return [];
       }
 
-      return state.filter((m) => m.name !== payload);
+      return state.filter((m) => !modalsToClose.includes(m.name));
     },
   },
 });

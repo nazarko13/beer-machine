@@ -1,27 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 
 import { Tabs } from 'common/components';
-import { modalNames } from 'common/constants';
 import { adminTabs, tabKeys } from './constants';
 import SystemSettings from './components/SystemSettings';
 import SettingsForm from './components/SettingsForm';
 import SystemInfo from './components/SystemInfo';
 import Cleaning from './components/Cleaning';
-import { closeModal } from '../modalHandler/ducks';
 
 const Admin = ({ fieldSet }) => {
-  const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState(tabKeys.settingsForm);
-
-  useEffect(() => {
-    dispatch(closeModal(modalNames.workingHours));
-
-    setTimeout(() => {
-      dispatch(closeModal());
-    }, [0]);
-  }, [dispatch]);
 
   return (
     <Grid container wrap="nowrap" minHeight="100%" direction="column">
