@@ -8,6 +8,7 @@ const Button = ({
   onClick = () => null,
   variant = 'contained',
   size = 'large',
+  children = undefined,
   ...props
 }) => (
   <MUIButton
@@ -18,7 +19,7 @@ const Button = ({
     classes={classes}
     {...props}
   >
-    {text}
+    {text || children}
   </MUIButton>
 );
 

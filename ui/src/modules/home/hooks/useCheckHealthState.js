@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { healthStates, modalNames } from 'common/constants';
 import { getError, getHealthState, getIsCooling } from '../ducks/selectors';
-import { openModal } from '../../modalHandler/ducks';
+import { closeModal, openModal } from '../../modalHandler/ducks';
 import { checkHealth } from '../ducks';
 
 const checkInterval = 15 * 60000;
@@ -42,9 +42,17 @@ const useCheckHealthState = () => {
   }, [invokeHealthStateError]);
 
   useEffect(() => {
+    if (!isCooling) {
+      dispatch(closeModal(modalNames.healthStateMessage));
+    }
+  }, [dispatch, isCooling]);
+
+  useEffect(() => {
     const interval = startCheckWithInterval();
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+    };
   }, [startCheckWithInterval]);
 };
 

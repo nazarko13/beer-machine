@@ -1,21 +1,17 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import Grid from '@mui/material/Grid';
 import { Controller } from 'react-hook-form';
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 
 import { useNotify } from 'common/hooks';
 import {
   Button,
-  CheckBoxField,
+  TextBlock,
   InputField,
   SelectField,
+  CheckBoxField,
 } from 'common/components';
-import {
-  fields,
-  fieldSizes,
-  kagOptions,
-  fieldSizesAdmin,
-  beerTypeOptions,
-} from '../constants';
+import { fields, fieldSizes, kagOptions, beerTypeOptions } from '../constants';
 
 const FormFieldset = ({
   id,
@@ -32,11 +28,11 @@ const FormFieldset = ({
   quantity = 0,
   setValue,
   pulseCount,
+  expirationDate,
+  setEditableBeer,
   disableActivation,
 }) => {
   const notify = useNotify();
-
-  const sizes = useMemo(() => (admin ? fieldSizesAdmin : fieldSizes), [admin]);
 
   const onChangeActive =
     ({ onChange }) =>
@@ -53,7 +49,7 @@ const FormFieldset = ({
     <Grid item container direction="column">
       <Grid item xs container spacing={2} p={1} pt={1}>
         {fieldSet.includes(fields.isActive) && (
-          <Grid item width={sizes[fields.isActive]}>
+          <Grid item width={fieldSizes[fields.isActive]}>
             <Controller
               control={control}
               name={`${id}.isActive`}
@@ -70,18 +66,16 @@ const FormFieldset = ({
         )}
 
         {fieldSet.includes(fields.name) && (
-          <Grid item width={sizes[fields.name]}>
+          <Grid item width={fieldSizes[fields.name]}>
             <Controller
               control={control}
               name={`${id}.name`}
               defaultValue={name}
               render={({ field }) => (
-                <InputField
-                  {...field}
-                  fullWidth
-                  disabled={admin}
-                  size="large"
-                  onFocus={(e) => onFocus(field.name, e)}
+                <TextBlock
+                  text={field.value}
+                  variant="title1"
+                  interactive={field.value?.length > 30}
                 />
               )}
             />
@@ -89,7 +83,7 @@ const FormFieldset = ({
         )}
 
         {fieldSet.includes(fields.price) && (
-          <Grid item width={sizes[fields.price]}>
+          <Grid item width={fieldSizes[fields.price]}>
             <Controller
               control={control}
               name={`${id}.price`}
@@ -108,7 +102,7 @@ const FormFieldset = ({
         )}
 
         {fieldSet.includes(fields.type) && (
-          <Grid item width={sizes[fields.type]}>
+          <Grid item width={fieldSizes[fields.type]}>
             <Controller
               control={control}
               name={`${id}.type`}
@@ -129,7 +123,7 @@ const FormFieldset = ({
         )}
 
         {fieldSet.includes(fields.pulseCount) && (
-          <Grid item width={sizes[fields.pulseCount]}>
+          <Grid item width={fieldSizes[fields.pulseCount]}>
             <Controller
               control={control}
               name={`${id}.pulseCount`}
@@ -147,7 +141,7 @@ const FormFieldset = ({
         )}
 
         {fieldSet.includes(fields.barcode) && (
-          <Grid item width={sizes[fields.barcode]}>
+          <Grid item width={fieldSizes[fields.barcode]}>
             <Controller
               control={control}
               name={`${id}.barcode`}
@@ -165,7 +159,7 @@ const FormFieldset = ({
         )}
 
         {fieldSet.includes(fields.keg) && (
-          <Grid item width={sizes[fields.keg]}>
+          <Grid item width={fieldSizes[fields.keg]}>
             <Controller
               control={control}
               name={`${id}.keg`}
@@ -185,7 +179,7 @@ const FormFieldset = ({
         )}
 
         {fieldSet.includes(fields.quantity) && (
-          <Grid item width={sizes[fields.quantity]}>
+          <Grid item width={fieldSizes[fields.quantity]}>
             <Controller
               control={control}
               name={`${id}.quantity`}
@@ -202,6 +196,19 @@ const FormFieldset = ({
           </Grid>
         )}
 
+        {fieldSet.includes(fields.expirationDate) && (
+          <Grid item width={fieldSizes[fields.expirationDate]}>
+            <Controller
+              control={control}
+              name={`${id}.expirationDate`}
+              defaultValue={expirationDate}
+              render={({ field }) => (
+                <TextBlock text={field.value} variant="title1" />
+              )}
+            />
+          </Grid>
+        )}
+
         <Grid item xs={1}>
           <Button
             text="31"
@@ -209,6 +216,33 @@ const FormFieldset = ({
             onClick={() => setValue(`${id}.quantity`, 31)}
           />
         </Grid>
+
+        <Grid item xs={1}>
+          <Button
+            text="Друк"
+            sx={{ px: 0.5, minWidth: '50px', height: '100%' }}
+            onClick={() => setValue(`${id}.quantity`, 31)}
+          />
+        </Grid>
+
+        <Grid item xs={1}>
+          <Button
+            text="Налив"
+            sx={{ px: 0.5, minWidth: '50px', height: '100%' }}
+            onClick={() => setValue(`${id}.quantity`, 31)}
+          />
+        </Grid>
+
+        {!admin && (
+          <Grid item xs={1}>
+            <Button
+              sx={{ px: 0.5, minWidth: '50px', height: '100%' }}
+              onClick={setEditableBeer}
+            >
+              <EditTwoToneIcon />
+            </Button>
+          </Grid>
+        )}
       </Grid>
     </Grid>
   );

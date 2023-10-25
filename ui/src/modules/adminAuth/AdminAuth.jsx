@@ -22,7 +22,12 @@ const AdminAuth = ({ onClose = null }) => {
 
   const onSuccess = (data) => {
     dispatch(closeModal(modalNames.adminAuth));
-    navigate(routes.private.admin, data);
+
+    if (data.isSuperuser) {
+      navigate(routes.private.superAdmin, data);
+    } else {
+      navigate(routes.private.admin, data);
+    }
   };
 
   const handleAuth = ({ login, newPassword }) => {

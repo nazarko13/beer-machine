@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Modal from '@mui/material/Modal';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Controller, useForm } from 'react-hook-form';
@@ -15,26 +15,39 @@ import Button from 'common/components/Button';
 import { keyboardLayouts } from 'common/constants';
 import KeyboardProvider from 'common/components/Keyboard';
 import { InputField, SelectField } from 'common/components';
-import { addNewBeer } from '../ducks';
+import { addNewBeer, saveBeers } from '../ducks';
 import { addBeerSchema } from '../constants/validations';
 import { beerTypeOptions, kagOptions } from '../constants';
+import { getBeers } from '../ducks/selectors';
+import { parseBeerModel } from '../utils';
+import Loader from '../../../common/components/Loader';
 
 const layouts = {
   number: keyboardLayouts.numeric,
   default: undefined,
 };
 
-const AddBeerModal = ({ open = false, onCancel = () => null }) => {
+const defObj = {};
+
+const AddBeerModal = ({
+  open = false,
+  defaultValues,
+  onSave = () => null,
+  onCancel = () => null,
+}) => {
   const notify = useNotify();
   const dispatch = useDispatch();
   const [layout, setLayout] = useState(undefined);
   const [inputValues, setValues] = useState({});
   const [activeInput, setActiveInput] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const allBeers = useSelector(getBeers);
 
   const { control, watch, setValue, handleSubmit } = useForm({
     shouldUnregister: true,
     resolver: yupResolver(addBeerSchema),
-    defaultValues: { isActive: false },
+    defaultValues: { isActive: false, ...(defaultValues || defObj) },
   });
   const formData = watch();
 
@@ -49,6 +62,36 @@ const AddBeerModal = ({ open = false, onCancel = () => null }) => {
   }, []);
 
   const onSubmit = async (data) => {
+    setLoading(true);
+
+    if (defaultValues) {
+      const newBeers = Object.keys(allBeers).map((id) => {
+        const oldBeer = allBeers[id];
+
+        if (+id === defaultValues.id) {
+          return parseBeerModel({ ...oldBeer, ...data });
+        }
+
+        return oldBeer;
+      });
+
+      dispatch(saveBeers(newBeers)).then(({ error }) => {
+        if (error) {
+          notify.error('Пиво не оновлено');
+          return;
+        }
+
+        notify.success('Пиво успішно оновлено');
+        Object.keys(data).forEach((k) => {
+          onSave(`${defaultValues.id}.${k}`, data[k]);
+        });
+        onCancel();
+        setLoading(false);
+      });
+
+      return;
+    }
+
     dispatch(addNewBeer(data)).then(({ error }) => {
       if (error) {
         notify.error('Пиво не додано');
@@ -57,6 +100,7 @@ const AddBeerModal = ({ open = false, onCancel = () => null }) => {
 
       notify.success('Нове пиво успішно додано');
       onCancel();
+      setLoading(false);
     });
   };
 
@@ -69,6 +113,12 @@ const AddBeerModal = ({ open = false, onCancel = () => null }) => {
 
     setValue(activeInput, val);
   }, [activeInput, inputValues, setValue]);
+
+  useEffect(() => {
+    if (defaultValues?.id) {
+      setValues('id', defaultValues?.id);
+    }
+  }, [defaultValues, setValues]);
 
   return (
     <Modal
@@ -93,7 +143,7 @@ const AddBeerModal = ({ open = false, onCancel = () => null }) => {
                 <Controller
                   control={control}
                   name="name"
-                  defaultValue=""
+                  defaultValue={defaultValues?.name || ''}
                   render={({ field, fieldState }) => (
                     <InputField
                       {...field}
@@ -111,7 +161,7 @@ const AddBeerModal = ({ open = false, onCancel = () => null }) => {
                 <Controller
                   control={control}
                   name="price"
-                  defaultValue=""
+                  defaultValue={defaultValues?.price || ''}
                   render={({ field, fieldState }) => (
                     <InputField
                       fullWidth
@@ -129,7 +179,7 @@ const AddBeerModal = ({ open = false, onCancel = () => null }) => {
                 <Controller
                   control={control}
                   name="type"
-                  defaultValue={beerTypeOptions[0].value}
+                  defaultValue={defaultValues?.type || beerTypeOptions[0].value}
                   render={({ field, fieldState }) => (
                     <SelectField
                       fullWidth
@@ -148,44 +198,26 @@ const AddBeerModal = ({ open = false, onCancel = () => null }) => {
               <Grid item xs={6} px={1} py={1.5}>
                 <Controller
                   control={control}
-                  name="pulseCount"
-                  defaultValue=""
+                  name="daysToExpire"
+                  defaultValue={defaultValues?.quantity || ''}
                   render={({ field, fieldState }) => (
                     <InputField
-                      {...field}
-                      error={fieldState.error}
                       fullWidth
+                      error={fieldState.error}
+                      {...field}
+                      fieldLabel="До закінчення терміну придатності, днів:"
                       size="large"
-                      fieldLabel="Кількість імпульсів"
                       onFocus={(e) => onFocus(field.name, e, 'number')}
                     />
                   )}
                 />
               </Grid>
 
-              <Grid item xs={4} px={1} py={1.5}>
-                <Controller
-                  control={control}
-                  name="barcode"
-                  defaultValue=""
-                  render={({ field, fieldState }) => (
-                    <InputField
-                      {...field}
-                      error={fieldState.error}
-                      fullWidth
-                      size="large"
-                      fieldLabel="Баркод"
-                      onFocus={(e) => onFocus(field.name, e)}
-                    />
-                  )}
-                />
-              </Grid>
-
-              <Grid item xs={4} px={1} py={1.5}>
+              <Grid item xs={3} px={1} py={1.5}>
                 <Controller
                   control={control}
                   name="keg"
-                  defaultValue={kagOptions[0].value}
+                  defaultValue={defaultValues?.keg || kagOptions[0].value}
                   render={({ field, fieldState }) => (
                     <SelectField
                       fullWidth
@@ -200,11 +232,47 @@ const AddBeerModal = ({ open = false, onCancel = () => null }) => {
                 />
               </Grid>
 
-              <Grid item xs={4} px={1} py={1.5}>
+              <Grid item xs={3} px={1} py={1.5}>
+                <Controller
+                  control={control}
+                  name="pulseCount"
+                  defaultValue={defaultValues?.pulseCount || ''}
+                  render={({ field, fieldState }) => (
+                    <InputField
+                      {...field}
+                      error={fieldState.error}
+                      fullWidth
+                      size="large"
+                      fieldLabel="Кількість імпульсів"
+                      onFocus={(e) => onFocus(field.name, e, 'number')}
+                    />
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs={3} px={1} py={1.5}>
+                <Controller
+                  control={control}
+                  name="barcode"
+                  defaultValue={defaultValues?.barcode || ''}
+                  render={({ field, fieldState }) => (
+                    <InputField
+                      {...field}
+                      error={fieldState.error}
+                      fullWidth
+                      size="large"
+                      fieldLabel="Баркод"
+                      onFocus={(e) => onFocus(field.name, e)}
+                    />
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs={3} px={1} py={1.5}>
                 <Controller
                   control={control}
                   name="quantity"
-                  defaultValue=""
+                  defaultValue={defaultValues?.quantity || ''}
                   render={({ field, fieldState }) => (
                     <InputField
                       fullWidth
@@ -222,7 +290,7 @@ const AddBeerModal = ({ open = false, onCancel = () => null }) => {
                 <Controller
                   control={control}
                   name="description"
-                  defaultValue=""
+                  defaultValue={defaultValues?.description || ''}
                   render={({ field }) => (
                     <InputField
                       fullWidth
@@ -259,6 +327,7 @@ const AddBeerModal = ({ open = false, onCancel = () => null }) => {
             </Grid>
           )}
         </Paper>
+        {loading && <Loader />}
       </form>
     </Modal>
   );

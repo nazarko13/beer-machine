@@ -5,6 +5,7 @@ const routes = {
 
   private: {
     admin: '/admin',
+    superAdmin: '/superAdmin',
   },
 };
 

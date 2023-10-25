@@ -10,33 +10,17 @@ import KeyboardProvider from 'common/components/Keyboard';
 import Button from 'common/components/Button';
 import { useNotify } from 'common/hooks';
 
-import {
-  fields,
-  fieldSizes,
-  fieldLabels,
-  fieldSizesAdmin,
-  maxActiveBeersCount,
-} from '../constants';
 import { saveBeers } from '../ducks';
+import { parseBeerModel } from '../utils';
 import { getBeers } from '../ducks/selectors';
 import FormFieldset from './FormFieldset';
 import AddBeerModal from './AddBeerModal';
+import { fieldSizes, fieldLabels, maxActiveBeersCount } from '../constants';
 
 const layouts = {
   number: keyboardLayouts.numeric,
   default: undefined,
 };
-
-const floatFields = [fields.price, fields.quantity, fields.pulseCount];
-
-const parseBeerModel = (beer) =>
-  Object.keys(beer).reduce(
-    (acc, key) => ({
-      ...acc,
-      [key]: floatFields.includes(key) ? Number(beer[key]) : beer[key],
-    }),
-    {}
-  );
 
 const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
   const notify = useNotify();
@@ -44,16 +28,22 @@ const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
   const dispatch = useDispatch();
   const allBeers = useSelector(getBeers);
   const [addNew, setAddNew] = useState(false);
+  const [editableBeer, setEditableBeer] = useState(false);
   const [layout, setLayout] = useState(undefined);
   const [inputValues, setValues] = useState({});
   const [activeInput, setActiveInput] = useState(null);
   const { watch, setValue, control, handleSubmit } = useForm({
     defaultValues: allBeers,
+    shouldUnregister: true,
   });
 
   const formData = watch();
 
-  const toggleAddNewBeer = () => setAddNew((isAdd) => !isAdd);
+  const toggleAddNewBeer = () => {
+    setAddNew((isAdd) => !isAdd);
+  };
+
+  const handleCloseEdit = () => setEditableBeer(null);
 
   const isMaxCountReached = useMemo(() => {
     const data = Object.values(formData).length ? formData : allBeers;
@@ -61,11 +51,6 @@ const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
 
     return activeBeers.length === maxActiveBeersCount;
   }, [formData, allBeers]);
-
-  const sizes = useMemo(
-    () => (isSuperAdmin ? fieldSizes : fieldSizesAdmin),
-    [isSuperAdmin]
-  );
 
   const onSubmit = useCallback(
     (data) => {
@@ -96,6 +81,10 @@ const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
       e.stopPropagation();
     }
 
+    setTimeout(() => {
+      e.target.scrollIntoView({ block: 'center' });
+    }, 100);
+
     setLayout(l);
     return setActiveInput(inputName);
   }, []);
@@ -112,7 +101,7 @@ const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
 
   return (
     <Grid position="relative" container maxHeight="100%">
-      {!addNew && (
+      {!addNew && !editableBeer && (
         <Grid
           item
           container
@@ -168,7 +157,7 @@ const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
 
         <Grid item xs container spacing={2} px={2} pt={1} width="100%">
           {fieldSet.map((fieldName) => (
-            <Grid key={fieldName} item width={sizes[fieldName]}>
+            <Grid key={fieldName} item width={fieldSizes[fieldName]}>
               <Typography>{fieldLabels[fieldName]}</Typography>
             </Grid>
           ))}
@@ -178,7 +167,7 @@ const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
           container
           overflow="auto"
           justifyContent="center"
-          minHeight={activeInput ? 'calc(100% + 215px)' : '100%'}
+          minHeight={activeInput ? 'calc(100% + 240px)' : '100%'}
         >
           <Grid p={2} spacing={1} container wrap="nowrap" direction="column">
             {Object.keys(allBeers || {}).map((key) => (
@@ -191,6 +180,7 @@ const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
                 fieldSet={fieldSet}
                 onFocus={updateVisibleInput}
                 disableActivation={isMaxCountReached}
+                setEditableBeer={() => setEditableBeer(allBeers[key])}
               />
             ))}
           </Grid>
@@ -198,6 +188,14 @@ const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
       </Grid>
 
       <AddBeerModal open={addNew} onCancel={toggleAddNewBeer} />
+
+      <AddBeerModal
+        key={editableBeer?.id}
+        open={Boolean(editableBeer)}
+        onSave={setValue}
+        defaultValues={editableBeer}
+        onCancel={handleCloseEdit}
+      />
     </Grid>
   );
 };

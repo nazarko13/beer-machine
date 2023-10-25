@@ -15,10 +15,8 @@ export const getBeers = createSelector(getData, (data) => {
 
 export const getDetails = createSelector(getData, (data) => data.details);
 
-export const getIsSuperUser = createSelector(
-  getHomeState,
-  (state) => state.isSuperUser
-);
+export const getIsSuperUser = (isSuper) =>
+  createSelector(getHomeState, (state) => state.isSuperUser || isSuper);
 
 export const getLoading = createSelector(
   getAdminState,

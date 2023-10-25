@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { modalNames } from 'common/constants';
-
 import AdminFlow from './AdminFlow';
 import SuperAdminFlow from './SuperAdminFlow';
 import { getIsSuperUser } from './ducks/selectors';
@@ -11,9 +9,9 @@ import { clearState } from './ducks/slice';
 import * as actions from './ducks';
 import { closeModal } from '../modalHandler/ducks';
 
-const Admin = () => {
+const Admin = ({ isSuper }) => {
   const dispatch = useDispatch();
-  const isSuperUser = useSelector(getIsSuperUser);
+  const isSuperUser = useSelector(getIsSuperUser(isSuper));
 
   const getAllBeers = useCallback(() => {
     dispatch(actions.getBeers());

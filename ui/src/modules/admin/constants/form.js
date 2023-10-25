@@ -10,8 +10,10 @@ export const fields = createEnum({
   barcode: null,
   keg: null,
   quantity: null,
+  expirationDate: null,
 });
-
+// isActive, name, keg, quantity, expirationDate, 31, test print, test pour, testPrint, // edit
+// test pour Math.round(pulseCount / 10)
 export const fieldLabels = createEnum({
   [fields.isActive]: 'Активність',
   [fields.name]: "Ім'я",
@@ -21,25 +23,16 @@ export const fieldLabels = createEnum({
   [fields.barcode]: 'Баркод',
   [fields.keg]: 'Кега',
   [fields.quantity]: 'Кількість',
+  [fields.expirationDate]: 'Вжити До',
 });
 
 export const fieldSizes = createEnum({
-  [fields.isActive]: '8%',
-  [fields.name]: '20%',
-  [fields.price]: '8%',
-  [fields.type]: '11%',
+  [fields.isActive]: '10%',
+  [fields.name]: '25%',
   [fields.pulseCount]: '10%',
-  [fields.barcode]: '15%',
   [fields.keg]: '11%',
   [fields.quantity]: '8%',
-});
-
-export const fieldSizesAdmin = createEnum({
-  [fields.isActive]: '10%',
-  [fields.name]: '45%',
-  [fields.price]: '10%',
-  [fields.keg]: '15%',
-  [fields.quantity]: '10%',
+  [fields.expirationDate]: '12%',
 });
 
 export const maxActiveBeersCount = 4;
@@ -47,12 +40,18 @@ export const maxActiveBeersCount = 4;
 export const adminFieldSet = [
   fields.isActive,
   fields.name,
-  fields.price,
   fields.keg,
   fields.quantity,
+  fields.expirationDate,
 ];
 
-export const superAdminFieldSet = Object.values(fields);
+export const superAdminFieldSet = [
+  fields.isActive,
+  fields.name,
+  fields.keg,
+  fields.quantity,
+  fields.expirationDate,
+];
 
 export const beerTypeOptions = [
   {
