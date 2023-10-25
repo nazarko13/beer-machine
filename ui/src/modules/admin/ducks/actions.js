@@ -41,3 +41,18 @@ export const updateSystemSettings = (params) => ({
   type: actionTypes.updateSystemSettings,
   request: api.updateSystemSettings(params),
 });
+
+export const testPourBeer = (data) => ({
+  type: actionTypes.testPourBeer,
+  request: api.testPourBeer(data),
+});
+
+export const testPrint = (data) => ({
+  type: actionTypes.testPrint,
+  request: api.testPrint(data),
+});
+
+export const washing = (data) => ({
+  type: actionTypes.washing,
+  request: api.startWashing(data),
+});

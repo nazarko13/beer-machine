@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import { Controller } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 
 import { useNotify } from 'common/hooks';
@@ -11,7 +12,10 @@ import {
   SelectField,
   CheckBoxField,
 } from 'common/components';
+import { testPrint, testPourBeer, washing } from '../ducks';
 import { fields, fieldSizes, kagOptions, beerTypeOptions } from '../constants';
+
+const requestWashingCount = 2;
 
 const FormFieldset = ({
   id,
@@ -28,11 +32,54 @@ const FormFieldset = ({
   quantity = 0,
   setValue,
   pulseCount,
+  setLoading,
   expirationDate,
   setEditableBeer,
   disableActivation,
 }) => {
   const notify = useNotify();
+  const dispatch = useDispatch();
+  const [countWashing, setWashingRequestNum] = useState(0);
+
+  const handleTestPour = useCallback(() => {
+    setLoading(true);
+
+    dispatch(testPourBeer({ id, pulseCount, keg })).then(({ error }) => {
+      if (error) {
+        setLoading(false);
+        return;
+      }
+
+      dispatch(washing({ force: countWashing === requestWashingCount })).then(
+        ({ error: err }) => {
+          if (err) {
+            setWashingRequestNum((num) => {
+              if (num === requestWashingCount) {
+                setLoading(false);
+                return 0;
+              }
+
+              return num + 1;
+            });
+
+            return;
+          }
+
+          setLoading(false);
+
+          setWashingRequestNum(0);
+        }
+      );
+    });
+  }, [countWashing, dispatch, id, pulseCount, keg, setLoading]);
+
+  const handleTestPrint = useCallback(() => {
+    setLoading(true);
+
+    dispatch(testPrint({ id })).then(() => {
+      setLoading(false);
+    });
+  }, [dispatch, id, setLoading]);
 
   const onChangeActive =
     ({ onChange }) =>
@@ -221,7 +268,7 @@ const FormFieldset = ({
           <Button
             text="Друк"
             sx={{ px: 0.5, minWidth: '50px', height: '100%' }}
-            onClick={() => setValue(`${id}.quantity`, 31)}
+            onClick={handleTestPrint}
           />
         </Grid>
 
@@ -229,7 +276,7 @@ const FormFieldset = ({
           <Button
             text="Налив"
             sx={{ px: 0.5, minWidth: '50px', height: '100%' }}
-            onClick={() => setValue(`${id}.quantity`, 31)}
+            onClick={handleTestPour}
           />
         </Grid>
 

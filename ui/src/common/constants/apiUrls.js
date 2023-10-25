@@ -11,6 +11,8 @@ const apiUrls = {
   systemStatus: '/system/status',
   sanitization: '/sanitization',
   systemSettings: '/system/settings',
+  testPour: '/beer/pour/test',
+  testPrint: '/beer/print',
 };
 
 export default apiUrls;

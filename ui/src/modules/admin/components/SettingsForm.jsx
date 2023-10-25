@@ -9,6 +9,7 @@ import { keyboardLayouts, routes } from 'common/constants';
 import KeyboardProvider from 'common/components/Keyboard';
 import Button from 'common/components/Button';
 import { useNotify } from 'common/hooks';
+import { Loader } from 'common/components';
 
 import { saveBeers } from '../ducks';
 import { parseBeerModel } from '../utils';
@@ -27,6 +28,7 @@ const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const allBeers = useSelector(getBeers);
+  const [loading, setLoading] = useState(false);
   const [addNew, setAddNew] = useState(false);
   const [editableBeer, setEditableBeer] = useState(false);
   const [layout, setLayout] = useState(undefined);
@@ -100,103 +102,107 @@ const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
   }, [activeInput, inputValues, setValue]);
 
   return (
-    <Grid position="relative" container maxHeight="100%">
-      {!addNew && !editableBeer && (
-        <Grid
-          item
-          container
-          bottom={0}
-          zIndex={100}
-          width="100%"
-          position="fixed"
-          justifyContent="center"
-          id="keyboardLayout"
-        >
-          <KeyboardProvider
-            values={formData}
-            inputName={activeInput}
-            onChangeAll={setValues}
-            layout={layouts[layout]}
-            handleHideKeyboard={setActiveInput}
-            width={layout === 'number' ? 350 : '100%'}
-          />
-        </Grid>
-      )}
-
-      <Grid component="form" width="100%" onSubmit={handleSubmit(onSubmit)}>
-        <Grid
-          item
-          container
-          pt={2}
-          pr={2}
-          spacing={2}
-          justifyContent="flex-end"
-        >
-          <Grid item>
-            <Button text="Зберегти" type="submit" />
-          </Grid>
-
-          {isSuperAdmin && (
-            <Grid item>
-              <Button
-                text="Додати пиво"
-                color="info"
-                onClick={toggleAddNewBeer}
-              />
-            </Grid>
-          )}
-
-          <Grid item>
-            <Button
-              text="Вийти"
-              color="error"
-              onClick={() => navigate(routes.public.home)}
+    <>
+      {loading && <Loader />}
+      <Grid position="relative" container maxHeight="100%">
+        {!addNew && !editableBeer && (
+          <Grid
+            item
+            container
+            bottom={0}
+            zIndex={100}
+            width="100%"
+            position="fixed"
+            justifyContent="center"
+            id="keyboardLayout"
+          >
+            <KeyboardProvider
+              values={formData}
+              inputName={activeInput}
+              onChangeAll={setValues}
+              layout={layouts[layout]}
+              handleHideKeyboard={setActiveInput}
+              width={layout === 'number' ? 350 : '100%'}
             />
           </Grid>
-        </Grid>
+        )}
 
-        <Grid item xs container spacing={2} px={2} pt={1} width="100%">
-          {fieldSet.map((fieldName) => (
-            <Grid key={fieldName} item width={fieldSizes[fieldName]}>
-              <Typography>{fieldLabels[fieldName]}</Typography>
+        <Grid component="form" width="100%" onSubmit={handleSubmit(onSubmit)}>
+          <Grid
+            item
+            container
+            pt={2}
+            pr={2}
+            spacing={2}
+            justifyContent="flex-end"
+          >
+            <Grid item>
+              <Button text="Зберегти" type="submit" />
             </Grid>
-          ))}
-        </Grid>
 
-        <Grid
-          container
-          overflow="auto"
-          justifyContent="center"
-          minHeight={activeInput ? 'calc(100% + 240px)' : '100%'}
-        >
-          <Grid p={2} spacing={1} container wrap="nowrap" direction="column">
-            {Object.keys(allBeers || {}).map((key) => (
-              <FormFieldset
-                {...allBeers[key]}
-                key={key}
-                admin={!isSuperAdmin}
-                control={control}
-                setValue={setValue}
-                fieldSet={fieldSet}
-                onFocus={updateVisibleInput}
-                disableActivation={isMaxCountReached}
-                setEditableBeer={() => setEditableBeer(allBeers[key])}
+            {isSuperAdmin && (
+              <Grid item>
+                <Button
+                  text="Додати пиво"
+                  color="info"
+                  onClick={toggleAddNewBeer}
+                />
+              </Grid>
+            )}
+
+            <Grid item>
+              <Button
+                text="Вийти"
+                color="error"
+                onClick={() => navigate(routes.public.home)}
               />
+            </Grid>
+          </Grid>
+
+          <Grid item xs container spacing={2} px={2} pt={1} width="100%">
+            {fieldSet.map((fieldName) => (
+              <Grid key={fieldName} item width={fieldSizes[fieldName]}>
+                <Typography>{fieldLabels[fieldName]}</Typography>
+              </Grid>
             ))}
           </Grid>
+
+          <Grid
+            container
+            overflow="auto"
+            justifyContent="center"
+            minHeight={activeInput ? 'calc(100% + 240px)' : '100%'}
+          >
+            <Grid p={2} spacing={1} container wrap="nowrap" direction="column">
+              {Object.keys(allBeers || {}).map((key) => (
+                <FormFieldset
+                  {...allBeers[key]}
+                  key={key}
+                  admin={!isSuperAdmin}
+                  control={control}
+                  setValue={setValue}
+                  fieldSet={fieldSet}
+                  onFocus={updateVisibleInput}
+                  setLoading={setLoading}
+                  disableActivation={isMaxCountReached}
+                  setEditableBeer={() => setEditableBeer(allBeers[key])}
+                />
+              ))}
+            </Grid>
+          </Grid>
         </Grid>
+
+        <AddBeerModal open={addNew} onCancel={toggleAddNewBeer} />
+
+        <AddBeerModal
+          key={editableBeer?.id}
+          open={Boolean(editableBeer)}
+          onSave={setValue}
+          defaultValues={editableBeer}
+          onCancel={handleCloseEdit}
+        />
       </Grid>
-
-      <AddBeerModal open={addNew} onCancel={toggleAddNewBeer} />
-
-      <AddBeerModal
-        key={editableBeer?.id}
-        open={Boolean(editableBeer)}
-        onSave={setValue}
-        defaultValues={editableBeer}
-        onCancel={handleCloseEdit}
-      />
-    </Grid>
+    </>
   );
 };
 
