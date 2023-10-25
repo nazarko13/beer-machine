@@ -17,7 +17,7 @@ const Loader = ({ text, withoutLogo }) => (
     alignItems="center"
     bgcolor="#00000050"
     justifyContent="center"
-    style={{ backdropFilter: 'blur(3 px)' }}
+    style={{ backdropFilter: 'blur(3 px)', zIndex: 90000 }}
   >
     {!withoutLogo && (
       <Grid

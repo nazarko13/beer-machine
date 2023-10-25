@@ -22,8 +22,8 @@ const api = {
   updateSystemSettings: (params) =>
     requests.putDataAction(apiUrls.systemSettings, params),
 
-  testPourBeer: (data = {}) => requests.postDataAction(apiUrls.pour, data),
-  testPrint: (data = {}) => requests.postDataAction(apiUrls.pour, data),
+  testPourBeer: (data = {}) => requests.postDataAction(apiUrls.testPour, data),
+  testPrint: (data = {}) => requests.postDataAction(apiUrls.testPrint, data),
 };
 
 export default api;

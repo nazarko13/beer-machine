@@ -12,6 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useNotify } from 'common/hooks';
 import Button from 'common/components/Button';
+import Loader from 'common/components/Loader';
 import { keyboardLayouts } from 'common/constants';
 import KeyboardProvider from 'common/components/Keyboard';
 import { InputField, SelectField } from 'common/components';
@@ -20,7 +21,6 @@ import { addBeerSchema } from '../constants/validations';
 import { beerTypeOptions, kagOptions } from '../constants';
 import { getBeers } from '../ducks/selectors';
 import { parseBeerModel } from '../utils';
-import Loader from '../../../common/components/Loader';
 
 const layouts = {
   number: keyboardLayouts.numeric,
@@ -50,6 +50,10 @@ const AddBeerModal = ({
     defaultValues: { isActive: false, ...(defaultValues || defObj) },
   });
   const formData = watch();
+
+  // const getAllBeers = useCallback(() => {
+  //   dispatch(actions.getBeers());
+  // }, [dispatch]);
 
   const onFocus = useCallback((inputName, e, l) => {
     if (e.stopPropagation) {
@@ -139,7 +143,7 @@ const AddBeerModal = ({
 
           <DialogContent sx={{ pb: 1 }}>
             <Grid item container>
-              <Grid item xs={6} px={1} py={1.5}>
+              <Grid item xs={6} px={1} py={1}>
                 <Controller
                   control={control}
                   name="name"
@@ -157,7 +161,7 @@ const AddBeerModal = ({
                 />
               </Grid>
 
-              <Grid item xs={6} px={1} py={1.5}>
+              <Grid item xs={6} px={1} py={1}>
                 <Controller
                   control={control}
                   name="price"
@@ -175,7 +179,7 @@ const AddBeerModal = ({
                 />
               </Grid>
 
-              <Grid item xs={6} px={1} py={1.5}>
+              <Grid item xs={6} px={1} py={1}>
                 <Controller
                   control={control}
                   name="type"
@@ -195,7 +199,7 @@ const AddBeerModal = ({
                 />
               </Grid>
 
-              <Grid item xs={6} px={1} py={1.5}>
+              <Grid item xs={6} px={1} py={1}>
                 <Controller
                   control={control}
                   name="daysToExpire"
@@ -213,7 +217,7 @@ const AddBeerModal = ({
                 />
               </Grid>
 
-              <Grid item xs={3} px={1} py={1.5}>
+              <Grid item xs={3} px={1} py={1}>
                 <Controller
                   control={control}
                   name="keg"
@@ -232,7 +236,7 @@ const AddBeerModal = ({
                 />
               </Grid>
 
-              <Grid item xs={3} px={1} py={1.5}>
+              <Grid item xs={3} px={1} py={1}>
                 <Controller
                   control={control}
                   name="pulseCount"
@@ -250,7 +254,7 @@ const AddBeerModal = ({
                 />
               </Grid>
 
-              <Grid item xs={3} px={1} py={1.5}>
+              <Grid item xs={3} px={1} py={1}>
                 <Controller
                   control={control}
                   name="barcode"
@@ -268,7 +272,7 @@ const AddBeerModal = ({
                 />
               </Grid>
 
-              <Grid item xs={3} px={1} py={1.5}>
+              <Grid item xs={3} px={1} py={1}>
                 <Controller
                   control={control}
                   name="quantity"
@@ -286,7 +290,7 @@ const AddBeerModal = ({
                 />
               </Grid>
 
-              <Grid item xs px={1} py={1.5}>
+              <Grid item xs px={1} py={1}>
                 <Controller
                   control={control}
                   name="description"
@@ -296,7 +300,8 @@ const AddBeerModal = ({
                       fullWidth
                       multiline
                       minRows={2}
-                      maxRows={2}
+                      maxRows={5}
+                      sx={{ py: 0.5 }}
                       {...field}
                       fieldLabel="Опис"
                       size="large"

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import Grid from '@mui/material/Grid';
 import { Controller } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -14,8 +14,6 @@ import {
 } from 'common/components';
 import { testPrint, testPourBeer, washing } from '../ducks';
 import { fields, fieldSizes, kagOptions, beerTypeOptions } from '../constants';
-
-const requestWashingCount = 2;
 
 const FormFieldset = ({
   id,
@@ -39,7 +37,6 @@ const FormFieldset = ({
 }) => {
   const notify = useNotify();
   const dispatch = useDispatch();
-  const [countWashing, setWashingRequestNum] = useState(0);
 
   const handleTestPour = useCallback(() => {
     setLoading(true);
@@ -50,28 +47,11 @@ const FormFieldset = ({
         return;
       }
 
-      dispatch(washing({ force: countWashing === requestWashingCount })).then(
-        ({ error: err }) => {
-          if (err) {
-            setWashingRequestNum((num) => {
-              if (num === requestWashingCount) {
-                setLoading(false);
-                return 0;
-              }
-
-              return num + 1;
-            });
-
-            return;
-          }
-
-          setLoading(false);
-
-          setWashingRequestNum(0);
-        }
-      );
+      dispatch(washing({ force: true })).then(() => {
+        setLoading(false);
+      });
     });
-  }, [countWashing, dispatch, id, pulseCount, keg, setLoading]);
+  }, [dispatch, id, pulseCount, keg, setLoading]);
 
   const handleTestPrint = useCallback(() => {
     setLoading(true);

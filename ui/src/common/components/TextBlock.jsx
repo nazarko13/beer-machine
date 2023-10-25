@@ -7,32 +7,9 @@ import Marquee from 'react-fast-marquee';
 
 const useStyles = makeStyles({
   container: {
-    overflow: 'hidden',
-    height: '100%',
-    width: '100%',
-  },
-  runningInner: {
     height: '100%',
     display: 'flex',
     alignItems: 'center',
-  },
-  runningText: {
-    margin: '0',
-    padding: '10px 15px',
-    minWidth: '100%',
-    whiteSpace: 'nowrap',
-    flexShrink: '0',
-    animation: `$runningLine 5000ms ease infinite`,
-  },
-
-  '@keyframes runningLine': {
-    from: {
-      transform: 'translateX(0)',
-    },
-
-    to: {
-      transform: 'translateX(-100%)',
-    },
   },
 });
 
@@ -42,7 +19,7 @@ const TextBlock = ({ text = '', variant = 'body1', interactive = false }) => {
   if (interactive) {
     return (
       <Tooltip title={text}>
-        <Grid className={c.runningInner}>
+        <Grid className={c.container}>
           <Marquee speed={50}>
             <Typography variant={variant} sx={{ mr: 2, width: '100%' }}>
               {text}
@@ -54,7 +31,7 @@ const TextBlock = ({ text = '', variant = 'body1', interactive = false }) => {
   }
 
   return (
-    <Grid className={c.runningInner}>
+    <Grid className={c.container}>
       <Tooltip title={text}>
         <Typography variant={variant}>{text}</Typography>
       </Tooltip>
