@@ -4,7 +4,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
 from flask_cors import CORS
 
-from export.csv_export import send_statistics
+from export.statistics_export import send_statistics
 from loggers import setup_logging
 from views.system_settings import SystemSettingsView
 
@@ -14,7 +14,8 @@ logger = getLogger(__name__)
 from views.board import SystemStatusView, SystemConfigurationView, SystemSanitization
 from models.models import init_database, create_database
 from settings import API_PREFIX, CRON_HOUR, CRON_MINUTE
-from views.beer import BeerActiveView, BeerPourView, BeerView, BeerPourStatus, BeerSystemCleaning
+from views.beer import BeerActiveView, BeerPourView, BeerView, BeerPourStatus, BeerSystemCleaning, PrinterView, \
+    BeerPourTestView
 from views.employee import EmployeeView
 from views.health import HealthView
 
@@ -34,6 +35,8 @@ app.add_url_rule(API_PREFIX + '/admin', view_func=EmployeeView.as_view('employee
 app.add_url_rule(API_PREFIX + '/beer', view_func=BeerView.as_view('beer_view'), methods=["GET", "PUT", "POST"])
 app.add_url_rule(API_PREFIX + '/beer/active', view_func=BeerActiveView.as_view('beer_active_view'), methods=["GET"])
 app.add_url_rule(API_PREFIX + '/beer/pour', view_func=BeerPourView.as_view('beer_pour_view'), methods=["POST"])
+app.add_url_rule(API_PREFIX + '/beer/pour/test', view_func=BeerPourTestView.as_view('beer_test_pour_view'),
+                 methods=["POST"])
 app.add_url_rule(API_PREFIX + '/beer/pour/status', view_func=BeerPourStatus.as_view('pour_state_view'), methods=["GET"])
 app.add_url_rule(API_PREFIX + '/cleaning', view_func=BeerSystemCleaning.as_view('cleaning_view'), methods=["POST"])
 app.add_url_rule(API_PREFIX + '/system/status', view_func=SystemStatusView.as_view('system_status'), methods=["GET"])
@@ -41,6 +44,7 @@ app.add_url_rule(API_PREFIX + '/system', view_func=SystemConfigurationView.as_vi
 app.add_url_rule(API_PREFIX + '/sanitization', view_func=SystemSanitization.as_view('sanitization'), methods=["POST"])
 app.add_url_rule(API_PREFIX + '/system/settings', view_func=SystemSettingsView.as_view('system_settings'),
                  methods=["GET", "PUT"])
+app.add_url_rule(API_PREFIX + '/beer/print', view_func=PrinterView.as_view('beer_print_view'), methods=["POST"])
 
 
 @app.route('/')

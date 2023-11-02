@@ -7,7 +7,6 @@ from peewee import DoesNotExist
 from playhouse.shortcuts import model_to_dict
 
 from models.models import Beer, init_database, create_database
-from settings import DAYS_TO_EXPIRE
 
 BEER_FILE = 'beers_to_update.json'
 
@@ -55,7 +54,7 @@ def load_beers():
             except DoesNotExist:
                 beer_to_save = Beer.create(**beer_data)
                 beer_to_save.filling_date = date.today()
-                beer_to_save.expiration_date = date.today() + datetime.timedelta(days=DAYS_TO_EXPIRE)
+                beer_to_save.expiration_date = date.today() + datetime.timedelta(days=6)
                 beer_to_save.save()
                 print(f"CREATED beer with id {beer_id}")
 
@@ -92,4 +91,3 @@ if __name__ == '__main__':
     init_database()
     create_database()
     main()
-# {"id": 6, "name": "Пиво темне \"Burgomistr МілкСтаут\"", "price": 60.0, "type": "dark", "pulse_count": 4280, "is_active": false, "barcode": "4820196090090", "description": "Пиво темне. Не пастеризоване \"Бургомістр МілкСтаут \". Виробник: ТзОВ \"Інтер Бір Трейд\". Юридична адреса: 79052, м.Львів, вул.Півколо, 14. Склад: вода питна підготовлена, лактоза, какао боби, вівсяні пластівці, солод ячмінний, солод карамельний, хміль, дріжджі пивні. Термін придатності - 5 діб. Зберігати при температурі від +2 до +5 градусів у затемненому приміщенні. Номер партії відповідає даті виготовлення. Без ГМО. Вміст спирту - не менше 5,4%. Масова частка сухих речовин у початковому суслі - 17%. Енергетична цінність в 100г продукту - 50кКал. Поживна(харчова) цінність в 100г продукту - 4,6г вуглеводів. ДСТУ 3888-99. Допускається наявність дріжджового осаду. Ліцензія N°990108201800071. Не рекомендується вживати дітям віком до 18 років, вагітним, особам, які мають медичні чи професійні протипоказання.", "keg": "BEER_KEG_4", "quantity": 4}

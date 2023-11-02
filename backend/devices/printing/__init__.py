@@ -12,7 +12,6 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle
 
 from devices.printing.printer import Printer
-from settings import DAYS_TO_EXPIRE
 
 FILE_DIR = os.path.dirname(os.path.abspath(__file__))
 RECEIPT_FILE_PATH = os.path.join(FILE_DIR, 'receipt.pdf')
@@ -96,4 +95,4 @@ def print_receipt(barcode, description, filling_date, expiration_date):
 
 
 if __name__ == "__main__":
-    print_receipt(21312312312312, DESCRIPTION, date.today(), date.today() + timedelta(days=DAYS_TO_EXPIRE))
+    print_receipt(21312312312312, DESCRIPTION, date.today(), date.today() + timedelta(days=6))
