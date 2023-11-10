@@ -545,6 +545,57 @@ def pour_beer_flow(beer_keg, beer_id, impulses=1000, callback_function=print):
     return False
 
 
+def pour_beer_test_flow(beer_keg, impulses=1000):
+    beer_actuator = Actuators[beer_keg]
+    beer_counter = BEER_COUNTER_MAP.get(beer_actuator)
+    beer_count_number = BEER_SENSOR_MAP.get(beer_counter)
+    logger.info(f"BEER BOARD. POUR BEER TEST FLOW. Pour beer STARTED (keg: {beer_keg}, impulses: {impulses}).")
+    try:
+        BoardInteractionInterface.set_initial_actuators_state()
+        BoardInteractionInterface.close_door()
+        BoardInteractionInterface.pressure_valve_start()
+        time.sleep(1.5)
+        if not BoardInteractionInterface.is_valve_fully_open():
+            raise BoardError(
+                action="press_bottle",
+                message="Bottle was not pressed."
+            )
+        BoardInteractionInterface.take_air_pressure_into_system()
+        BoardInteractionInterface.reset_counters()
+        BoardInteractionInterface.beer_pour_start_with_counter_on_board(beer_actuator, beer_count_number, impulses)
+        BoardInteractionInterface.intake_air(impulses, beer_counter)
+        for _ in range(Constants.INTAKE_AIR_AFTER_POUR_AMOUNT):
+            BoardInteractionInterface.blinking_actuator(Actuators.INTAKE_AIR,
+                                                        Constants.INTAKE_AIR_AFTER_POUR_BLINK_TIMEOUT)
+            time.sleep(Constants.TIMEOUT_BETWEEN_INTAKE_AIR_ITERATION)
+        BoardInteractionInterface.intake_air_start()
+        timeout_to_stop = time.time() + Constants.GET_PRESSURE_IN_SYSTEM_TIMEOUT_EXCEPTION
+        while time.time() < timeout_to_stop:
+            pressure_in_system = BoardInteractionInterface.get_pressure_in_system()
+            if pressure_in_system < Constants.GET_PRESSURE_IN_SYSTEM_TO_STOP:
+                break
+        BoardInteractionInterface.pressure_valve_stop()
+        BoardInteractionInterface.open_door()
+        BoardInteractionInterface.intake_air_stop()
+        return True
+    except BoardError as e:
+        logger.error(f"BEER BOARD. POUR BEER TEST FLOW. {e}")
+        try:
+            BoardInteractionInterface.set_initial_actuators_state()
+            time.sleep(Constants.AFTER_EXCEPTION)
+            BoardInteractionInterface.open_door()
+        except BoardError as e:
+            logger.error("BEER BOARD. POUR BEER TEST FLOW. Error in finally.")
+            logger.error(f"BEER BOARD. POUR BEER TEST FLOW. {e}")
+    except Exception as critical_exception:
+        logger.error(f"BEER BOARD. POUR BEER TEST FLOW. CRITICAL ERROR {critical_exception}")
+    finally:
+        BoardInteractionInterface.reset_counters()
+        BoardInteractionInterface.set_initial_actuators_state()
+    logger.info(f"BEER BOARD. POUR BEER TEST FLOW. Pour beer FINISHED(keg: {beer_keg}, impulses: {impulses}.")
+    return False
+
+
 def system_cleaning_flow(force=False):
     logger.info(f"BEER BOARD. SYSTEM CLEANING. STARTED (force: {force}")
     try:

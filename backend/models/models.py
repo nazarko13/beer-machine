@@ -6,7 +6,7 @@ from logging import getLogger
 from peewee import SqliteDatabase, PrimaryKeyField, CharField, IntegerField, FloatField, BooleanField, Model, DateField, \
     DateTimeField
 
-from settings import ACTIVE_BEERS_QTY
+from settings import ACTIVE_BEERS_QTY, DAYS_TO_EXPIRE
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(CURRENT_DIR, 'default.db')
@@ -50,6 +50,7 @@ class Beer(Base):
     quantity = IntegerField(null=False, default=0)
     filling_date = DateField(null=True)
     expiration_date = DateField(null=True)
+    days_to_expire = IntegerField(null=False, default=DAYS_TO_EXPIRE)
 
     @staticmethod
     def get_active():

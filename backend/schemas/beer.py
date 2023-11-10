@@ -20,6 +20,7 @@ class BeerOutput:
     quantity: Optional[int]
     filling_date: Optional[datetime.date]
     expiration_date: Optional[datetime.date]
+    days_to_expire: Optional[int]
 
 
 @marshmallow_dataclass.dataclass(base_schema=CamelCaseSchema)
@@ -39,3 +40,4 @@ class BeerInput:
     description: str
     keg: str
     quantity: int
+    days_to_expire: int

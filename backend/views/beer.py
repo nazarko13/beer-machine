@@ -4,10 +4,11 @@ from flask import jsonify, request
 from flask.views import MethodView
 from marshmallow import ValidationError
 
-from devices.beer_board import pour_beer_flow, system_cleaning_flow
+from devices.beer_board import pour_beer_flow, system_cleaning_flow, pour_beer_test_flow
+from devices.printing import print_receipt
 from models.models import Beer
 from schemas.beer import BeerOutput, BeerPourInput, BeerInput
-from settings import DAYS_TO_EXPIRE
+from settings import TEST_BEER_POUR_DIVIDER
 
 
 class BeerView(MethodView):
@@ -28,7 +29,7 @@ class BeerView(MethodView):
             if beer_from_db.quantity != beer.quantity:
                 Beer.update({
                     Beer.filling_date: date.today(),
-                    Beer.expiration_date: date.today() + timedelta(days=DAYS_TO_EXPIRE)
+                    Beer.expiration_date: date.today() + timedelta(days=beer.days_to_expire)
                 }).where(Beer.id == beer.id).execute()
             Beer.update(
                 {Beer.name: beer.name,
@@ -39,7 +40,8 @@ class BeerView(MethodView):
                  Beer.barcode: beer.barcode,
                  Beer.description: beer.description,
                  Beer.keg: beer.keg,
-                 Beer.quantity: beer.quantity
+                 Beer.quantity: beer.quantity,
+                 Beer.days_to_expire: beer.days_to_expire
                  }
             ).where(Beer.id == beer.id).execute()
         return jsonify({'description': 'OK'})
@@ -59,7 +61,8 @@ class BeerView(MethodView):
             keg=beer_to_create.keg,
             quantity=beer_to_create.quantity,
             filling_date=date.today(),
-            expiration_date=date.today() + timedelta(days=DAYS_TO_EXPIRE)
+            expiration_date=date.today() + timedelta(days=beer_to_create.days_to_expire),
+            days_to_expire=beer_to_create.days_to_expire
         )
         return jsonify(BeerOutput.Schema().dump(created_beer))
 
@@ -100,6 +103,18 @@ class BeerPourView(MethodView):
             return jsonify({"description": "Something went wrong"}), 400
 
 
+class BeerPourTestView(MethodView):
+    def post(self):
+        try:
+            beer_to_pour = BeerPourInput.Schema().load(request.json)
+        except ValidationError as e:
+            return jsonify({"description": str(e), "error": "Validation error"}), 400
+        if pour_beer_test_flow(beer_to_pour.keg, int(beer_to_pour.pulse_count / TEST_BEER_POUR_DIVIDER)):
+            return jsonify({"description": "OK"})
+        else:
+            return jsonify({"description": "Something went wrong"}), 400
+
+
 class BeerSystemCleaning(MethodView):
     def post(self):
         resp = request.json
@@ -108,3 +123,17 @@ class BeerSystemCleaning(MethodView):
             return jsonify({"description": "OK"})
         else:
             return jsonify({"description": "Something went wrong"}), 400
+
+
+class PrinterView(MethodView):
+
+    def post(self):
+        try:
+            beer_id = request.json["id"]
+        except KeyError as e:
+            return jsonify({"description": str(e), "error": "Validation error"}), 400
+        beer = Beer.get(Beer.id == beer_id)
+        if not beer:
+            return jsonify({"description": "Beer not found"}), 404
+        print_receipt(beer.barcode, beer.description, beer.filling_date, beer.expiration_date)
+        return jsonify({"description": "OK"})
