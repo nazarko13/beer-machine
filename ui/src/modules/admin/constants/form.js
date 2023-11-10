@@ -30,8 +30,8 @@ export const fieldSizes = createEnum({
   [fields.isActive]: '10%',
   [fields.name]: '25%',
   [fields.pulseCount]: '10%',
-  [fields.keg]: '11%',
-  [fields.quantity]: '8%',
+  [fields.keg]: '15%',
+  [fields.quantity]: '9%',
   [fields.expirationDate]: '12%',
 });
 

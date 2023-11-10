@@ -236,7 +236,7 @@ const FormFieldset = ({
           </Grid>
         )}
 
-        <Grid item xs={1}>
+        <Grid item>
           <Button
             text="31"
             sx={{ px: 0.5, minWidth: '50px', height: '100%' }}
@@ -244,7 +244,7 @@ const FormFieldset = ({
           />
         </Grid>
 
-        <Grid item xs={1}>
+        <Grid item>
           <Button
             text="Друк"
             sx={{ px: 0.5, minWidth: '50px', height: '100%' }}
@@ -252,7 +252,7 @@ const FormFieldset = ({
           />
         </Grid>
 
-        <Grid item xs={1}>
+        <Grid item>
           <Button
             text="Налив"
             sx={{ px: 0.5, minWidth: '50px', height: '100%' }}
@@ -261,7 +261,7 @@ const FormFieldset = ({
         </Grid>
 
         {!admin && (
-          <Grid item xs={1}>
+          <Grid item>
             <Button
               sx={{ px: 0.5, minWidth: '50px', height: '100%' }}
               onClick={setEditableBeer}

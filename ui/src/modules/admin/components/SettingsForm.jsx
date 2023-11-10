@@ -173,7 +173,13 @@ const SettingsForm = ({ fieldSet, isSuperAdmin }) => {
             justifyContent="center"
             minHeight={activeInput ? 'calc(100% + 240px)' : '100%'}
           >
-            <Grid p={2} spacing={1} container wrap="nowrap" direction="column">
+            <Grid
+              p={2}
+              spacing={0.5}
+              container
+              wrap="nowrap"
+              direction="column"
+            >
               {Object.keys(allBeers || {}).map((key) => (
                 <FormFieldset
                   {...allBeers[key]}
