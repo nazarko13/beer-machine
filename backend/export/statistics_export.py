@@ -4,7 +4,6 @@ from datetime import date
 from logging import getLogger
 
 import xlsxwriter
-
 from export.telegram_bot import send_document
 from models.models import init_database, BeerStatistics
 from settings import SHOP_NAME
@@ -13,7 +12,8 @@ logger = getLogger(__name__)
 
 
 def write_to_csv(rows, headers, filename):
-    with open(f'{filename}.csv', 'w', newline='', encoding='utf-8') as out:
+    filename = f'{filename}.csv'
+    with open(filename, 'w', newline='', encoding='utf-8') as out:
         csv_out = csv.writer(out)
         # column headers
         csv_out.writerow(headers)
@@ -23,7 +23,8 @@ def write_to_csv(rows, headers, filename):
 
 
 def write_to_excel(rows, headers, filename):
-    workbook = xlsxwriter.Workbook(f'{filename}.xlsx')
+    filename = f'{filename}.xlsx'
+    workbook = xlsxwriter.Workbook(filename)
     worksheet = workbook.add_worksheet()
     # write headers
     for idx, header in enumerate(headers):
@@ -65,7 +66,6 @@ def send_statistics():
 
 
 if __name__ == "__main__":
-    # send_statistics()
     init_database()
-    # export_beer_statistics_to_csv()
-    export_beer_statistics()
+    send_statistics()
+    export_beer_statistics(in_csv=False)
