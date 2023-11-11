@@ -26,10 +26,14 @@ def write_to_excel(rows, headers, filename):
     filename = f'{filename}.xlsx'
     workbook = xlsxwriter.Workbook(filename)
     worksheet = workbook.add_worksheet()
+
     # write headers
     for idx, header in enumerate(headers):
         worksheet.write(0, idx, header)
     # write data
+
+    date_fmt = workbook.add_format({'num_format': 'yyyy-MM-dd hh:mm:ss'})
+    worksheet.set_column('C:C', None, date_fmt)
     for idx, beer_data in enumerate(rows, start=1):
         worksheet.write_row(idx, 0, beer_data)
 

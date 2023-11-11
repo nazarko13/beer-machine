@@ -15,8 +15,7 @@ source venv/bin/activate
 python api_server.py
 ;;
 "stop")
-source venv/bin/activate
-killall - 9 python
+killall -9 python
 ;;
 "info")
 cat ../version.md
